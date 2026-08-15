@@ -428,3 +428,14 @@
 .grupo-icono {
     margin-right: 0.5rem;
 }
+
+.news-card.news-card--category .public-categorias-card-meta {
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 0.5rem 1rem;
+}
+
+.news-card.news-card--category .public-categorias-card-meta > * {
+    flex: 0 1 auto;
+    width: auto;
+}

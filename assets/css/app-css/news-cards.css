@@ -53,6 +53,10 @@
     height: 100%;
 }
 
+.news-card img {
+    object-fit: cover;
+}
+
 .news-card__media img,
 .news-card__media video {
     display: block;

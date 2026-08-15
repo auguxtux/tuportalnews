@@ -5,18 +5,17 @@
 }
 
 :is(.public-categorias-titulo, .public-categorias-titulo-cat, .titulo, .fuente-header h1, .ubicacion-header h1) {
-    margin: 0 0 0.65rem;
-    padding: 0 0 0.75rem;
-    border-bottom: 2px solid #2563eb;
-    background: none;
-    color: #1f2937;
-    font-size: clamp(1.15rem, 2vw, 1.55rem);
-    font-weight: 800;
-    line-height: 1.25;
-    text-align: left;
-    text-transform: none;
+  margin: 0 0 0.65rem;
+  padding: 0 0 0.75rem;
+  border-bottom: 2px solid #2563eb;
+  background: none;
+  color: #1f2937;
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+  text-transform: uppercase;
 }
-
 :is(.ubicacion-desc, .fuente-total, .ubicacion-total) {
     margin: 0 0 1.25rem;
     color: #64748b;
@@ -50,8 +49,8 @@
     border-bottom: 1px solid #dbe3ef;
     color: #334155;
     font-size: 1.05rem;
-    font-weight: 750;
-    text-align: left;
+    font-weight: 700;
+    text-align: center;
 }
 
 .seccion-count {
@@ -65,7 +64,7 @@
 :is(.public-categorias-grid, .grid-ubicaciones, .grid-fuentes) {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.9rem;
+    gap: 9px;
     margin: 1rem 0;
 }
 
@@ -73,11 +72,10 @@
     overflow: hidden;
     padding: 1rem;
     border: 1px solid #dbe3ef;
-    border-top: 4px solid #2563eb;
-    border-radius: 0.7rem;
+    border: 1px inset #fff;
+    border-radius: 4px;
     background: #fff;
     color: #1f2937;
-    box-shadow: 0 3px 12px rgb(15 23 42 / 7%);
     transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -167,11 +165,14 @@
 
 :is(.public-categorias-card-titulo, .grid-noticias .tarjeta-titulo) {
     margin: 0;
-    padding: 0.9rem 1rem 0.35rem;
-    font-size: 1rem;
+    padding: 4px;
+    font-size: 0.95rem;
     line-height: 1.35;
-    text-align: left;
+    text-align: center;
     text-transform: none;
+    text-transform: uppercase;
+    background: #e8e8e8;
+    border-radius: 4px;
 }
 
 :is(.public-categorias-card-titulo, .grid-noticias .tarjeta-titulo) a {
@@ -194,23 +195,19 @@
 :is(.public-categorias-card-meta, .grid-noticias .tarjeta-metadatos) {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
     gap: 0.55rem 0.9rem;
     margin: auto 0 0;
     padding: 0.75rem 1rem;
     border: solid #e2e8f0;
     border-width: 1px 0 0;
     border-radius: 0;
-    background: #f8fafc;
     color: #64748b;
     font-size: 0.76rem;
+    flex-direction: column;
 }
 
 .public-categorias-card-autor {
     align-items: center;
-    justify-content: flex-start;
-    gap: 0.5rem;
-    padding: 0;
 }
 
 .public-categorias-autor-avatar,
@@ -225,11 +222,6 @@
 }
 
 .public-categorias-card-stats {
-    gap: 0.65rem;
-    width: auto;
-    margin-left: auto;
-    padding: 0;
-    border: 0;
     background: transparent;
     color: #64748b;
 }

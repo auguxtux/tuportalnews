@@ -118,6 +118,11 @@
     padding: 10px;
 }
 
+/* Variante aislada: los cambios de fuentes no afectan a otras tarjetas. */
+.news-card.news-card--source .news-card__media {
+    height: 180px;
+}
+
 .tarjeta-imagen {
     margin-bottom: 0.75rem;
     border-radius: 4px;

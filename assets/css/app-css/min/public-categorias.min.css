@@ -117,6 +117,11 @@
     border-radius: 4px;
 }
 
+/* Variante aislada: los cambios de categorías no afectan a otras tarjetas. */
+.news-card.news-card--category .news-card__media {
+    height: 180px;
+}
+
 /* IMAGEN */
 .public-categorias-card-imagen {
     height: 180px;

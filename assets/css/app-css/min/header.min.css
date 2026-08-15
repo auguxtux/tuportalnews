@@ -1,0 +1,508 @@
+/* ============================================
+   HEADER PRINCIPAL - ESTILOS GLOBALES
+   ============================================ */
+
+/* ---------- AJUSTE PARA HEADER FIJO ---------- */
+body {
+    padding-top: 75px; /* Espacio para el header fijo */
+}
+
+/* Header fijo en la parte superior */
+.header-sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+}
+
+/* ---------- CONTENEDOR PRINCIPAL ---------- */
+.header-contenedor {
+    max-width: 1200px;
+    transition: transform 0.3s ease;
+    margin: 0 auto;
+}
+
+.header-contenedor.menu-abierto {
+    transform: translateX(300px);
+}
+
+/* ---------- CABECERA SUPERIOR ---------- */
+.header-saltar-contenido {
+    position: fixed;
+    top: 0.5rem;
+    left: 0.5rem;
+    z-index: 11000;
+    padding: 0.75rem 1rem;
+    border-radius: 0.35rem;
+    background: #fff;
+    color: #111827;
+    font-weight: 700;
+    text-decoration: none;
+    transform: translateY(-150%);
+    transition: transform 0.15s ease;
+}
+
+.header-saltar-contenido:focus {
+    transform: translateY(0);
+    outline: 3px solid #2563eb;
+    outline-offset: 2px;
+}
+
+.header-back-btn:focus-visible,
+.header-logo a:focus-visible,
+.header-menu-btn:focus-visible,
+.header-menu-lateral-cerrar:focus-visible,
+.header-user-link:focus-visible,
+.menu li a:focus-visible {
+    outline: 3px solid #fbbf24;
+    outline-offset: 3px;
+}
+
+.header-cabecera-superior {
+    padding: 4px;
+    background: linear-gradient(270deg, #fff8d4 0%, #eef5ff 100%);
+    color: white;
+    display: flex;
+    border-bottom: 2px inset #fff;
+    margin-bottom: 2px;
+}
+
+/* ---------- BARRA DE NAVEGACIÓN PRINCIPAL ---------- */
+.header-navbar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* ---------- SECCIÓN IZQUIERDA: LOGO + BOTÓN MENÚ ---------- */
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+/* LOGO */
+.header-logo {
+    display: flex;
+    align-items: center;
+}
+
+.header-logo a {
+    text-decoration: none;
+}
+
+.header-logo-img {
+    height: 45px;
+    width: auto;
+    background: #fff;
+    border-radius: 50%;
+    border: 1px inset #f9f9f9;
+    transition: transform 0.3s;
+    margin-right: 4px;
+}
+
+.header-logo-img:hover {
+    transform: scale(1.05);
+}
+
+/* BOTÓN MENÚ HAMBURGUESA */
+.header-menu-btn {
+    border: none;
+    border-radius: 4px;
+    transition: all 0.3s;
+    cursor: pointer;
+    font-size: 1.9rem;
+    background: none;
+    padding: 7px;
+    margin-top: -7px;
+}
+
+.header-menu-btn:hover {
+    background: none;
+    transform: scale(1.02);
+    color: #008220;
+    opacity: 1;
+    font-weight: bold;
+    margin-top: -1rem;
+}
+
+/* BOTÓN VOLVER */
+.header-back-btn {
+    background: none;
+    color: #040404;
+    border: none;
+    transition: all 0.3s;
+    padding: 0 10px 0 4px;
+}
+
+.header-back-btn:hover {
+    background: rgba(255, 255, 255, 0.8);
+    transform: scale(1.02);
+    color: #00800e;
+    background: none;
+    margin-right: -8px;
+    font-weight: 700;
+}
+
+/* ---------- SECCIÓN CENTRAL: TÍTULO DE LA APP ---------- */
+.header-center {
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+
+.header-app-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    line-height: 1.1;
+    text-align: center;
+}
+
+.header-app-title a {
+    color: #8a1b1b;
+    text-shadow: 1px 1px 0px white;
+    opacity: 0.9;
+    text-decoration: none;
+}
+
+.header-app-title a:hover {
+    opacity: 0.9;
+    color: #01861c;
+}
+
+/* Subtítulo */
+.subtitulo {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+    opacity: 0.8;
+    color: #353030;
+    text-align: center;
+}
+
+/* ---------- SECCIÓN DERECHA: AVATAR + ENLACES + NOMBRE ---------- */
+.header-right {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+
+/* Avatar del usuario */
+.header-avatar {
+    display: flex;
+    align-items: center;
+}
+
+.header-avatar-img {
+  width: auto;
+  height: 55px;
+  border-radius: 50%;
+  border: 1px inset #7c7c7c;
+  transition: transform 0.3s;
+  padding: 2px 3px;
+  background: white;
+}
+
+.header-avatar-img:hover {
+    transform: scale(1.05);
+}
+
+/* Nombre del usuario */
+.header-user-name {
+    color: #0371ff;
+}
+
+/* Enlaces de usuario */
+.header-user-link {
+    padding: 7px;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    color: #171616;
+    text-decoration: none;
+}
+
+.header-user-link:hover {
+    background: rgba(170, 255, 183, 0.6);
+    border-radius: 4px;
+    color: green;
+    font-weight: bold;
+}
+
+.header-link-logout {
+    color: #ff0505;
+}
+
+.header-link-logout:hover {
+    color: rgb(0, 134, 34);
+}
+
+/* ============================================
+   MENÚ LATERAL (PANTALLA COMPLETA)
+   ============================================ */
+.header-menu-lateral {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+    z-index: 2000;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+    color: white;
+    width: 320px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.header-menu-lateral.abierto {
+    transform: translateX(0);
+}
+
+/* HEADER DEL MENÚ */
+.header-menu-lateral-header {
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-menu-lateral-titulo {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.header-menu-lateral-cerrar {
+    background: none;
+    border: 2px solid white;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.header-menu-lateral-cerrar:hover {
+    background: white;
+    color: #2c3e50;
+}
+
+/* CONTENIDO DEL MENÚ */
+.header-menu-lateral-contenido {
+    padding: 1.5rem;
+}
+
+/* ---------- MENÚ UNIFICADO ---------- */
+.menu {
+    width: 100%;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu li {
+    margin: 0;
+    padding: 0;
+}
+
+.menu li a {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: white;
+    text-decoration: none;
+    transition: background 0.3s;
+    border-radius: 6px;
+}
+
+.menu li a:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.menu .separador {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 0.5rem 0;
+}
+
+.menu .menu-seccion span {
+    display: block;
+    padding: 0.5rem 1rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: bold;
+}
+
+/* Enlaces dentro del menú lateral */
+.header-menu-lateral-contenido .menu a {
+    color: white;
+    text-decoration: none;
+    padding: 0.75rem 1rem;
+    display: block;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s;
+    font-size: 1rem;
+}
+
+.header-menu-lateral-contenido .menu a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    padding-left: 0.5rem;
+}
+
+/* ---------- OPCIONES DE AUTENTICACIÓN EN EL MENÚ ---------- */
+.header-menu-auth {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.header-menu-auth a {
+    display: block;
+    padding: 0.75rem;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.header-menu-auth a:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.header-menu-auth-registro {
+    background: #2196F3;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+/* Tablets y móviles grandes (≤768px) */
+@media (max-width: 768px) {
+    /* Ajuste del padding del body para móvil */
+    body {
+        padding-top: 70px;
+    }
+
+    .header-navbar {
+        align-items: center;
+        flex-wrap: nowrap;
+    }
+
+    .header-app-title {
+        font-size: 1.5rem;
+    }
+
+    .header-app-title a {
+        font-size: 1.4rem;
+    }
+
+    .header-user-name {
+        font-size: 0.8rem;
+        display: none;
+    }
+
+    .header-user-link {
+        padding: 0.3rem 0.8rem;
+        font-size: 0.7rem;
+    }
+
+    .header-avatar-img {
+        height: 50px;
+        width: 50px;
+        margin-right: 2%;
+    }
+
+    .header-menu-lateral {
+        width: 280px;
+    }
+
+    .header-user-links {
+        display: none;
+    }
+
+    .header-menu-btn {
+        padding: 6px 7px;
+    }
+
+    button {
+        font-size: 0.9em;
+    }
+
+    .home-contenido-principal h1 {
+        font-size: 0.95rem;
+    }
+}
+
+/* Móviles pequeños (≤480px) */
+@media (max-width: 480px) {
+    .header-menu-btn {
+        font-size: 1.4rem;
+    }
+
+    .header-right {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .header-left {
+        gap: 0;
+    }
+
+    .header-user-name {
+        font-size: 0.8rem;
+        display: none;
+    }
+
+    .header-avatar-img {
+        height: 40px;
+        width: 40px;
+    }
+
+    .header-menu-btn span {
+        display: none;
+    }
+
+    .header-app-title a {
+        font-size: 1.07rem;
+    }
+
+    button {
+        font-size: 0.9rem;
+    }
+
+    .subtitulo {
+        margin-top: 0.1rem;
+        font-size: 0.62rem;
+    }
+
+    .home-grid-noticias {
+        padding: 0;
+    }
+}

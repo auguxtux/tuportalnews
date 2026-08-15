@@ -1,0 +1,7 @@
+{
+    "license": "proprietary",
+    "require": {
+        "phpmailer/phpmailer": "^7.0",
+        "simplepie/simplepie": "^1.9"
+    }
+}

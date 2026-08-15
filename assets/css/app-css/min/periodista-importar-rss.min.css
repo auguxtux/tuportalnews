@@ -1,0 +1,147 @@
+.importar-rss-container {
+	max-width: 1000px;
+	margin: 0 auto;
+}
+.importar-rss-container h1 {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+  margin-bottom: 7px;
+}
+.importar-rss-container p {
+    font-size: 0.9rem;
+    
+}
+
+.importar-rss-container ul {
+  margin-left: 1.5rem;
+  line-height: 1.45;
+  font-size: 0.92rem;
+  list-style-type: georgian;
+  color: #2f2a2a;
+}
+
+
+.importar-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  margin: 1rem;
+}
+
+.fuentes-panel,
+.importar-panel {
+  background: white;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 1rem;
+}
+
+.fuentes-panel h2,
+.importar-panel h2 {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  text-align: center;
+  color: #94302f;
+}
+
+.fuente-categoria {
+	margin-bottom: 1rem;
+}
+
+.fuente-categoria h3 {
+	margin: 0.5rem 0;
+	font-size: 0.9rem;
+	color: #374151;
+}
+
+.fuente-item {
+	padding: 0.5rem;
+	border-bottom: 1px solid #eee;
+	cursor: pointer;
+	transition: background 0.2s;
+}
+
+.fuente-item:hover {
+	background: #f3f4f6;
+}
+
+.fuente-item strong {
+	display: block;
+	font-size: 0.9rem;
+}
+
+.fuente-item small {
+	font-size: 0.7rem;
+	color: #6b7280;
+	word-break: break-all;
+}
+
+.campo {
+	margin-bottom: 1rem;
+}
+
+.campo label  {
+  display: block;
+  margin-bottom: 0.30rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.campo input,
+.campo select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #ebf6ff;
+}
+.btn-importar {
+	background: #10b981;
+	color: white;
+	border: none;
+	padding: 0.5rem 1rem;
+	border-radius: 4px;
+	cursor: pointer;
+	width: 100%;
+	font-size: 1rem;
+}
+
+.btn-importar:hover {
+	background: #059669;
+}
+
+.alert {
+	padding: 0.75rem 1rem;
+	border-radius: 6px;
+	margin-bottom: 1rem;
+}
+
+.alert-success {
+	background: #d1fae5;
+	color: #065f46;
+	border-left: 4px solid #10b981;
+}
+
+.alert-error {
+	background: #fee2e2;
+	color: #991b1b;
+	border-left: 4px solid #ef4444;
+}
+
+.text-muted {
+	color: #6b7280;
+	text-align: center;
+	padding: 1rem;
+}
+
+.selected {
+	background: #dbeafe;
+	border-left: 3px solid #2563eb;
+}
+
+@media (max-width: 768px) {
+	.importar-grid {
+		grid-template-columns: 1fr;
+	}
+}

@@ -1,0 +1,29 @@
+.rss-config-container { max-width: 1200px; margin: 0 auto; padding: 1rem; }
+.rss-config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.rss-config-card { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 1.5rem; }
+.rss-config-card h2 { margin-top: 0; margin-bottom: 1rem; font-size: 1.2rem; }
+.campo { margin-bottom: 1rem; }
+.campo label { display: block; margin-bottom: 0.25rem; font-weight: 500; }
+.campo input, .campo select { width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; }
+.btn { padding: 0.5rem 1rem; border-radius: 4px; border: none; cursor: pointer; display: inline-block; text-decoration: none; text-align: center; }
+.btn-primary { background: #2563eb; color: white; }
+.btn-warning { background: #f59e0b; color: white; }
+.btn-danger { background: #dc2626; color: white; }
+.btn-sm { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
+.fuente-item { padding: 0.75rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+.fuente-categoria { margin-bottom: 1rem; }
+.fuente-categoria h3 { margin: 0.5rem 0; padding-bottom: 0.25rem; border-bottom: 2px solid #e5e7eb; color: #374151; }
+.fuente-info { flex: 1; }
+.fuente-info strong { display: block; font-size: 0.9rem; }
+.fuente-info small { font-size: 0.7rem; color: #6b7280; display: block; }
+.fuente-info .limite { font-size: 0.65rem; color: #10b981; margin-top: 0.25rem; }
+.fuente-acciones { display: flex; gap: 0.5rem; }
+.alert { padding: 0.75rem 1rem; border-radius: 6px; margin-bottom: 1rem; }
+.alert-success { background: #d1fae5; color: #065f46; border-left: 4px solid #10b981; }
+.alert-error { background: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444; }
+.alert-info { background: #dbeafe; color: #1e40af; border-left: 4px solid #3b82f6; }
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+.modal-content { background: white; border-radius: 12px; max-width: 500px; width: 90%; padding: 1.5rem; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+@media (max-width: 768px) { .rss-config-grid { grid-template-columns: 1fr; } }

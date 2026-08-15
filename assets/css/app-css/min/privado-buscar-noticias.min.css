@@ -1,0 +1,428 @@
+/* ============================================ */
+/* PANEL PRIVADO BUSCAR - ESTILOS CON PREFIJO privado-buscar- */
+/* Grid: 3 → 2 → 1 columnas */
+/* ============================================ */
+
+.privado-buscar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.privado-buscar-titulo {
+    font-size: 0.95rem;
+    color: #1f2937;
+    text-align: center;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+.privado-buscar-card-imagen {
+    margin: 0.55rem 0;
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+    border-radius: 2px;
+}
+.privado-buscar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+/* FILTROS */
+.privado-buscar-filtros {
+    background: #f8fafc;
+    border-radius: 1rem;
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+}
+
+.privado-buscar-filtros-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: flex-end;
+}
+
+.privado-buscar-filtro-grupo {
+    flex: 1;
+    min-width: 140px;
+}
+
+.privado-buscar-filtro-grupo label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.25rem;
+}
+
+.privado-buscar-input,
+.privado-buscar-select {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+    background: white;
+}
+
+.privado-buscar-input:focus,
+.privado-buscar-select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59,130,246,0.1);
+}
+
+.privado-buscar-filtro-acciones {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* BOTONES */
+.privado-buscar-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.3rem 2rem;
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    border: none;
+}
+
+.privado-buscar-btn-primario {
+    background: #3b82f6;
+    color: white;
+}
+
+.privado-buscar-btn-primario:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+.privado-buscar-btn-secundario {
+    background: #6b7280;
+    color: white;
+}
+
+.privado-buscar-btn-secundario:hover {
+    background: #4b5563;
+    transform: translateY(-2px);
+}
+
+.privado-buscar-btn-editar {
+    background: #e0e7ff;
+    color: #4338ca;
+}
+
+.privado-buscar-btn-editar:hover {
+    background: #c7d2fe;
+}
+
+.privado-buscar-btn-ver {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.privado-buscar-btn-ver:hover {
+    background: #e5e7eb;
+}
+
+/* ALERTAS */
+.privado-buscar-alerta {
+    padding: 1rem;
+    border-radius: 0.75rem;
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.privado-buscar-alerta-error {
+    background: #fee2e2;
+    color: #991b1b;
+    border-left: 4px solid #ef4444;
+}
+
+.privado-buscar-alerta-info {
+    background: #e0f2fe;
+    color: #0369a1;
+    border-left: 4px solid #0ea5e9;
+}
+
+/* RESULTADOS INFO */
+.privado-buscar-resultados-info {
+    text-align: center;
+    margin: 1rem 0;
+    color: #6b7280;
+    font-size: 0.85rem;
+}
+
+/* GRID DE TARJETAS (3 → 2 → 1) */
+.privado-buscar-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
+    margin: 7px;
+}
+
+/* TARJETA */
+.privado-buscar-card {
+    border-radius: 4px;
+    border: 1px solid #e5e7eb;
+    height: 100%;
+}
+
+/* BADGE DE TIPO */
+.privado-buscar-card-badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 1;
+}
+
+.privado-buscar-badge {
+    display: inline-block;
+    padding: 0.25rem 0.6rem;
+    border-radius: 1rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.privado-buscar-badge-privada {
+    background: #f3e8ff;
+    color: #6b21a5;
+}
+
+.privado-buscar-badge-publica {
+    background: #dcfce7;
+    color: #166534;
+}
+
+/* TÍTULO */
+.privado-buscar-card-titulo {
+    font-size: 0.95rem;
+    margin: 1rem 1rem 0.5rem 1rem;
+    line-height: 1.4;
+}
+
+.privado-buscar-card-titulo a {
+    font-weight: 600;
+}
+
+.privado-buscar-card-titulo a:hover {
+    color: #3b82f6;
+}
+
+/* METADATOS */
+.privado-buscar-card-meta {
+    gap: 0.5rem;
+    margin: 0 1rem;
+    font-size: 0.7rem;
+}
+
+/* FECHA */
+.privado-buscar-card-fecha {
+    margin: 0.5rem 1rem;
+    font-size: 0.7rem;
+    color: #9ca3af;
+}
+
+/* ESTADÍSTICAS */
+.privado-buscar-card-stats {
+    display: flex;
+    gap: 1rem;
+    margin: 0.5rem 1rem;
+    padding: 0.5rem 0;
+    border-top: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.privado-buscar-stat {
+    flex: 1;
+    text-align: center;
+}
+
+.privado-buscar-stat-numero {
+    font-weight: 600;
+    color: #3b82f6;
+}
+
+/* ESTADO */
+.privado-buscar-card-estado {
+    margin: 0.5rem 2rem;
+}
+
+.privado-buscar-badge-estado {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: 1rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.privado-buscar-badge-estado-publicada {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.privado-buscar-badge-estado-borrador {
+    background: #ffedd5;
+    color: #92400e;
+}
+
+.privado-buscar-badge-estado-pendiente {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+/* ACCIONES */
+.privado-buscar-card-acciones {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: #f8fafc;
+    border-top: 1px solid #e5e7eb;
+    margin-top: auto;
+    justify-content: space-around;
+}
+
+/* PAGINACIÓN */
+.privado-buscar-paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.privado-buscar-pagina-numeros {
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+}
+
+.privado-buscar-pagina-btn {
+    padding: 0.5rem 1rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    color: #4b5563;
+    transition: all 0.2s;
+    font-size: 0.85rem;
+}
+
+.privado-buscar-pagina-btn:hover {
+    background: #f9fafb;
+    border-color: #3b82f6;
+}
+
+.privado-buscar-pagina-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    height: 2rem;
+    padding: 0 0.5rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    color: #4b5563;
+    transition: all 0.2s;
+    font-size: 0.85rem;
+}
+
+.privado-buscar-pagina-link:hover {
+    background: #f9fafb;
+    border-color: #3b82f6;
+}
+
+.privado-buscar-pagina-activo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    height: 2rem;
+    padding: 0 0.5rem;
+    background: #3b82f6;
+    border: 1px solid #3b82f6;
+    border-radius: 0.5rem;
+    color: white;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+/* ============================================ */
+/* RESPONSIVE */
+/* ============================================ */
+
+/* Tablet: 2 columnas */
+@media (max-width: 768px) {
+    .privado-buscar-container {
+        padding: 0.75rem;
+    }
+    
+    .privado-buscar-titulo {
+        font-size: 1.5rem;
+    }
+    
+    .privado-buscar-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+    
+    .privado-buscar-filtros-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .privado-buscar-filtro-acciones {
+        flex-direction: column;
+    }
+    
+    .privado-buscar-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .privado-buscar-paginacion {
+        flex-direction: column;
+    }
+    
+    .privado-buscar-pagina-numeros {
+        order: -1;
+    }
+}
+
+/* Móvil: 1 columna */
+@media (max-width: 480px) {
+    .privado-buscar-container {
+        padding: 0.5rem;
+    }
+    
+    .privado-buscar-titulo {
+        font-size: 1.3rem;
+    }
+    
+    .privado-buscar-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .privado-buscar-card-meta {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .privado-buscar-card-stats {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .privado-buscar-card-acciones {
+        flex-direction: column;
+    }
+}

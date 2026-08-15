@@ -1,0 +1,667 @@
+/* ADMIN - GESTIÓN DE CATEGORÍAS
+   Estilos exclusivos para admin/categorias.php */
+
+/* BARRA DE ACCIONES */
+
+.titulo-categorias {
+    font-size: 1.1rem;
+    text-align: center;
+    text-transform: uppercase;
+    background: #c1c1c1;
+    padding: 4px;
+    margin-bottom: 1rem;
+}
+.admin-categorias-barra-acciones {
+    display: block;
+}
+
+/* CONTENEDOR PRINCIPAL */
+
+.admin-categorias-contenedor {
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+/* GRID DE TARJETAS */
+
+.admin-categorias-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 10px;
+}
+
+/* TARJETA INDIVIDUAL */
+
+.admin-categorias-card {
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 1px solid #e9ecef;
+}
+
+.admin-categorias-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 1px 1px 0px rgb(136, 136, 136);
+    border-color: #62aff3;
+}
+
+/* HEADER DE LA TARJETA */
+
+.admin-categorias-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    background: linear-gradient(135deg, #2c93ee 0%, #eaf5ff 100%);
+    color: white;
+}
+
+.admin-categorias-card-id {
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.25);
+    padding: 0.25rem 0.75rem;
+    border-radius: 2rem;
+    backdrop-filter: blur(4px);
+}
+
+/* BADGES DE ESTADO */
+
+.admin-categorias-badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 2rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.admin-categorias-badge-activo {
+    background: #10b981;
+    color: white;
+}
+
+.admin-categorias-badge-inactivo {
+    background: #ef4444;
+    color: white;
+}
+
+/* CUERPO DE LA TARJETA */
+
+.admin-categorias-card-body {
+    flex: 1;
+    background: white;
+}
+
+.admin-categorias-card-nombre {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+    text-align: center;
+    padding: 0;
+}
+
+.admin-categorias-card-slug {
+    margin-bottom: 0.75rem;
+    text-align: center;
+}
+
+.admin-categorias-card-slug code {
+    background: #f1f5f9;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.8rem;
+    color: #475569;
+    display: inline-block;
+}
+
+.admin-categorias-card-descripcion {
+    color: #6b7280;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-align: center;
+    min-height: 2.5rem;
+}
+
+/* ESTADÍSTICAS */
+
+.admin-categorias-card-stats {
+    display: flex;
+    gap: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+    justify-content: space-around;
+}
+
+.admin-categorias-stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.admin-categorias-stat-label {
+    font-size: 0.7rem;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.admin-categorias-stat-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+/* FOOTER DE LA TARJETA */
+
+.admin-categorias-card-footer {
+    padding: 1rem;
+    background: #c4c4c4;
+    border-top: 1px solid #e5e7eb;
+}
+
+/* ACCIONES Y BOTONES */
+
+.admin-categorias-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.admin-categorias-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    border: none;
+}
+
+.admin-categorias-btn-icon {
+    font-size: 0.9rem;
+    line-height: 1;
+}
+
+.admin-categorias-btn-text {
+    font-size: 0.75rem;
+}
+
+/* Variantes de botones */
+.admin-categorias-btn-nueva {
+    background: #c1c1c1;
+    color: #616266;
+    display: inline-flex;
+    width: auto;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.admin-categorias-btn-nueva:hover {
+    background: none;
+    transform: translateY(-2px);
+    color: black;
+}
+
+.admin-categorias-btn-editar {
+    background: #3b82f6;
+    color: white;
+    font-weight: bold;
+}
+
+.admin-categorias-btn-editar:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+.admin-categorias-btn-desactivar {
+    background: #f59e0b;
+    color: white;
+    font-weight: bold;
+}
+
+.admin-categorias-btn-desactivar:hover {
+    background: #d97706;
+    transform: translateY(-2px);
+}
+
+.admin-categorias-btn-activar {
+    background: #10b981;
+    color: white;
+}
+
+.admin-categorias-btn-activar:hover {
+    background: #059669;
+    transform: translateY(-2px);
+}
+
+.admin-categorias-btn-eliminar {
+    background: #ef4444;
+    color: white;
+}
+
+.admin-categorias-btn-eliminar:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+}
+
+/* ALERTAS */
+
+.admin-categorias-alerta {
+    padding: 1rem;
+    border-radius: 0.75rem;
+    margin: 1rem 0;
+}
+
+.admin-categorias-alerta-info {
+    background: #e0f2fe;
+    color: #0369a1;
+    border-left: 4px solid #0284c7;
+    text-align: center;
+}
+
+/* RESPONSIVE - MÓVILES (≤640px) */
+
+
+@media (max-width: 640px) {
+    .admin-categorias-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .admin-categorias-card {
+        margin: 0;
+    }
+    
+    .admin-categorias-acciones {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .admin-categorias-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .admin-categorias-card-stats {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .admin-categorias-stat-item {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.25rem 0;
+    }
+    
+    .admin-categorias-stat-label {
+        font-size: 0.8rem;
+    }
+    
+    .admin-categorias-stat-value {
+        font-size: 1rem;
+    }
+    
+    .admin-categorias-card-descripcion {
+        font-size: 0.85rem;
+    }
+    
+    .admin-categorias-card-header {
+        padding: 0.75rem 1rem;
+    }
+    
+    .admin-categorias-card-body {
+        padding: 1rem;
+    }
+    
+    .admin-categorias-card-nombre {
+        font-size: 1.1rem;
+    }
+}
+
+/* RESPONSIVE - TABLETS (641px - 1024px) */
+
+@media (min-width: 641px) and (max-width: 1024px) {
+    .admin-categorias-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+    
+    .admin-categorias-card-nombre {
+        font-size: 1.15rem;
+    }
+    
+    .admin-categorias-card-descripcion {
+        font-size: 0.85rem;
+    }
+}
+
+/* RESPONSIVE - ESCRITORIO MEDIANO (1025px - 1200px) */
+
+
+@media (min-width: 1025px) and (max-width: 1200px) {
+    .admin-categorias-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
+    }
+}
+
+/* RESPONSIVE - ESCRITORIO GRANDE (1201px+) */
+
+
+@media (min-width: 1201px) {
+    .admin-categorias-grid {
+        grid-template-columns: repeat(4, 1fr);
+        /*! gap: 1.5rem; */
+    }
+}
+
+/* UTILIDADES ADICIONALES */
+
+.admin-categorias-btn-nueva {
+    margin-bottom: 4px;
+}
+
+.admin-categorias-card h3 {
+    text-align: center;
+    color: #1f2937;
+    padding: 0;
+}
+
+
+/* EDITAR CATEGORÍA - ESTILOS RESPONSIVE */
+
+.edit-categoria-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+/* HEADER */
+
+.edit-categoria-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.edit-categoria-header h1 {
+    font-size: 1.5rem;
+    color: #1f2937;
+    margin: 0;
+}
+
+.edit-categoria-desc {
+    color: #6b7280;
+    text-align: left;
+    margin: 10px;
+}
+
+/* TARJETA PRINCIPAL */
+
+.edit-categoria-card {
+    background: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+}
+
+.edit-categoria-form {
+    padding: 1rem;
+}
+
+/* CAMPOS DEL FORMULARIO */
+
+.edit-categoria-campo {
+    margin-bottom: 1.5rem;
+}
+
+.edit-categoria-campo label {
+    display: block;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.edit-categoria-campo input[type="text"],
+.edit-categoria-campo input[type="number"],
+.edit-categoria-campo textarea {
+    width: 95%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.edit-categoria-campo small {
+    margin-top: 0.5rem;
+    color: #6b7280;
+    margin-left: 2rem;
+}
+
+
+/* CHECKBOX */
+
+.edit-categoria-checkbox {
+    display: flex;
+    flex-direction: column;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    margin-bottom: 0.25rem;
+}
+
+.checkbox-label input {
+    width: 1.1rem;
+    height: 1.1rem;
+    cursor: pointer;
+}
+
+.checkbox-label span {
+    font-weight: 500;
+    color: #374151;
+}
+
+/* GRID INTERNO */
+
+.edit-categoria-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* INFO ADICIONAL */
+
+.edit-categoria-info {
+    background: #f8fafc;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    border: 1px solid #e5e7eb;
+}
+
+.edit-categoria-info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+}
+
+.edit-categoria-info-item:first-child {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.edit-categoria-info-icono {
+    font-size: 1.2rem;
+}
+
+.edit-categoria-info-contenido {
+    flex: 1;
+}
+
+.edit-categoria-info-contenido strong {
+    display: block;
+    font-size: 0.8rem;
+    color: #1f2937;
+    margin-bottom: 0.2rem;
+}
+
+.edit-categoria-info-contenido code {
+    display: inline-block;
+    background: #e5e7eb;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+}
+
+.edit-categoria-info-contenido small {
+    display: block;
+    font-size: 0.7rem;
+    color: #6b7280;
+    margin-top: 0.2rem;
+}
+
+/* BOTONES */
+
+.edit-categoria-acciones {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.edit-categoria-btn-guardar {
+    background: #3b82f6;
+    color: white;
+}
+
+.edit-categoria-btn-guardar:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+.edit-categoria-btn-cancelar {
+    background: #6b7280;
+    color: white;
+}
+
+.edit-categoria-btn-cancelar:hover {
+    background: #4b5563;
+    transform: translateY(-2px);
+}
+
+/* ALERTAS */
+
+.edit-categoria-alerta {
+    padding: 1rem;
+    border-radius: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.edit-categoria-alerta-error ul {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+
+/* RESPONSIVE */
+
+/* Tablet */
+@media (max-width: 768px) {
+    .edit-categoria-container {
+        padding: 0.75rem;
+    }
+    
+    .edit-categoria-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .edit-categoria-form {
+        padding: 1.25rem;
+    }
+    
+    .edit-categoria-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    
+    .edit-categoria-acciones {
+        flex-direction: column;
+    }
+    
+    .edit-categoria-btn {
+        width: 100%;
+    }
+}
+
+/* Móvil */
+@media (max-width: 480px) {
+    .edit-categoria-container {
+        padding: 0.5rem;
+    }
+    
+    .edit-categoria-header h1 {
+        font-size: 1.3rem;
+    }
+    
+    .edit-categoria-desc {
+        font-size: 0.8rem;
+    }
+    
+    .edit-categoria-form {
+        padding: 1rem;
+    }
+    
+    .edit-categoria-campo label {
+        font-size: 0.85rem;
+    }
+    
+    .edit-categoria-campo input[type="text"],
+    .edit-categoria-campo input[type="number"],
+    .edit-categoria-campo textarea {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.85rem;
+    }
+    
+    .edit-categoria-info-item {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .edit-categoria-info-icono {
+        font-size: 1rem;
+    }
+    
+    .edit-categoria-info-contenido {
+        text-align: center;
+    }
+    
+    .edit-categoria-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+    }
+}

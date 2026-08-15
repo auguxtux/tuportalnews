@@ -1,0 +1,50 @@
+.logs-container { max-width: 1200px; margin: 0 auto; padding: 1rem; }
+.logs-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.logs-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.logs-tab { padding: 0.5rem 1rem; background: #f3f4f6; color: #374151; text-decoration: none; border-radius: 6px; transition: all 0.2s; }
+.logs-tab:hover { background: #e5e7eb; }
+.logs-tab.active { background: #2563eb; color: white; }
+.logs-tab.danger { background: #fee2e2; color: #991b1b; }
+.logs-tab.danger:hover { background: #fecaca; }
+.logs-card { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; }
+.logs-tabla { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.logs-tabla th, .logs-tabla td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #e5e7eb; }
+.logs-tabla th { background: #f8fafc; font-weight: 600; color: #374151; }
+.logs-tabla tr:hover { background: #f9fafb; }
+.logs-badge { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 500; }
+.logs-badge-login { background: #dbeafe; color: #1e40af; }
+.logs-badge-accion { background: #d1fae5; color: #065f46; }
+.logs-badge-bloqueo { background: #fee2e2; color: #991b1b; }
+.logs-pagination { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1.5rem; flex-wrap: wrap; }
+.logs-pagination a, .logs-pagination span { padding: 0.5rem 1rem; background: #f3f4f6; border-radius: 6px; text-decoration: none; color: #374151; }
+.logs-pagination a:hover { background: #2563eb; color: white; }
+.logs-pagination .active { background: #2563eb; color: white; }
+.logs-vacio { text-align: center; padding: 2rem; color: #6b7280; }
+.logs-fecha { font-family: monospace; font-size: 0.75rem; white-space: nowrap; }
+.logs-ip { font-family: monospace; background: #f3f4f6; padding: 0.2rem 0.4rem; border-radius: 4px; }
+.btn-limpiar { background: #dc2626; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; }
+.btn-limpiar:hover { background: #b91c1c; }
+.logs-gestion { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1.25rem; padding: 1rem; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; }
+.logs-gestion h2 { margin: 0 0 0.35rem; color: #1e3a8a; font-size: 1rem; }
+.logs-gestion p { margin: 0; max-width: 720px; color: #475569; font-size: 0.85rem; line-height: 1.45; }
+.logs-gestion-acciones { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.logs-gestion-btn { padding: 0.55rem 0.8rem; color: white; background: #2563eb; border-radius: 6px; font-size: 0.8rem; font-weight: 700; text-decoration: none; white-space: nowrap; }
+.logs-gestion-btn:hover { background: #1d4ed8; }
+.logs-gestion-btn-alerta { background: #b45309; }
+.logs-gestion-btn-alerta:hover { background: #92400e; }
+@media (max-width: 768px) { .logs-tabla th, .logs-tabla td { font-size: 0.7rem; padding: 0.5rem; } .logs-fecha { white-space: normal; } }
+@media (max-width: 700px) { .logs-gestion { align-items: stretch; flex-direction: column; } .logs-gestion-acciones, .logs-gestion-btn { width: 100%; text-align: center; } }
+.logs-container { padding: clamp(0.75rem, 2vw, 1.5rem); }
+.logs-header { gap: 1rem; padding: 1.25rem; background: linear-gradient(135deg, #eff6ff, #f8fafc); border: 1px solid #dbeafe; border-radius: 12px; }
+.logs-titulo-grupo h1 { margin: 0; color: #1e293b; font-size: clamp(1.35rem, 3vw, 1.8rem); }
+.logs-titulo-grupo p { margin: 0.35rem 0 0; color: #64748b; font-size: 0.88rem; }
+.logs-tabs { justify-content: flex-end; }
+.logs-tab { border: 1px solid transparent; font-weight: 600; }
+.logs-card { border: 1px solid #e2e8f0; }
+.logs-tabla-contenedor { width: 100%; overflow-x: auto; }
+.logs-tabla { min-width: 720px; }
+.logs-tabla tbody tr:last-child td { border-bottom: 0; }
+.logs-tabla td { vertical-align: top; line-height: 1.4; }
+.logs-pagination .disabled { color: #94a3b8; }
+@media (max-width: 768px) { .logs-header { align-items: stretch; flex-direction: column; } .logs-tabs { justify-content: flex-start; } .logs-tab { flex: 1 1 calc(50% - 0.5rem); text-align: center; } }
+@media (max-width: 480px) { .logs-tab { flex-basis: 100%; } .logs-pagination { align-items: stretch; flex-direction: column; text-align: center; } }

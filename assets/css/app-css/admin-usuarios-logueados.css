@@ -1,0 +1,473 @@
+/* ============================================
+   ADMIN - GESTIÓN DE USUARIOS
+   ============================================ */
+
+/* ---------- CONTENEDOR PRINCIPAL ---------- */
+.admin-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.admin-container h1 {
+    font-size: 1.1rem;
+    text-align: center;
+    background: #c2c2c2;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    border-top: 1px inset white;
+    border-radius: 4px;
+}
+
+.usuarios-actividad-ayuda {
+    margin: 0 auto 1rem;
+    padding: 0.65rem 1rem;
+    border-left: 3px solid #2563eb;
+    background: #eff6ff;
+    color: #334155;
+    font-size: 0.8rem;
+    line-height: 1.45;
+}
+
+/* ---------- ESTADÍSTICAS ---------- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 4px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-left: 1px solid #2563eb;
+}
+
+.stat-number {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #2563eb;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    color: #666;
+}
+
+/* ---------- FILTROS ---------- */
+.filtros {
+    background: #f8f9fa;
+    margin-bottom: 1rem;
+}
+
+.filtros form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    background: #d9d9d9;
+    max-width: 1124px;
+    margin: 0 auto;
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+.filtros-grupo label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.filtros-grupo select,
+.filtros-grupo input {
+    padding: 0.4rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    min-width: 130px;
+}
+
+/* ---------- BOTONES BASE ---------- */
+.btn {
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.8rem;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: #2563eb;
+    color: white;
+    font-weight: bold;
+}
+
+.btn-secondary {
+    background: #02a20c;
+    color: white;
+    font-weight: bold;
+    margin: 0 4px;
+}
+
+/* Botones para acciones en tarjetas */
+.btn-activar {
+    color: #10b981;
+}
+
+.btn-desactivar {
+    color: #ef4444;
+}
+
+.btn-privado {
+    color: #8b5cf6;
+}
+
+.btn-eliminar {
+    color: #dc2626;
+}
+
+/* ---------- MENSAJES DE ALERTA ---------- */
+.mensaje {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+}
+
+.mensaje-success {
+    background: #d1fae5;
+    border: 1px solid #10b981;
+    color: #065f46;
+}
+
+.mensaje-error {
+    background: #fee2e2;
+    border: 1px solid #ef4444;
+    color: #991b1b;
+}
+
+/* ============================================
+   TARJETAS DE USUARIOS (3 → 2 → 1 columnas)
+   ============================================ */
+.tarjetas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 2rem;
+}
+
+.tarjeta-usuario {
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tarjeta-usuario:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ---------- CABECERA DE TARJETA ---------- */
+.tarjeta-header {
+    background: linear-gradient(135deg, #848486 0%, #f9f9f9 100%);
+    color: white;
+    padding: 9px;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+}
+
+.tarjeta-avatar {
+    float: right;
+}
+
+.tarjeta-avatar img {
+    height: 70px;
+    border-radius: 4px;
+    border: 1px inset white;
+    background: #fff;
+}
+
+.tarjeta-nombre {
+    font-size: 1.1rem;
+    font-weight: bold;
+    float: left;
+    color: #fff;
+    width: 99px;
+}
+
+.tarjeta-id {
+    font-size: 0.8rem;
+    color: #4a4a4a;
+    font-weight: bold;
+}
+
+/* ---------- CUERPO DE TARJETA ---------- */
+.tarjeta-body {
+    padding: 1rem;
+}
+
+.tarjeta-info {
+    margin-bottom: 0.75rem;
+}
+
+.tarjeta-info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+}
+
+.tarjeta-info-item .icono {
+    width: 24px;
+    font-size: 1.1rem;
+}
+
+.tarjeta-info-item .label {
+    color: #666;
+    min-width: 70px;
+}
+
+.tarjeta-info-item .valor {
+    color: #333;
+    font-weight: 500;
+    word-break: break-all;
+}
+
+/* ---------- BADGES ---------- */
+.tarjeta-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #eee;
+    justify-content: center;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+/* Badges por rol */
+.badge-rol-admin {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.badge-rol-periodista {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.badge-rol-usuario {
+    background: #fed7aa;
+    color: #92400e;
+}
+
+/* Badges por estado */
+.badge-estado-activo {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.badge-estado-inactivo {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.badge-estado-bloqueado {
+    background: #fecaca;
+    color: #7f1d1d;
+}
+
+.badge-estado-pendiente {
+    background: #fed7aa;
+    color: #92400e;
+}
+
+/* Badges por permisos privados */
+.badge-privado-si {
+    background: #e9d5ff;
+    color: #6b21a5;
+}
+
+.badge-privado-no {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.badge-conexion-online {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.badge-conexion-offline {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+/* ---------- PIE DE TARJETA ---------- */
+.tarjeta-footer {
+    background: #f8f9fa;
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    border-top: 1px solid #eee;
+}
+
+.tarjeta-fecha {
+    font-size: 0.7rem;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.tarjeta-acciones {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.tarjeta-acciones a {
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.tarjeta-acciones a:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+/* ---------- TARJETA VACÍA ---------- */
+.tarjeta-vacia {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    color: #666;
+}
+
+/* ============================================
+   PAGINACIÓN
+   ============================================ */
+.paginacion {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.pagina {
+    padding: 0.3rem 0.6rem;
+    background: #f0f0f0;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.pagina:hover {
+    background: #e0e0e0;
+}
+
+.pagina.active {
+    background: #2563eb;
+    color: white;
+}
+
+/* ============================================
+   INFO FOOTER
+   ============================================ */
+.info-footer {
+    margin: 1rem;
+    padding: 0.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+/* Tablets: 2 columnas */
+@media (max-width: 1024px) {
+    .tarjetas-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Móviles grandes: 1 columna */
+@media (max-width: 640px) {
+    .tarjetas-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .filtros form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filtros-grupo {
+        width: 100%;
+    }
+
+    .filtros-grupo select,
+    .filtros-grupo input {
+        width: 100%;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .tarjeta-footer {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* Móviles pequeños */
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-container {
+        padding: 0.5rem;
+    }
+
+    .tarjeta-body {
+        padding: 0.75rem;
+    }
+
+    .tarjeta-info-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.2rem;
+    }
+
+    .tarjeta-info-item .icono {
+        width: auto;
+    }
+}

@@ -1,0 +1,564 @@
+/* ============================================
+   ADMIN PERIODISTAS - ESTILOS DEL PANEL
+   ============================================ */
+
+.alerta alerta-success {
+  margin: 4px;
+  color: #7b4f03;
+  background: wheat;
+  float: left;
+  padding: 2px 12px;
+  border-radius: 1rem;
+  font-size: 0.85rem;
+}
+
+
+/* ---------- CONTENEDORES ---------- */
+.admin-periodistas-contenedor {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+.titulo {
+  font-size: 0.95rem;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+/* ---------- TARJETAS GRID ---------- */
+.admin-periodistas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(350px,1fr));
+  gap: 7px;
+  margin: 1rem 0;
+}
+
+/* ---------- TARJETA DE PERIODISTA ---------- */
+.admin-periodistas-card {
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform 0.2s,box-shadow 0.2s;
+}
+.admin-periodistas-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Cabecera de la tarjeta */
+.admin-periodistas-card-header {
+  padding: 1rem;
+  background: linear-gradient(135deg,#2563eb 0%,#10b981 100%);
+  color: white;
+  text-align: center;
+}
+
+.admin-periodistas-card-id {
+  font-size: 0.85rem;
+  display: block;
+  float: left;
+}
+.admin-periodistas-card-avatar {
+  float: left;
+}
+.admin-periodistas-card-avatar img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid white;
+    margin-bottom: 0.5rem;
+}
+
+.admin-periodistas-card-nombre {
+    font-size: 1.2rem;
+}
+
+.admin-periodistas-card-nombre a {
+    color: white;
+    text-decoration: none;
+}
+
+.admin-periodistas-card-nombre a:hover {
+    text-decoration: underline;
+}
+
+.admin-periodistas-card-contacto {
+    font-size: 0.8rem;
+    opacity: 0.9;
+}
+
+.admin-periodistas-card-ciudad {
+    display: inline-block;
+    font-size: 0.75rem;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    margin-top: 0.5rem;
+}
+
+/* Cuerpo de la tarjeta */
+.admin-periodistas-card-body {
+    padding: 4px;
+}
+
+/* Estadísticas */
+.admin-periodistas-card-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.admin-periodistas-card-stat {
+    text-align: center;
+}
+
+.admin-periodistas-stat-valor {
+  display: block;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #2563eb;
+}
+
+.admin-periodistas-stat-etiqueta {
+    font-size: 0.7rem;
+    color: #6b7280;
+}
+
+/* Badges */
+.admin-periodistas-card-badges {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.admin-periodistas-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.admin-periodistas-badge-privado {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.admin-periodistas-badge-no-privado {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.admin-periodistas-badge-activo {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.admin-periodistas-badge-inactivo {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.admin-periodistas-badge-pendiente {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.admin-periodistas-badge-bloqueado {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* Pie de la tarjeta */
+.admin-periodistas-card-footer {
+  padding: 9px 0;
+  background: wheat;
+  border-top: 1px solid #e5e7eb;
+}
+
+.admin-periodistas-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+/* Botones */
+.admin-periodistas-btn {
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  text-decoration: none;
+  transition: all 0.2s;
+  border: 1px solid white;
+  font-weight: 700;
+}
+
+.admin-periodistas-btn-aprobar {
+    background: #10b981;
+    color: white;
+}
+
+.admin-periodistas-btn-bloquear {
+    background: #f59e0b;
+    color: white;
+}
+
+.admin-periodistas-btn-desbloquear {
+    background: #3b82f6;
+    color: white;
+}
+
+.admin-periodistas-btn-privado-on,
+.admin-periodistas-btn-privado-off {
+    background: #8b5cf6;
+    color: white;
+}
+
+.admin-periodistas-btn-editar {
+    background: #6b7280;
+    color: white;
+}
+
+.admin-periodistas-btn-eliminar {
+    background: #ef4444;
+    color: white;
+}
+
+.admin-periodistas-btn-filtrar,
+.admin-periodistas-btn-limpiar,
+.admin-periodistas-btn-nuevo {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border-radius: 4px;
+}
+.admin-periodistas-btn-filtrar {
+    background: #2563eb;
+    color: white;
+}
+
+.admin-periodistas-btn-limpiar {
+    background: #6b7280;
+    color: white;
+}
+
+.admin-periodistas-btn-nuevo {
+    background: #10b981;
+    color: white;
+}
+
+.admin-periodistas-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* ---------- BARRA DE FILTROS ---------- */
+.admin-periodistas-barra {
+  padding: 7px;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.admin-periodistas-filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.admin-periodistas-campo-busqueda,
+.admin-periodistas-filtro-estado,
+.admin-periodistas-filtro-privado {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    min-width: 180px;
+}
+
+/* ---------- ALERTAS ---------- */
+.admin-periodistas-alerta {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.admin-periodistas-alerta-info {
+    background: #dbeafe;
+    color: #1e40af;
+    border-left: 4px solid #3b82f6;
+}
+
+.admin-periodistas-resultados-info {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin-bottom: 1rem;
+}
+
+/* ---------- PAGINACIÓN ---------- */
+.admin-periodistas-paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin: 2rem 0;
+}
+
+.admin-periodistas-pagina-btn,
+.admin-periodistas-pagina-link {
+    padding: 0.4rem 0.8rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #4b5563;
+    font-size: 0.85rem;
+}
+
+.admin-periodistas-pagina-activo {
+    padding: 0.4rem 0.8rem;
+    background: #2563eb;
+    color: white;
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+
+.admin-periodistas-pagina-btn:hover,
+.admin-periodistas-pagina-link:hover {
+    background: #f3f4f6;
+    border-color: #2563eb;
+}
+
+.btn-secondary {
+    background: #6b7280;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    .admin-periodistas-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-periodistas-filtros {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .admin-periodistas-campo-busqueda,
+    .admin-periodistas-filtro-estado,
+    .admin-periodistas-filtro-privado {
+        width: 100%;
+    }
+
+    .admin-periodistas-btn-filtrar,
+    .admin-periodistas-btn-limpiar,
+    .admin-periodistas-btn-nuevo {
+        text-align: center;
+    }
+}
+
+/* ---------- FORMULARIO EDITAR PERIODISTA ---------- */
+.admin-editar-periodista-container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.admin-editar-periodista-titulo {
+    margin: 0 0 1rem;
+    color: #1f2937;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.admin-editar-periodista-card {
+    padding: 1.25rem;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.admin-editar-periodista-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+
+.admin-editar-periodista-columna,
+.admin-editar-periodista-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.admin-editar-periodista-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.admin-editar-periodista-campo label {
+    color: #374151;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.admin-editar-periodista-campo input,
+.admin-editar-periodista-campo select,
+.admin-editar-periodista-campo textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.65rem 0.75rem;
+    color: #1f2937;
+    background: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font: inherit;
+}
+
+.admin-editar-periodista-campo textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.admin-editar-periodista-campo input:focus,
+.admin-editar-periodista-campo select:focus,
+.admin-editar-periodista-campo textarea:focus {
+    border-color: #2563eb;
+    outline: 2px solid rgba(37, 99, 235, 0.15);
+}
+
+.admin-editar-periodista-campo small,
+.admin-editar-periodista-seccion-nota {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.75rem;
+}
+
+.admin-editar-periodista-seccion {
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.admin-editar-periodista-seccion-titulo {
+    margin: 0 0 0.75rem;
+    color: #1f2937;
+    font-size: 1.05rem;
+}
+
+.admin-editar-periodista-avatar-actual {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.admin-editar-periodista-avatar-label {
+    margin: 0;
+    color: #4b5563;
+    font-weight: 600;
+}
+
+.admin-editar-periodista-avatar-imagen,
+.admin-editar-periodista-avatar-preview {
+    width: 88px;
+    height: 88px;
+    object-fit: cover;
+    border: 3px solid #e5e7eb;
+    border-radius: 50%;
+}
+
+.admin-editar-periodista-avatar-preview {
+    margin-top: 0.75rem;
+}
+
+.admin-editar-periodista-acciones {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.admin-editar-periodista-btn {
+    display: inline-block;
+    padding: 0.65rem 1rem;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.admin-editar-periodista-btn-guardar {
+    color: #fff;
+    background: #2563eb;
+}
+
+.admin-editar-periodista-btn-cancelar {
+    color: #fff;
+    background: #6b7280;
+}
+
+.admin-editar-periodista-alerta {
+    margin-bottom: 1rem;
+    padding: 0.85rem 1rem;
+    border-radius: 6px;
+}
+
+.admin-editar-periodista-alerta-success {
+    color: #065f46;
+    background: #d1fae5;
+    border-left: 4px solid #10b981;
+}
+
+.admin-editar-periodista-alerta-error {
+    color: #991b1b;
+    background: #fee2e2;
+    border-left: 4px solid #ef4444;
+}
+
+.admin-editar-periodista-error-list {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+
+@media (max-width: 700px) {
+    .admin-editar-periodista-container {
+        padding: 0.5rem;
+    }
+
+    .admin-editar-periodista-grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-editar-periodista-card {
+        padding: 1rem;
+    }
+
+    .admin-editar-periodista-acciones {
+        flex-direction: column;
+    }
+
+    .admin-editar-periodista-btn {
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+    }
+}

@@ -1,0 +1,409 @@
+/* ADMIN - COMENTARIOS (estilos existentes) */
+
+.admin-comentarios-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.admin-comentarios-titulo {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1f2937;
+    text-transform: uppercase;
+    text-align: center;
+    background: #a8a8a8;
+    padding: 4px;
+}
+
+/* Filtros */
+.admin-comentarios-filtros {
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 2rem;
+    background: #bbbcbd;
+}
+
+.admin-comentarios-filtros-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}
+
+.admin-comentarios-busqueda {
+    flex: 2;
+    min-width: 200px;
+    padding: 0.4rem 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+.admin-comentarios-select-estado,
+.admin-comentarios-select-privada,
+.admin-comentarios-select-noticia,
+.admin-comentarios-select-usuario {
+    padding: 4px;
+    border: 1px inset #8fb0ce;
+    border-radius: 4px;
+}
+
+.admin-comentarios-btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+    display: inline-block;
+}
+
+.admin-comentarios-btn-filtrar {
+    background: #10b981;
+    color: white;
+}
+
+.admin-comentarios-btn-filtrar:hover {
+    background: #029927;
+}
+
+.admin-comentarios-btn-limpiar {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.admin-comentarios-btn-limpiar:hover {
+    background: #039b14;
+    color: white;
+}
+
+/* Badge para noticias privadas */
+.badge-privada {
+    background: #9c27b0;
+    color: white;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    margin-right: 0.25rem;
+    display: inline-block;
+}
+
+/* Grid de tarjetas */
+.admin-comentarios-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    /*! width: 555px; */
+}
+
+/* Tarjeta */
+.admin-comentarios-card {
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    /*! width: 555px; */
+}
+
+.admin-comentarios-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+}
+
+/* Header */
+.admin-comentarios-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 10px;
+    background: linear-gradient(90deg, #c4c4c4 0%, #5b5b5b 100%);
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.admin-comentarios-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.admin-comentarios-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.admin-comentarios-autor-info {
+    flex: 1;
+}
+
+.admin-comentarios-autor-nombre {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.admin-comentarios-autor-email {
+    font-size: 0.8rem;
+    color: #fff;
+}
+
+.admin-comentarios-autor-rol {
+    font-size: 0.75rem;
+    color: #1a1717;
+    display: inline-block;
+    margin-top: 2px;
+}
+
+.admin-comentarios-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.admin-comentarios-badge-aprobado {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.admin-comentarios-badge-pendiente {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.admin-comentarios-badge-rechazado {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* Fecha */
+.admin-comentarios-fecha {
+    padding: 0.75rem 1rem;
+    background: #f9fafb;
+    font-size: 0.75rem;
+    color: #6b7280;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin-comentarios-fecha-relativa {
+    font-weight: 500;
+    color: #10b981;
+}
+
+/* Contenido */
+.admin-comentarios-card-contenido {
+    padding: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #374151;
+    background: white;
+    flex: 1;
+}
+
+/* Noticia relacionada */
+.admin-comentarios-noticia {
+    padding: 0.75rem 1rem;
+    background: #f9fafb;
+    border-top: 1px solid #e5e7eb;
+    font-size: 0.75rem;
+}
+
+.admin-comentarios-noticia-link {
+    color: #3b82f6;
+    text-decoration: none;
+    margin-left: 0.25rem;
+    font-size: 0.95rem;
+}
+
+.admin-comentarios-noticia-link:hover {
+    text-decoration: underline;
+}
+
+/* Acciones */
+.admin-comentarios-card-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 9px;
+  justify-content: center;
+  background: linear-gradient(90deg, #d5d5d5 0%, #5b5b5b 100%);
+}
+
+.admin-comentarios-card-acciones form {
+    margin: 0;
+}
+
+.admin-comentarios-card-acciones button,
+.admin-comentarios-card-acciones a {
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+}
+
+.admin-comentarios-btn-aprobar {
+    background: #10b981;
+    color: white;
+}
+
+.admin-comentarios-btn-aprobar:hover {
+    background: #059669;
+}
+
+.admin-comentarios-btn-rechazar {
+    background: #f59e0b;
+    color: white;
+}
+
+.admin-comentarios-btn-rechazar:hover {
+    background: #d97706;
+}
+
+.admin-comentarios-btn-eliminar {
+    background: #ef4444;
+    color: white;
+}
+
+.admin-comentarios-btn-eliminar:hover {
+    background: #dc2626;
+}
+
+.admin-comentarios-btn-ver-contexto {
+    background: wheat;
+    /*! color: white; */
+}
+
+.admin-comentarios-btn-ver-contexto:hover {
+    background: #4b5563;
+}
+
+/* Paginación */
+.admin-comentarios-paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.admin-comentarios-pagina-numeros {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.admin-comentarios-pagina-numero {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.2rem;
+    height: 2.2rem;
+    padding: 0 0.5rem;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    color: #4b5563;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.admin-comentarios-pagina-numero:hover {
+    background: #f8fafc;
+    border-color: #3b82f6;
+}
+
+.admin-comentarios-pagina-activo {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
+}
+
+.admin-comentarios-pagina-btn {
+    padding: 0.5rem 1rem;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    color: #4b5563;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.admin-comentarios-pagina-btn:hover {
+    background: #f8fafc;
+    border-color: #3b82f6;
+}
+
+/* Alertas */
+.admin-comentarios-alerta {
+    padding: 10px;
+
+}
+
+.admin-comentarios-alerta-info {
+    background: #e0f2fe;
+    color: #0369a1;
+    text-align: center;
+}
+
+/* Resultados */
+.admin-comentarios-resultados-info {
+    margin-bottom: 1rem;
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .admin-comentarios-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+    .admin-comentarios-filtros-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .admin-comentarios-busqueda,
+    .admin-comentarios-select-estado,
+    .admin-comentarios-select-privada,
+    .admin-comentarios-select-noticia,
+    .admin-comentarios-select-usuario,
+    .admin-comentarios-btn {
+        width: 100%;
+    }
+    
+    .admin-comentarios-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .admin-comentarios-card-header {
+        flex-wrap: wrap;
+    }
+    
+    .admin-comentarios-card-acciones {
+        flex-direction: column;
+    }
+    
+    .admin-comentarios-btn {
+        text-align: center;
+    }
+}

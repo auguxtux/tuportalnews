@@ -1,0 +1,463 @@
+/* ============================================
+   PERIODISTA - EDITAR NOTICIA
+   Estilos responsive para el formulario de edición
+   ============================================ */
+
+/* ---------- TÍTULO PRINCIPAL ---------- */
+.editar-noticia-titulo {
+    font-size: 0.95rem;
+    color: #1f2937;
+    font-weight: 700;
+    text-align: center;
+    /* margin: 1rem 0; */
+    /* width: 44444444444444444444444444444444444444444px; */
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    padding: 4px;
+}
+
+/* ---------- FORMULARIO PRINCIPAL ---------- */
+.editar-noticia-formulario {
+    max-width: 1200px;
+    margin: 0 auto;
+    /* background: white; */
+    /* border-radius: 12px; */
+    /* padding: 1.5rem; */
+    /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); */
+}
+
+/* ---------- CAMPOS DE FORMULARIO ---------- */
+.editar-noticia-campo-form {
+    /* margin-bottom: 1rem; */
+    border-radius: 4px;
+    padding: 1rem;
+    border-bottom: 1px solid white;
+    background: #8b8b8b;
+}
+
+.editar-noticia-campo-form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #ffffff;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.editar-noticia-campo-form input[type="text"],
+.editar-noticia-campo-form input[type="url"],
+.editar-noticia-campo-form select,
+.editar-noticia-campo-form textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: #8d8d8d;
+    transition: all 0.2s;
+    background: #ffffff;
+}
+
+.editar-noticia-campo-form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.editar-noticia-campo-form small,
+.ayuda {
+    display: block;
+    color: #6b7280;
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+}
+
+/* ---------- GRID DE 2 COLUMNAS ---------- */
+.editar-noticia-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 1.5rem;
+}
+
+/* ---------- GRUPO DE RADIO BUTTONS ---------- */
+.editar-noticia-radio-group {
+    display: flex;
+    gap: 10px;
+    /* flex-wrap: wrap; */
+    justify-content: center;
+    /* margin-bottom: 0.5rem; */
+}
+
+.editar-noticia-radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+/* ---------- CHECKBOX ---------- */
+.editar-noticia-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.editar-noticia-checkbox-label input {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* ---------- CONTENEDORES DE UBICACIÓN ---------- */
+#provincia-container,
+#internacional-container,
+#otras-container {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    /* background: #f8fafc; */
+    border-radius: 8px;
+}
+
+#otras-container {
+    border-left: 4px solid #8b5cf6;
+}
+
+#otras-container small {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.7rem;
+    color: #6b7280;
+}
+
+/* ---------- OPCIONES DE IMAGEN Y VIDEO ---------- */
+.imagen-opciones,
+.video-opciones {
+    display: flex;
+    gap: 7%;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.imagen-opciones label,
+.video-opciones label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+/* ---------- VISTA PREVIA (preview) ---------- */
+.preview {
+    margin-top: 0.5rem;
+}
+
+.preview img {
+    max-width: 200px;
+    max-height: 100px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.preview iframe {
+    max-width: 200px;
+    max-height: 113px;
+    border-radius: 4px;
+}
+
+/* ---------- IMAGEN ACTUAL ---------- */
+.editar-noticia-imagen-actual {
+    display: flex;
+    /* align-items: center; */
+    gap: 1rem;
+    /* flex-wrap: wrap; */
+    margin-bottom: 1rem;
+    justify-content: center;
+    padding: 0.75rem;
+    /* background: #f8fafc; */
+    border-radius: 8px;
+}
+
+.editar-noticia-imagen-actual img {
+    max-width: 150px;
+    max-height: 100px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.editar-noticia-imagen-actual label {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: normal;
+    cursor: pointer;
+    color: #ffe2e2;
+}
+
+/* ---------- VIDEO ACTUAL ---------- */
+.video-actual,
+.video-externo-actual {
+    margin: 0.5rem 0;
+    padding: 0.75rem;
+    background: #f8fafc;
+    border-radius: 8px;
+}
+
+.video-actual label,
+.video-externo-actual label {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: normal;
+    cursor: pointer;
+    color: #ef4444;
+    margin-top: 0.5rem;
+}
+
+/* Paneles de video */
+#panelVideoLocal,
+#panelVideoExterno {
+    margin-top: 1rem;
+    padding: 10px;
+    background: #adadad;
+    border-radius: 4px;
+}
+
+#panelVideoExterno {
+    border-left: 4px solid #3b82f6;
+}
+
+/* ---------- GALERÍA DE IMÁGENES ---------- */
+.editar-noticia-grid-galeria-edicion {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 10px;
+    margin-top: 1rem;
+}
+
+.editar-noticia-item-galeria-edicion {
+    background: #a9a9a9;
+    border: 1px solid #c1c1c1;
+    /* text-align: center; */
+    border-radius: 4px;
+    /* color: #838383; */
+    padding: 10px;
+}
+
+.editar-noticia-cabecera-item {
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: space-between; */
+    margin-bottom: 10px;
+    padding-bottom: 4px;
+    text-align: center;
+    border-bottom: 1px solid #8b8b8b;
+}
+
+.editar-noticia-cabecera-item label {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: normal;
+    cursor: pointer;
+    color: #ef4444;
+}
+
+.editar-noticia-cabecera-item strong {
+    color: #636262;
+}
+
+/* Vista previa de imagen en galería */
+.editar-noticia-imagen-actual-preview {
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+}
+
+.editar-noticia-imagen-actual-preview img {
+    max-width: 100%;
+    max-height: 100px;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+.editar-noticia-imagen-actual-preview.vacia {
+    background: #e5e7eb;
+    padding: 1rem;
+    text-align: center;
+    color: #6b7280;
+    border-radius: 4px;
+    font-style: italic;
+}
+
+/* Campo de texto para descripción de imagen */
+.editar-noticia-campo-texto-imagen {
+    margin-top: 0.75rem;
+}
+
+.editar-noticia-campo-texto-imagen label {
+    font-size: 0.8rem;
+    margin-bottom: 0.25rem;
+}
+
+.editar-noticia-campo-texto-imagen textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    resize: vertical;
+}
+
+/* ---------- BOTONES ---------- */
+.editar-noticia-acciones-form {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+    /* padding-top: 1rem; */
+    /* border-top: 1px solid #e5e7eb; */
+    /* flex-wrap: wrap; */
+    margin-bottom: 1rem;
+}
+
+.editar-noticia-btn {
+    padding: 0.5rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    /* cursor: pointer; */
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    border: none;
+}
+
+.editar-noticia-btn-principal {
+    background: #3b82f6;
+    color: white;
+}
+
+.editar-noticia-btn-principal:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+.editar-noticia-btn-secundario {
+    background: #f3f4f6;
+    color: #4b5563;
+    border: 1px solid #e5e7eb;
+}
+
+.editar-noticia-btn-secundario:hover {
+    background: #e5e7eb;
+}
+
+/* ---------- ALERTAS ---------- */
+.editar-noticia-alerta {
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem auto;
+    max-width: 1200px;
+}
+
+.editar-noticia-alerta-error {
+    background: #fee2e2;
+    color: #991b1b;
+    border-left: 4px solid #ef4444;
+}
+
+.editar-noticia-alerta-error ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 992px) {
+    .editar-noticia-grid-2 {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    
+    .editar-noticia-grid-galeria-edicion {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .editar-noticia-titulo {
+        font-size: 1.3rem;
+    }
+    
+    .editar-noticia-formulario {
+        padding: 1rem;
+        margin: 0 0.5rem;
+    }
+    
+    .editar-noticia-grid-galeria-edicion {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .editar-noticia-acciones-form {
+        flex-direction: column;
+    }
+    
+    .editar-noticia-btn {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .imagen-opciones,
+    .video-opciones {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .editar-noticia-radio-group {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .editar-noticia-imagen-actual {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    #otras-container {
+        margin-top: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .editar-noticia-campo-form input[type="text"],
+    .editar-noticia-campo-form select,
+    .editar-noticia-campo-form textarea {
+        padding: 0.6rem;
+        font-size: 0.85rem;
+    }
+    
+    .editar-noticia-imagen-actual img {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    .preview img {
+        max-width: 150px;
+        max-height: 80px;
+    }
+    
+    .preview iframe {
+        max-width: 180px;
+        max-height: 100px;
+    }
+}

@@ -1,0 +1,17 @@
+.diag-container { max-width: 900px; margin: 0 auto; padding: 4px; }
+.diag-header { text-align: center; margin-bottom: 1.5rem; font-size: 0.9rem;/*! width: 5555px; */}
+.diag-header h1 { /*! margin: 0; */ font-size: 1rem;text-transform: uppercase;margin-bottom: 10px;}
+.diag-summary { display: flex; gap: 1rem; justify-content: center; margin: 1rem 0; flex-wrap: wrap; }
+.diag-badge { padding: 0.5rem 1rem; border-radius: 20px; font-weight: bold; font-size: 0.9rem; }
+.diag-ok { background: #d1fae5; color: #065f46; }
+.diag-warn { background: #fef3c7; color: #92400e; }
+.diag-error { background: #fee2e2; color: #991b1b; }
+.diag-tabla { width: 100%; border-collapse: collapse; font-size: 0.85rem; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+.diag-tabla th { background: #1e293b; color: white; padding: 0.6rem; text-align: left; }
+.diag-tabla td { padding: 0.5rem 0.6rem; border-bottom: 1px solid #e2e8f0; }
+.diag-tabla tr:hover { background: #f8fafc; }
+.diag-status { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 12px; font-size: 0.7rem; font-weight: 600; }
+.diag-status-ok { background: #d1fae5; color: #065f46; }
+.diag-status-error { background: #fee2e2; color: #991b1b; }
+.diag-status-warn { background: #fef3c7; color: #92400e; }
+@media print { .diag-tabla th { background: #333; } }

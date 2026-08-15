@@ -1,0 +1,250 @@
+/* ============================================ */
+/* FORMULARIO DE CATEGORÍA COMPARTIDO: crear y editar. */
+/* ============================================ */
+
+:is(.admin-nueva-categoria-container, .admin-editar-categoria-container) {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+/* HEADER */
+:is(.admin-nueva-categoria-header, .admin-editar-categoria-header) {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+:is(.admin-nueva-categoria-titulo, .admin-editar-categoria-titulo) {
+    font-size: 1.8rem;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+:is(.admin-nueva-categoria-desc, .admin-editar-categoria-desc) {
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+/* ALERTAS */
+:is(.admin-nueva-categoria-alerta, .admin-editar-categoria-alerta) {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+:is(.admin-nueva-categoria-error-list, .admin-editar-categoria-error-list) {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+
+/* TARJETA PRINCIPAL */
+:is(.admin-nueva-categoria-card, .admin-editar-categoria-card) {
+    background: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+}
+
+:is(.admin-nueva-categoria-form, .admin-editar-categoria-form) {
+    padding: 1.5rem;
+}
+
+/* CAMPOS */
+:is(.admin-nueva-categoria-campo, .admin-editar-categoria-campo) {
+    margin-bottom: 1.25rem;
+}
+
+/* GRID INTERNO */
+:is(.admin-nueva-categoria-grid, .admin-editar-categoria-grid) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* CHECKBOX */
+:is(.admin-nueva-categoria-checkbox, .admin-editar-categoria-checkbox) {
+    display: flex;
+    flex-direction: column;
+}
+
+:is(.admin-nueva-categoria-checkbox-label, .admin-editar-categoria-checkbox-label) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+:is(.admin-nueva-categoria-checkbox-label, .admin-editar-categoria-checkbox-label) input {
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+}
+
+:is(.admin-nueva-categoria-checkbox-label, .admin-editar-categoria-checkbox-label) span {
+    font-weight: normal;
+}
+
+/* INFO ADICIONAL */
+:is(.admin-nueva-categoria-info, .admin-editar-categoria-info) {
+    background: #f8fafc;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin: 1rem 0;
+    border: 1px solid #e5e7eb;
+}
+
+:is(.admin-nueva-categoria-info-item, .admin-editar-categoria-info-item) {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+}
+
+:is(.admin-nueva-categoria-info-item, .admin-editar-categoria-info-item):first-child {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+:is(.admin-nueva-categoria-info-icono, .admin-editar-categoria-info-icono) {
+    font-size: 1.2rem;
+}
+
+:is(.admin-nueva-categoria-info-contenido, .admin-editar-categoria-info-contenido) {
+    flex: 1;
+}
+
+:is(.admin-nueva-categoria-info-contenido, .admin-editar-categoria-info-contenido) strong {
+    display: block;
+    font-size: 0.8rem;
+    color: #1f2937;
+    margin-bottom: 0.2rem;
+}
+
+:is(.admin-nueva-categoria-info-contenido, .admin-editar-categoria-info-contenido) code {
+    display: inline-block;
+    background: #e5e7eb;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+}
+
+:is(.admin-nueva-categoria-info-contenido, .admin-editar-categoria-info-contenido) small {
+    display: block;
+    font-size: 0.7rem;
+    color: #6b7280;
+    margin-top: 0.2rem;
+}
+
+/* ACCIONES */
+:is(.admin-nueva-categoria-acciones, .admin-editar-categoria-acciones) {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+:is(.admin-nueva-categoria-btn-guardar, .admin-editar-categoria-btn-guardar) {
+    background: #3b82f6;
+    color: white;
+}
+
+:is(.admin-nueva-categoria-btn-guardar, .admin-editar-categoria-btn-guardar):hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+:is(.admin-nueva-categoria-btn-cancelar, .admin-editar-categoria-btn-cancelar) {
+    background: #6b7280;
+    color: white;
+}
+
+:is(.admin-nueva-categoria-btn-cancelar, .admin-editar-categoria-btn-cancelar):hover {
+    background: #4b5563;
+    transform: translateY(-2px);
+}
+
+/* ============================================ */
+/* RESPONSIVE */
+/* ============================================ */
+
+@media (max-width: 768px) {
+    :is(.admin-nueva-categoria-container, .admin-editar-categoria-container) {
+        padding: 0.75rem;
+    }
+    
+    :is(.admin-nueva-categoria-titulo, .admin-editar-categoria-titulo) {
+        font-size: 1.5rem;
+    }
+    
+    :is(.admin-nueva-categoria-form, .admin-editar-categoria-form) {
+        padding: 1.25rem;
+    }
+    
+    :is(.admin-nueva-categoria-grid, .admin-editar-categoria-grid) {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    
+    :is(.admin-nueva-categoria-acciones, .admin-editar-categoria-acciones) {
+        flex-direction: column;
+    }
+    
+    :is(.admin-nueva-categoria-btn, .admin-editar-categoria-btn) {
+        width: 100%;
+    }
+    
+    :is(.admin-nueva-categoria-info-item, .admin-editar-categoria-info-item) {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    :is(.admin-nueva-categoria-info-icono, .admin-editar-categoria-info-icono) {
+        font-size: 1rem;
+    }
+    
+    :is(.admin-nueva-categoria-info-contenido, .admin-editar-categoria-info-contenido) {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    :is(.admin-nueva-categoria-container, .admin-editar-categoria-container) {
+        padding: 0.5rem;
+    }
+    
+    :is(.admin-nueva-categoria-titulo, .admin-editar-categoria-titulo) {
+        font-size: 1.3rem;
+    }
+    
+    :is(.admin-nueva-categoria-desc, .admin-editar-categoria-desc) {
+        font-size: 0.8rem;
+    }
+    
+    :is(.admin-nueva-categoria-form, .admin-editar-categoria-form) {
+        padding: 1rem;
+    }
+    
+    :is(.admin-nueva-categoria-campo, .admin-editar-categoria-campo) label {
+        font-size: 0.8rem;
+    }
+    
+    :is(.admin-nueva-categoria-campo, .admin-editar-categoria-campo) input[type="text"],
+    :is(.admin-nueva-categoria-campo, .admin-editar-categoria-campo) input[type="number"],
+    :is(.admin-nueva-categoria-campo, .admin-editar-categoria-campo) textarea {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.85rem;
+    }
+    
+    :is(.admin-nueva-categoria-btn, .admin-editar-categoria-btn) {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+    }
+    
+    :is(.admin-nueva-categoria-checkbox-label, .admin-editar-categoria-checkbox-label) {
+        font-size: 0.85rem;
+    }
+}

@@ -1,0 +1,224 @@
+/* TÉRMINOS Y CONDICIONES - ESTILOS CON PREFIJO public-terminos- */
+/* Grid: 3 → 2 → 1 columnas */
+h1 {
+  text-align: center;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+/* TÉRMINOS Y CONDICIONES - ESTILOS CON PREFIJO public-terminos- */
+/* Grid: 3 → 2 → 1 columnas */
+
+
+.public-terminos-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    /*! padding: 1rem; */
+}
+
+/* HEADER */
+.public-terminos-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    margin: 0;
+}
+
+.public-terminos-titulo {
+    font-size: 1rem;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    margin-top: 0;
+}
+
+.public-terminos-descripcion {
+    color: #6b7280;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+}
+
+/* GRID DE TARJETAS (3 → 2 → 1) */
+.public-terminos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    margin: 0 10px;
+}
+
+/* TARJETA INDIVIDUAL */
+.public-terminos-card {
+    background: #ffffff;
+    border-radius: 4px;
+    padding: 7px;
+    transition: all 0.3s ease;
+    box-shadow: 2px 2px 8px rgb(250, 247, 225);
+    border: 1px solid #e5e7eb;
+}
+
+.public-terminos-card:hover {
+    transform: translateY(-4px);
+}
+
+/* ICONO */
+.public-terminos-card-icono {
+    font-size: 1.4rem;
+    /*! margin-bottom: 0.75rem; */
+    float: left;
+    margin-right: 4px;
+    margin-top: -10px;
+}
+
+/* TÍTULO DE TARJETA */
+.public-terminos-card-titulo {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #1f2937;
+    /*! margin: 0 0 0.75rem 0; */
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #d5d5d5;
+    display: block;
+}
+
+/* TEXTO DE TARJETA */
+.public-terminos-card-texto {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: #4b5563;
+  margin: 9px;
+  text-align: justify;
+}
+
+/* LISTA EN TARJETA */
+.public-terminos-card-lista {
+    margin: 0.5rem 0 0 1.25rem;
+    font-size: 0.85rem;
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+.public-terminos-card-lista li {
+    margin: 0.25rem 0;
+}
+
+/* ENLACE */
+.public-terminos-enlace {
+    color: #3b82f6;
+    text-decoration: none;
+}
+
+.public-terminos-enlace:hover {
+    text-decoration: underline;
+}
+
+/* FOOTER */
+.public-terminos-footer {
+    text-align: center;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 1rem;
+    border: 1px solid #e5e7eb;
+}
+
+.public-terminos-fecha {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin: 0 0 1rem 0;
+}
+
+.public-terminos-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /*! gap: 0.5rem; */
+    padding: 0.5rem 1.5rem;
+    background: #3b82f6;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    border: 2px solid white;
+    /*! width: 4444444444px; */
+}
+
+.public-terminos-btn:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+/* RESPONSIVE - GRID 3 → 2 → 1 */
+
+/* Tablet: 2 columnas */
+@media (max-width: 768px) {
+    .public-terminos-container {
+        padding: 0.75rem;
+    }
+    
+    .public-terminos-titulo {
+        font-size: 1.5rem;
+    }
+    
+    .public-terminos-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .public-terminos-card {
+        padding: 1.25rem;
+    }
+    
+    .public-terminos-card-titulo {
+        font-size: 1rem;
+    }
+    
+    .public-terminos-card-texto {
+        font-size: 0.8rem;
+    }
+}
+
+/* Móvil: 1 columna */
+@media (max-width: 480px) {
+    .public-terminos-container {
+        padding: 0.5rem;
+    }
+    
+    .public-terminos-titulo {
+        font-size: 1.3rem;
+    }
+    
+    .public-terminos-descripcion {
+        font-size: 0.85rem;
+    }
+    
+    .public-terminos-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .public-terminos-card {
+        padding: 1rem;
+    }
+    
+    .public-terminos-card-icono {
+        font-size: 1.5rem;
+    }
+    
+    .public-terminos-card-titulo {
+        font-size: 0.95rem;
+    }
+    
+    .public-terminos-card-texto,
+    .public-terminos-card-lista {
+        font-size: 0.75rem;
+    }
+    
+    .public-terminos-footer {
+        padding: 1rem;
+    }
+    
+    .public-terminos-btn {
+        padding: 0.5rem 1.2rem;
+        font-size: 0.8rem;
+    }
+}

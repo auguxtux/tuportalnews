@@ -1,0 +1,254 @@
+
+/* ============================================ */
+/* EDITAR COMENTARIO - ESTILOS CON PREFIJO usuario-editar-comentario- */
+/* ============================================ */
+
+.usuario-editar-comentario-container {
+  max-width: 98%;
+  margin: 0 auto;
+}
+
+/* TÍTULO */
+.usuario-editar-comentario-titulo {
+  font-size: 1rem;
+  color: #1f2937;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  padding: 4px;
+  background: #bfbfbf;
+}
+
+/* ALERTAS */
+.usuario-editar-comentario-alerta {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.usuario-editar-comentario-alerta-error {
+    background: #fee2e2;
+    color: #991b1b;
+    border-left: 4px solid #ef4444;
+}
+
+.usuario-editar-comentario-error-list {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+
+/* FORMULARIO PRINCIPAL */
+.usuario-editar-comentario-formulario {
+  background: #ffffff;
+  overflow: hidden;
+  width: 98%;
+  margin: 0 auto;
+}
+
+/* INFO NOTICIA */
+.usuario-editar-comentario-info-noticia {
+  padding: 1rem 2rem;
+  background: #f8fafc;
+  display: flex;
+  justify-content: space-around;
+}
+
+.usuario-editar-comentario-info-item {
+    margin: 0.5rem 0;
+    font-size: 0.85rem;
+    color: #374151;
+}
+
+.usuario-editar-comentario-info-label {
+  display: inline-block;
+  min-width: 4.5rem;
+  color: #6b7280;
+}
+
+.usuario-editar-comentario-info-link {
+  display: inline-block;
+  min-width: 4.5rem;
+  font-size: 1.1rem;
+}
+
+.usuario-editar-comentario-info-link:hover {
+    text-decoration: underline;
+}
+
+.usuario-editar-comentario-info-valor {
+    color: #1f2937;
+}
+
+/* BADGES DE ESTADO */
+.usuario-editar-comentario-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 1rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.usuario-editar-comentario-badge-aprobado {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.usuario-editar-comentario-badge-pendiente {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.usuario-editar-comentario-badge-rechazado {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* NOTA */
+.usuario-editar-comentario-nota {
+  padding: 0.5rem;
+  background: #fef3c7;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  color: #92400e;
+  text-align: center;
+  width: 90%;
+  margin: 0 auto;
+  border-radius: 2rem;
+}
+
+/* FORMULARIO */
+.usuario-editar-comentario-form {
+  padding: 1rem;
+  border: 1px inset white;
+}
+
+.usuario-editar-comentario-campo {
+    margin-bottom: 1.5rem;
+}
+
+.usuario-editar-comentario-textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    font-family: inherit;
+    resize: vertical;
+}
+
+/* CONTADOR DE CARACTERES */
+.usuario-editar-comentario-contador {
+    text-align: right;
+    margin-top: 0.5rem;
+    font-size: 0.7rem;
+}
+
+.usuario-editar-comentario-contador-numero {
+    font-weight: 600;
+    color: #6b7280;
+}
+
+.usuario-editar-comentario-contador-texto {
+    color: #9ca3af;
+}
+
+/* ACCIONES */
+.usuario-editar-comentario-acciones {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.usuario-editar-comentario-btn-guardar {
+    background: #3b82f6;
+    color: white;
+}
+
+.usuario-editar-comentario-btn-guardar:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+.usuario-editar-comentario-btn-cancelar {
+    background: #6b7280;
+    color: white;
+}
+
+.usuario-editar-comentario-btn-cancelar:hover {
+    background: #4b5563;
+    transform: translateY(-2px);
+}
+
+/* ============================================ */
+/* RESPONSIVE */
+/* ============================================ */
+
+@media (max-width: 768px) {
+    .usuario-editar-comentario-container {
+        padding: 0.75rem;
+    }
+    
+    .usuario-editar-comentario-titulo {
+        font-size: 1.5rem;
+    }
+    
+    .usuario-editar-comentario-form {
+        padding: 1.25rem;
+    }
+    
+    .usuario-editar-comentario-acciones {
+        flex-direction: column;
+    }
+    
+    .usuario-editar-comentario-btn {
+        width: 100%;
+    }
+    
+    .usuario-editar-comentario-info-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .usuario-editar-comentario-info-label {
+        min-width: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .usuario-editar-comentario-container {
+        padding: 0.5rem;
+    }
+    
+    .usuario-editar-comentario-titulo {
+        font-size: 1.3rem;
+    }
+    
+    .usuario-editar-comentario-form {
+        padding: 1rem;
+    }
+    
+    .usuario-editar-comentario-label {
+        font-size: 0.8rem;
+    }
+    
+    .usuario-editar-comentario-textarea {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.85rem;
+    }
+    
+    .usuario-editar-comentario-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+    }
+    
+    .usuario-editar-comentario-info-noticia {
+        padding: 0.75rem 1rem;
+    }
+    
+    .usuario-editar-comentario-info-item {
+        font-size: 0.8rem;
+    }
+}

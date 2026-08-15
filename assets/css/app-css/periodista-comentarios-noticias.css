@@ -1,0 +1,208 @@
+/* Vista específica de comentarios recibidos por el articulista. */
+.comentarios-recibidos-page {
+    width: min(1120px, calc(100% - 20px));
+    margin: 0 auto;
+    padding: 10px 0 2rem;
+}
+
+.comentarios-recibidos-page > .panel-periodista-seccion-header {
+    justify-content: space-between;
+    padding: 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.comentarios-recibidos-page > .panel-periodista-seccion-header > div {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.comentarios-recibidos-page .panel-periodista-titulo {
+    width: 100%;
+    margin: 0 0 0.25rem;
+    padding: 1px;
+    border-bottom: 1px solid #000;
+    background: transparent;
+    color: #000;
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    text-align: center;
+}
+
+.comentarios-recibidos-page .panel-periodista-subtitulo {
+    margin: 0;
+    color: #64748b;
+}
+
+.comentarios-recibidos-filtros {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 9px;
+    padding: 10px;
+    border: 1px solid #dbe3ef;
+    border-radius: 4px;
+    background: #f8fafc;
+}
+
+.comentarios-recibidos-filtros label {
+    grid-column: 1 / -1;
+    color: #334155;
+    font-size: 0.85rem;
+}
+
+.comentarios-recibidos-filtros select {
+    width: 100%;
+    min-height: 42px;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid #94a3b8;
+    border-radius: 4px;
+    background: #fff;
+    color: #0f172a;
+}
+
+.comentarios-recibidos-filtros .panel-periodista-btn-accion {
+    min-height: 42px;
+    padding: 0.55rem 1rem;
+    white-space: nowrap;
+}
+
+.comentarios-recibidos-resumen {
+    display: inline-flex;
+    gap: 0.35rem;
+    margin: 1rem 0;
+    padding: 0.45rem 0.75rem;
+    border-radius: 4px;
+    background: #eff6ff;
+    color: #1e40af;
+}
+
+.comentarios-recibidos-page .panel-periodista-comentarios-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 9px;
+    width: 100%;
+}
+
+.comentarios-recibidos-page .panel-periodista-seccion-titulo {
+    grid-column: 1 / -1;
+    margin: 1rem 0 0;
+    padding: 0.6rem 0.75rem;
+    border: 0;
+    border-left: 4px solid #2563eb;
+    border-radius: 4px;
+    background: #eff6ff;
+    font-size: 0.95rem;
+    text-transform: none;
+}
+
+.comentarios-recibidos-page .panel-periodista-comentario-card {
+    gap: 9px;
+    min-width: 0;
+    padding: 10px;
+    border: 1px solid #dbe3ef;
+    border-radius: 4px;
+    box-shadow: none;
+}
+
+.comentarios-recibidos-page .panel-periodista-comentario-header {
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+
+.comentarios-recibidos-page .panel-periodista-comentario-autor {
+    min-width: 0;
+    color: #1e3a8a;
+    font-size: 0.9rem;
+}
+
+.comentarios-recibidos-page .panel-periodista-autor-avatar {
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+}
+
+.comentarios-recibidos-page .panel-periodista-comentario-fecha {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+.comentarios-recibidos-page .panel-periodista-comentario-contenido {
+    overflow-wrap: anywhere;
+    color: #334155;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    text-align: justify;
+}
+
+.comentarios-recibidos-page .panel-periodista-comentario-contenido img,
+.comentarios-recibidos-page .panel-periodista-comentario-contenido video {
+    max-width: 100%;
+    height: auto;
+}
+
+.comentarios-recibidos-page .panel-periodista-comentario-noticia {
+    margin-top: auto;
+    text-align: right;
+}
+
+.comentarios-recibidos-page .panel-periodista-comentario-noticia a {
+    display: inline-flex;
+    min-height: 36px;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem 0.75rem;
+    border: 1px solid #2563eb;
+    border-radius: 4px;
+    color: #1d4ed8;
+    font-weight: 700;
+}
+
+.comentarios-recibidos-page .panel-periodista-comentario-noticia a:hover {
+    background: #2563eb;
+    color: #fff;
+    text-decoration: none;
+}
+
+.comentarios-recibidos-paginacion {
+    margin-top: 1rem;
+    padding: 0.75rem;
+}
+
+@media (max-width: 768px) {
+    .comentarios-recibidos-page .panel-periodista-comentarios-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .comentarios-recibidos-filtros {
+        grid-template-columns: 1fr;
+    }
+
+    .comentarios-recibidos-filtros label {
+        grid-column: auto;
+    }
+
+    .comentarios-recibidos-filtros .panel-periodista-btn-accion {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .comentarios-recibidos-page {
+        width: calc(100% - 12px);
+    }
+
+    .comentarios-recibidos-page > .panel-periodista-seccion-header {
+        align-items: stretch;
+    }
+
+    .comentarios-recibidos-page .panel-periodista-comentario-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .comentarios-recibidos-page .panel-periodista-comentario-noticia a {
+        width: 100%;
+    }
+}

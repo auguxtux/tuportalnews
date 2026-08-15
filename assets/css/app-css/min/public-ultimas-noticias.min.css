@@ -1,0 +1,412 @@
+/* PÁGINA DE ÚLTIMAS NOTICIAS - 4 COLUMNAS RESPONSIVE */
+h1 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  text-align: center;
+}
+.ultimas-pagina-noticias {
+    max-width: 1200px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.ultimas-titulo-principal {
+    font-size: 1rem;
+    color: #6f6f6f;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: uppercase;
+    background: #bebebe;
+    padding: 7px;
+}
+
+.ultimas-subtitulo-pagina {
+    color: #6b7280;
+    margin: 4px;
+    text-align: center;
+}
+
+.ultimas-alerta {
+    padding: 1rem 1.5rem;
+    border-radius: 0.75rem;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    width: 100%;
+    box-sizing: border-box;
+    grid-column: 1 / -1;
+}
+
+.ultimas-alerta-error {
+    background: #fee2e2;
+    color: #991b1b;
+    border-left: 4px solid #dc2626;
+}
+
+.ultimas-alerta-info {
+    background: #e0f2fe;
+    color: #075985;
+    border-left: 4px solid #0284c7;
+}
+
+.ultimas-resultados-info {
+    color: #05f;
+    font-size: 0.85rem;
+    margin-left: 2%;
+    margin-bottom: 1rem;
+}
+
+/* LISTA DE NOTICIAS EN GRID RESPONSIVE */
+.ultimas-lista-noticias {
+    display: grid;
+    margin: 0;
+    width: 100%;
+}
+
+.ultimas-tarjeta-noticia-horizontal {
+    box-shadow: none;
+    border: 1px solid #f3f4f6;
+    padding: 0px;
+}
+
+.ultimas-tarjeta-noticia-horizontal img {
+  height: 250px;
+  border-radius: 3px;
+  object-fit: cover;
+}
+
+.ultimas-cabe-titulo-sbtitulo {
+    padding: 0;
+    padding: 4px;
+}
+
+.ultimas-tarjeta-titulo {
+    font-size: 1rem;
+    line-height: 1.25;
+    text-align: center;
+    padding-bottom: 7px;
+}
+
+.ultimas-tarjeta-titulo a  {
+  transition: color 0.3s;
+  word-wrap: break-word;
+  word-break: break-word;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  color: #1a1a1c;
+}
+
+.ultimas-tarjeta-titulo a:hover {
+    color: #3b82f6;
+}
+
+.ultimas-tarjeta-subtitulo {
+  color: #6b7280;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  margin-bottom: 4px;
+}
+/* Botón de leer más */
+.ultimas-btn {
+  padding: 7px 0;
+  color: #0070ff;
+  font-weight: 500;
+  background: none;
+  border-bottom: 1px solid #c4c3c3;
+}
+.ultimas-btn-small:hover {
+    transform: scale(1.02);
+    background: none;
+    color: green;
+    padding-left: 9px;
+}
+
+/* MEDIA QUERIES - SISTEMA DE 4 COLUMNAS */
+
+/* Escritorio grande - 4 columnas (default) */
+@media (min-width: 1200px) {
+    .ultimas-lista-noticias  {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+    
+    .ultimas-tarjeta-noticia-horizontal > a:first-child {
+        height: 160px;
+    }
+}
+
+/* Escritorio mediano - 4 columnas (ajuste) */
+@media (min-width: 1025px) and (max-width: 1199px) {
+    .ultimas-lista-noticias {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4px;
+    }
+    
+    .ultimas-tarjeta-noticia-horizontal > a:first-child {
+        height: 150px;
+    }
+    
+    .ultimas-tarjeta-titulo {
+        font-size: 1rem;
+    }
+    
+    .ultimas-tarjeta-subtitulo {
+        font-size: 0.8rem;
+    }
+}
+
+/* Tablets horizontales - 3 COLUMNAS */
+@media (min-width: 901px) and (max-width: 1024px) {
+    .ultimas-lista-noticias {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
+    }
+    
+    .ultimas-pagina-noticias {
+        max-width: 1100px;
+    }
+    
+    .ultimas-tarjeta-noticia-horizontal > a:first-child {
+        height: 155px;
+    }
+    
+    .ultimas-tarjeta-titulo {
+        font-size: 1.05rem;
+    }
+}
+
+/* Tablets verticales - 2 COLUMNAS */
+@media (min-width: 641px) and (max-width: 900px) {
+    .ultimas-lista-noticias {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+    .ultimas-tarjeta-noticia-horizontal > a:first-child {
+        height: 170px;
+    }
+    
+    .ultimas-tarjeta-titulo {
+        font-size: 1.15rem;
+    }
+    
+    .ultimas-tarjeta-subtitulo {
+        font-size: 0.9rem;
+    }
+    
+    .ultimas-btn-small {
+        padding: 0.7rem 0.75rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Móviles grandes - 1 COLUMNA */
+@media (max-width: 640px) {
+    .ultimas-lista-noticias {
+        grid-template-columns: 1fr;
+    }
+    
+    .ultimas-pagina-noticias {
+        padding: 2px;
+    }
+    
+    .ultimas-titulo-principal {
+        font-size: 2rem;
+    }
+    
+    .ultimas-subtitulo-pagina {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+    
+    .ultimas-tarjeta-noticia-horizontal > a:first-child {
+        height: 200px;
+    }
+    
+    .ultimas-tarjeta-titulo {
+        font-size: 1.25rem;
+    }
+    
+    .ultimas-tarjeta-subtitulo {
+        font-size: 0.95rem;
+    }
+    
+    .ultimas-btn-small {
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+    }
+    
+    .ultimas-pagina-link,
+    .ultimas-pagina-activo {
+        min-width: 2.2rem;
+        height: 2.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Móviles pequeños - 1 COLUMNA (ajustes) */
+@media (max-width: 480px) {
+    .ultimas-pagina-noticias {
+        padding: 1rem 0.75rem;
+        padding: 2px;
+    }
+    
+    .ultimas-titulo-principal {
+        font-size: 1.75rem;
+    }
+    
+    .ultimas-lista-noticias {
+        gap: 1rem;
+    }
+    
+    .ultimas-tarjeta-noticia-horizontal > a:first-child {
+        height: 180px;
+    }
+    
+    .ultimas-tarjeta-titulo {
+        font-size: 1.1rem;
+    }
+    
+    .ultimas-tarjeta-subtitulo {
+        font-size: 0.9rem;
+    }
+    
+    .ultimas-paginacion {
+        padding: 0.75rem;
+    }
+    
+    .ultimas-pagina-link,
+    .ultimas-pagina-activo {
+        min-width: 2rem;
+        height: 2rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* Móviles muy pequeños */
+@media (max-width: 360px) {
+    .ultimas-titulo-principal {
+        font-size: 1.5rem;
+    }
+    
+    .ultimas-tarjeta-noticia-horizontal > a:first-child {
+        height: 150px;
+    }
+    
+    .ultimas-tarjeta-titulo {
+        font-size: 1rem;
+    }
+    
+    .ultimas-pagina-link,
+    .ultimas-pagina-activo {
+        min-width: 1.8rem;
+        height: 1.8rem;
+        font-size: 0.8rem;
+        padding: 0 0.4rem;
+    }
+}
+
+
+/* ============================================ */
+/* PAGINACIÓN - ESTILOS RESPONSIVE */
+/* ============================================ */
+
+.ultimas-paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+/* Estilos base para todos los elementos de paginación */
+.ultimas-pagina-link,
+.ultimas-pagina-activo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0 0.75rem;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+/* Enlaces normales */
+.ultimas-pagina-link {
+    color: #4b5563;
+}
+
+.ultimas-pagina-link:hover {
+    background: #f3f4f6;
+    border-color: #3b82f6;
+    transform: translateY(-2px);
+}
+
+/* Elemento activo (página actual) */
+.ultimas-pagina-activo {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* Botones "Anterior" y "Siguiente" (si los hay) */
+.ultimas-pagina-link:first-child,
+.ultimas-pagina-link:last-child {
+    padding: 0 1rem;
+}
+
+/* ============================================ */
+/* RESPONSIVE */
+/* ============================================ */
+
+/* Tablet */
+@media (max-width: 768px) {
+    .ultimas-pagina-link,
+    .ultimas-pagina-activo {
+        min-width: 2.2rem;
+        height: 2.2rem;
+        font-size: 0.85rem;
+        padding: 0 0.6rem;
+    }
+}
+
+/* Móvil */
+@media (max-width: 480px) {
+    .ultimas-paginacion {
+        gap: 0.3rem;
+    }
+    
+    .ultimas-pagina-link,
+    .ultimas-pagina-activo {
+        min-width: 2rem;
+        height: 2rem;
+        font-size: 0.75rem;
+        padding: 0 0.5rem;
+    }
+}
+
+/* Móvil muy pequeño - apilar elementos */
+@media (max-width: 380px) {
+    .ultimas-paginacion {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .ultimas-pagina-link,
+    .ultimas-pagina-activo {
+        width: 100%;
+        justify-content: center;
+    }
+}

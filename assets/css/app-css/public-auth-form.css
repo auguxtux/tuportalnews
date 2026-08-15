@@ -1,0 +1,106 @@
+.public-login-header,
+.public-registro-header {
+    text-align: center;
+    padding: 1.5rem 1.5rem 0 1.5rem;
+}
+
+.public-login-desc,
+.public-registro-desc {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.public-login-campo input:focus,
+.public-registro-campo input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+}
+
+.public-login-btn-ingresar,
+.public-registro-btn-registrar {
+    background: #3b82f6;
+    color: white;
+}
+
+.public-login-enlace,
+.public-registro-enlace {
+    color: #3b82f6;
+    text-decoration: none;
+}
+
+.public-login-enlace:hover,
+.public-registro-enlace:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .public-login-container,
+    .public-registro-container {
+        padding: 0.75rem;
+    }
+
+    .public-login-titulo,
+    .public-registro-titulo {
+        font-size: 1.5rem;
+    }
+
+    .public-login-header,
+    .public-registro-header {
+        padding: 1rem 1rem 0 1rem;
+    }
+
+    .public-login-form,
+    .public-registro-form {
+        padding: 1rem;
+    }
+
+    .public-login-alerta,
+    .public-registro-alerta {
+        margin: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .public-login-container,
+    .public-registro-container {
+        padding: 0.5rem;
+    }
+
+    .public-login-titulo,
+    .public-registro-titulo {
+        font-size: 1.3rem;
+    }
+
+    .public-login-desc,
+    .public-registro-desc {
+        font-size: 0.8rem;
+    }
+
+    .public-login-campo label,
+    .public-registro-campo label {
+        font-size: 0.8rem;
+    }
+
+    .public-login-campo input,
+    .public-registro-campo input[type="text"],
+    .public-registro-campo input[type="email"],
+    .public-registro-campo input[type="tel"],
+    .public-registro-campo input[type="date"],
+    .public-registro-campo input[type="password"] {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .public-login-btn,
+    .public-registro-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    .public-login-enlaces p,
+    .public-registro-enlaces p {
+        font-size: 0.8rem;
+    }
+}

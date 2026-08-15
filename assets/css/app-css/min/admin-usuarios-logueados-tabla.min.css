@@ -1,0 +1,216 @@
+/* =========================================================== */    
+/* Usuarios logueados - TABLA */
+/* =========================================================== */
+.admin-container  {
+    max-width: 1200px;
+    margin: 0 auto;
+    /*! padding: 1rem; */
+}
+.admin-container h1 {
+  font-size: 1rem;
+  text-align: center;
+  padding: 4px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  border-top: 1px inset white;
+}
+.stats-grid  {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+.stat-card  {
+    background: white;
+    padding: 4px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-left: 1px solid #2563eb;
+}
+.stat-number  {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #2563eb;
+}
+.stat-label  {
+    font-size: 0.7rem;
+    color: #666;
+}
+.filtros  {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+.filtros form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  background: #d9d9d9;
+  width: 900px;
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 4px;
+}
+.filtros-grupo label  {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-right: 4px;
+}
+.filtros-grupo select, .filtros-grupo input  {
+    padding: 0.4rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    min-width: 130px;
+}
+.btn  {
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.8rem;
+    display: inline-block;
+}
+.btn-primary  {
+    background: #2563eb;
+    color: white;
+    font-weight: bold;
+}
+.btn-secondary  {
+    background: #02a20c;
+    color: white;
+    font-weight: bold;
+    margin: 0 4px;
+}
+.mensaje  {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+}
+.mensaje-success  {
+    background: #d1fae5;
+    border: 1px solid #10b981;
+    color: #065f46;
+}
+.mensaje-error  {
+    background: #fee2e2;
+    border: 1px solid #ef4444;
+    color: #991b1b;
+}
+.tabla-container  {
+    overflow-x: auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+table  {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+}
+th, td  {
+    padding: 0.6rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    /*! width: 345px; */
+}
+th  {
+    background: #f8f9fa;
+    font-weight: 600;
+}
+.usuario-info  {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.usuario-avatar img  {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.usuario-nombre small  {
+    font-size: 0.65rem;
+    color: #999;
+    display: block;
+}
+.rol-badge, .estado-badge  {
+    display: inline-block;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+}
+.rol-admin  {
+    background: #dbeafe;
+    color: #1e40af;
+}
+.rol-periodista  {
+    background: #d1fae5;
+    color: #065f46;
+}
+.rol-usuario  {
+    background: #fed7aa;
+    color: #92400e;
+}
+.estado-activo  {
+    background: #d1fae5;
+    color: #065f46;
+}
+.estado-inactivo  {
+    background: #fee2e2;
+    color: #991b1b;
+}
+.estado-bloqueado  {
+    background: #fecaca;
+    color: #7f1d1d;
+}
+.estado-pendiente  {
+    background: #fed7aa;
+    color: #92400e;
+}
+.acciones  {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+.acciones a  {
+    text-decoration: none;
+    font-size: 1rem;
+}
+.paginacion  {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+.pagina  {
+    padding: 0.3rem 0.6rem;
+    background: #f0f0f0;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+}
+.pagina.active  {
+    background: #2563eb;
+    color: white;
+}
+.info-footer  {
+    margin: 1rem;
+    padding: 0.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #666;
+}
+@media (max-width: 768px)  {
+    .filtros form  {
+        flex-direction: column;
+    }
+    .stats-grid  {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

@@ -1,0 +1,3 @@
+<IfModule mod_php8.c>
+    php_value disable_functions "exec,passthru,shell_exec,system,proc_open,popen,show_source"
+</IfModule>

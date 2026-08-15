@@ -1,0 +1,157 @@
+/* ============================================ */
+/* FOOTER - ESTILOS RESPONSIVE */
+/* ============================================ */
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  background: #e1e1e1;
+  border-top: 1px inset #d5d5d5;
+}
+
+/* Columnas */
+.footer-columna {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Títulos */
+.footer-titulo {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px groove #3b82f6;
+  display: inline-block;
+  text-align: center;
+}
+
+/* Lista de enlaces */
+.footer-lista {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.2rem 0;
+}
+    
+.footer-lista li a  {
+  color: #0051d7;
+  text-decoration: none;
+  transition: color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.85rem;
+}
+.footer-lista li a:hover {
+    color: #3b82f6;
+    transform: translateX(4px);
+}
+
+/* Newsletter */
+.footer-newsletter-texto {
+    color: #6b7280;
+    font-size: 0.85rem;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.footer-newsletter-form {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.footer-newsletter-input {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.footer-newsletter-btn {
+    padding: 0.6rem 1.2rem;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.footer-newsletter-btn:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+.new-redes-sociales {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* ============================================ */
+/* RESPONSIVE */
+/* ============================================ */
+
+/* Tablet */
+@media (max-width: 768px) {
+    .footer-grid {
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+    
+    .footer-titulo {
+        font-size: 1.1rem;
+    }
+    
+    .footer-newsletter-form {
+        flex-direction: column;
+    }
+    
+    .footer-newsletter-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    .footer-lista {
+    text-align: left;
+}
+     
+}
+
+/* Móvil */
+@media (max-width: 480px) {
+    .footer-grid {
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .footer-columna {
+        text-align: center;
+        align-items: center;
+    }
+    
+    .footer-titulo {
+        font-size: 1rem;
+    }
+    
+    .footer-lista li a {
+       font-size: 0.8rem;
+    }
+    .footer-newsletter-texto {
+        text-align: center;
+    }
+    
+    .footer-newsletter-input {
+        width: 100%;
+    }
+}

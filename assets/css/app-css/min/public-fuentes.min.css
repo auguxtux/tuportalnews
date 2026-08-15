@@ -1,0 +1,469 @@
+/* ============================================ */
+/* FUENTES - PÁGINA PÚBLICA                     */
+/* Diseño responsive, limpio y profesional      */
+/* ============================================ */
+
+/* Contenedor principal */
+.contenido-principal {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ============================================ */
+/* CABECERA                                     */
+/* ============================================ */
+.fuente-header {
+    text-align: center;
+}
+
+.fuente-header h1 {
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-transform: uppercase;
+  color: #94302f;
+}
+
+.fuente-icono {
+    font-size: 1.3rem;
+}
+
+.fuente-total {
+    color: #0070ff;
+    font-size: 0.95rem;
+    text-align: right;
+    margin-right: 4%;
+    font-weight: 700;
+}
+
+.fuente-comentario {
+  background: #cdddec;
+  border-radius: 8px;
+  font-style: italic;
+  color: #00498e;
+  font-size: 0.9rem;
+}
+.fuente-header-content .btn-back {
+    color: #495057;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    width: 100%;
+    color: blue;
+}
+
+.fuente-header-content .btn-back:hover {
+  color: #0c9b00;
+  font-weight: bold;
+}
+
+/* ============================================ */
+/* LISTADO DE FUENTES (TARJETAS)                */
+/* ============================================ */
+
+.tarjeta-metadatos {
+  display: flex;
+  font-size: 0.75rem;
+  justify-content: center;
+  gap: 10px;
+  margin: 9px 0;
+}
+ 
+
+.tarjeta-fuente-completa:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.ultima-noticia-titulo {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.ultima-noticia-titulo a {
+    text-decoration: none;
+    color: #1e293b;
+}
+
+.ultima-noticia-titulo a:hover {
+    color: #2563eb;
+}
+
+.tarjeta-fuente-sin-noticias {
+    padding: 1rem;
+    text-align: center;
+    color: #6c757d;
+}
+
+
+.btn-ver-todas:hover {
+  background: linear-gradient(135deg, #0b64ff 0%,#9bbfff 100%);
+}
+
+/* ============================================ */
+/* GRID DE NOTICIAS (CASO 2 - FUENTE SELECCIONADA) */
+/* ============================================ */
+.grid-noticias {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 7px;
+    margin: 10px 0;
+}
+
+.tarjeta-noticia {
+    padding: 10px;
+}
+
+.tarjeta-imagen {
+    margin-bottom: 0.75rem;
+    border-radius: 4px;
+    height: 180px;
+}
+
+.tarjeta-titulo {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.05rem;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.tarjeta-titulo a {
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.tarjeta-titulo a:hover {
+    color: #2563eb;
+}
+
+.tarjeta-subtitulo {
+    margin: 0 0 0.75rem 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.tarjeta-extracto {
+  font-size: 0.85rem;
+  color: #495057;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  text-align: justify;
+  padding: 0 7px;
+}
+/* Metadatos simples */
+.tarjeta-metadatos-simple {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.7rem;
+    color: #6c757d;
+    margin-bottom: 1rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid #e9ecef;
+    justify-content: space-around;
+}
+
+.tarjeta-metadatos-simple .separador {
+    color: #dee2e6;
+}
+
+/* Botón leer más */
+.tarjeta-acciones .btn-small {
+    background: #e9ecef;
+    /*! color: #495057; */
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    width: 100%;
+    text-align: center;
+}
+
+.tarjeta-acciones .btn-small:hover {
+    background: #2563eb;
+    color: white;
+}
+
+/* ============================================ */
+/* PAGINACIÓN                                   */
+/* ============================================ */
+.paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.3rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.btn-pagina {
+    display: inline-block;
+    min-width: 36px;
+    padding: 0.4rem 0.7rem;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    color: #495057;
+    text-decoration: none;
+    font-size: 0.85rem;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.btn-pagina:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.btn-pagina.active {
+    background: #2563eb;
+    color: white;
+    border-color: #2563eb;
+}
+
+.btn-pagina.disabled {
+    color: #adb5bd;
+    pointer-events: none;
+}
+
+/* ============================================ */
+/* ALERTAS                                      */
+/* ============================================ */
+.alerta {
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+.alerta-info {
+    background: #e3f2fd;
+    color: #0c5460;
+    border-left: 4px solid #2196f3;
+}
+
+.alerta-error {
+    background: #fee2e2;
+    color: #991b1b;
+    border-left: 4px solid #ef4444;
+}
+
+/* ============================================ */
+/* RESPONSIVE                                   */
+/* ============================================ */
+@media (max-width: 768px) {
+    
+    .fuente-comentario {
+        max-width: 100%;
+        font-size: 0.85rem;
+    }
+    
+    .grid-fuentes {
+        grid-template-columns: repeat(auto-fill, minmax(49.5%, 1fr)) !important;
+    }
+    
+    .grid-noticias {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    
+    .tarjeta-imagen {
+        height: 160px;
+    }
+    
+    .paginacion {
+        gap: 0.2rem;
+    }
+    
+    .btn-pagina {
+        min-width: 32px;
+        padding: 0.3rem 0.5rem;
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {   
+    
+    .tarjeta-metadatos-simple .separador {
+        display: none;
+    }
+}
+
+
+/* ============================================ */
+/* FUENTES - PÁGINA PÚBLICA                     */
+/* Adaptado al estilo de ubicaciones            */
+/* ============================================ */
+
+/* Grid de fuentes */
+.grid-fuentes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(25.5%, 1fr));
+    gap: 4px;
+    margin: 0.5rem 0.4rem;
+}
+
+.tarjeta-fuente-completa {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.3s ease;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.tarjeta-fuente-completa:hover {
+    transform: translateY(-3px);
+    border-color: #2563eb;
+    background: #f8fafc;
+}
+
+/* Cabecera de la fuente */
+.tarjeta-fuente-header {
+    background: linear-gradient(135deg, #9bbfff 0%, #0b64ff 100%);
+    color: white;
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tarjeta-fuente-nombre {
+    font-size: 0.9rem;
+    color: #003491;
+}
+
+.fuente-noticias-count {
+    background: rgba(255,255,255,0.2);
+    padding: 2px 4px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+}
+
+/* Última noticia dentro de la tarjeta */
+.tarjeta-fuente-ultima-noticia {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 4px;
+}
+
+.ultima-noticia-imagen {
+    flex-shrink: 0;
+    width: 70px;
+    height: 60px;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #f0f0f0;
+}
+
+.ultima-noticia-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.tarjeta-fuente-completa:hover .ultima-noticia-imagen img {
+    transform: scale(1.05);
+}
+
+.ultima-noticia-titulo {
+    margin: 0 0 0.25rem 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.ultima-noticia-titulo a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.ultima-noticia-titulo a:hover {
+    color: #2563eb;
+}
+
+.ultima-noticia-fecha {
+    font-size: 0.75rem;
+    color: #64748b;
+    display: flex;
+    margin-top: 9px;
+}
+
+/* Sin noticias */
+.tarjeta-fuente-sin-noticias {
+    padding: 1rem;
+    text-align: center;
+    color: #64748b;
+    font-size: 0.8rem;
+}
+
+/* Footer de la tarjeta */
+.tarjeta-fuente-footer {
+    padding: 0.5rem 0.75rem;
+    background: #f8f9fa;
+    text-align: center;
+    border-top: 1px solid #e0e0e0;
+}
+
+.btn-ver-todas {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: none;
+  color: #2563eb;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s;
+  padding: 2px 12px;
+}
+
+.btn-ver-todas:hover {
+  color: #fff;
+  gap: 0.5rem;
+  border-radius: 4px;
+}
+
+/* Botón volver */
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: none;
+    color: #2563eb;
+    text-decoration: none;
+    transition: all 0.3s;
+    /*! margin: 0 0 1rem 0; */
+    margin: 4px;
+}
+
+.btn-back:hover {
+    color: #1d4ed8;
+    gap: 0.5rem;
+}
+
+/* Responsive */
+
+@media (max-width: 480px) {
+    .ultima-noticia-imagen {
+        height: 100px;
+        width: 100%;
+    }
+    
+    .tarjeta-fuente-nombre {
+        font-size: 0.9rem;
+    }
+}

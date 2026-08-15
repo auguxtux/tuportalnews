@@ -1,0 +1,19 @@
+.eliminar-container { max-width: 600px; margin: 2rem auto; padding: 1rem; }
+.eliminar-card { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; }
+.eliminar-header { background: #fee2e2; padding: 1.5rem; text-align: center; }
+.eliminar-header h1 { color: #dc2626; margin: 0; }
+.eliminar-body { padding: 1.5rem; }
+.eliminar-alerta { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 1rem; margin-bottom: 1.5rem; border-radius: 6px; }
+.eliminar-stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; background: #f8fafc; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center; }
+.eliminar-stat-number { font-size: 1.5rem; font-weight: bold; color: #2563eb; }
+.eliminar-stat-label { font-size: 0.7rem; color: #6b7280; }
+.eliminar-warning { background: #fee2e2; color: #991b1b; padding: 1rem; border-radius: 8px; margin: 1.5rem 0; font-size: 0.85rem; }
+.eliminar-campo { margin-bottom: 1rem; }
+.eliminar-campo label { display: block; margin-bottom: 0.5rem; }
+.eliminar-campo input { width: 100%; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 6px; }
+.eliminar-checkbox { display: flex; align-items: center; gap: 0.75rem; margin: 1.5rem 0; padding: 1rem; background: #fef3c7; border-radius: 8px; }
+.eliminar-botones { display: flex; gap: 1rem; margin-top: 1.5rem; }
+.btn-cancelar { flex: 1; background: #6b7280; color: white; text-align: center; padding: 0.75rem; border-radius: 6px; text-decoration: none; }
+.btn-eliminar { flex: 1; background: #dc2626; color: white; border: none; padding: 0.75rem; border-radius: 6px; cursor: pointer; }
+.menu-perfil { display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap; }
+.menu-perfil a { background: #f3f4f6; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; color: #374151; }

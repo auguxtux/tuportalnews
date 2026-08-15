@@ -1,0 +1,495 @@
+/* MONITOR DE ATAQUES - ESTILOS CON PREFIJO atk- */
+/* Versión limpia, sin duplicados ni reglas inválidas */
+
+/* ===== CONTENEDORES ===== */
+.atk-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.atk-titulo {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 4px;
+}
+
+.atk-descripcion {
+    color: #6b7280;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* ===== SECCIONES ===== */
+.atk-seccion {
+    margin-bottom: 2rem;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.atk-seccion-header {
+    background: #f8f9fa;
+    padding: 0.5rem 1.5rem;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 0;
+}
+
+.atk-seccion-header h2 {
+    font-size: 0.95rem;
+    color: #0042bf;
+    margin-left: 9%;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.atk-seccion-desc {
+    font-size: 0.75rem;
+    color: #666;
+    margin-top: 0.25rem;
+    text-align: center;
+}
+
+/* ===== GRIDS ===== */
+.atk-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    padding: 7px;
+    background: #eaeaea;
+    border-radius: 4px;
+}
+
+.atk-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+/* ===== TARJETAS ESTADÍSTICAS ===== */
+.atk-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 7px;
+    border-radius: 12px;
+    transition: transform 0.2s;
+}
+
+.atk-stat-icono {
+    font-size: 1.3rem;
+}
+
+.atk-stat-datos {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.atk-stat-valor {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #3b82f6;
+}
+
+.atk-stat-etiqueta {
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+/* ===== GRÁFICO ===== */
+.atk-grafico-card {
+    padding: 1rem;
+}
+
+.atk-barras-actividad {
+    display: flex;
+    gap: 2px;
+    align-items: self-end;
+    overflow-x: auto;
+    height: 200px;
+}
+
+.atk-barra-dia {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 35px;
+    flex: 1;
+}
+
+.atk-barra {
+    width: 20px;
+    background: linear-gradient(to top, #3b82f6, #60a5fa);
+    border-radius: 4px 4px 0 0;
+    transition: height 0.3s;
+    min-height: 4px;
+}
+
+.atk-dia {
+    font-size: 0.6rem;
+    color: #6b7280;
+    margin-top: 0.5rem;
+}
+
+.atk-valor {
+    font-size: 0.55rem;
+    color: #3b82f6;
+    margin-top: 0.25rem;
+}
+
+/* ===== TABLAS ===== */
+.atk-tabla-responsive {
+    overflow-x: auto;
+}
+
+.atk-tabla {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.atk-tabla th,
+.atk-tabla td {
+    padding: 9px;
+    border-bottom: 1px solid #e5e7eb;
+    text-transform: uppercase;
+}
+
+.atk-tabla th {
+    background: #979797;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #fff;
+    text-align: center;
+}
+
+.atk-tabla td {
+    font-size: 0.8rem;
+}
+
+.atk-centrar {
+    text-align: center;
+}
+
+/* ===== BOTONES ===== */
+.atk-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.atk-btn-primary {
+    background: #2563eb;
+    color: white;
+}
+
+.atk-btn-primary:hover {
+    background: #1d4ed8;
+}
+
+.atk-btn-success {
+    background: #10b981;
+    color: white;
+}
+
+.atk-btn-success:hover {
+    background: #059669;
+}
+
+.atk-btn-warning {
+    background: #f59e0b;
+    color: white;
+}
+
+.atk-btn-warning:hover {
+    background: #d97706;
+}
+
+.atk-btn-danger {
+    background: #ef4444;
+    color: white;
+}
+
+.atk-btn-danger:hover {
+    background: #dc2626;
+}
+
+.atk-btn-secondary {
+    background: #6b7280;
+    color: white;
+}
+
+.atk-btn-secondary:hover {
+    background: #4b5563;
+}
+
+.atk-btn-small {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.7rem;
+}
+
+/* ===== BADGES ===== */
+.atk-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 1rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.atk-badge-activo {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.atk-badge-pendiente {
+    background: #fed7aa;
+    color: #92400e;
+}
+
+/* ===== ALERTAS ===== */
+.atk-alerta {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin: 1rem 1.5rem;
+}
+
+.atk-alerta-info {
+    background: #dbeafe;
+    color: #1e40af;
+    border-left: 4px solid #3b82f6;
+}
+
+/* ===== TARJETAS DE ÚLTIMOS INTENTOS ===== */
+.atk-ultimos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 10px;
+    padding: 4px;
+}
+
+.atk-ultimo-card {
+    background: #f8f9fa;
+    padding: 0.75rem;
+    border-left: 2px solid #2563eb;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.atk-ultimo-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.atk-card-bloqueada {
+    border-left-color: #ef4444;
+    background: #fef2f2;
+}
+
+.atk-ultimo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.atk-ultimo-ip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+}
+
+.atk-ultimo-ip code {
+    background: #f3f4f6;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.8rem;
+}
+
+.atk-ultimo-id {
+    font-size: 0.6rem;
+    color: #9ca3af;
+}
+
+.atk-ultimo-email {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+    word-break: break-all;
+}
+
+.atk-ultimo-stats {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.atk-ultimo-stat {
+    display: flex;
+    gap: 0.25rem;
+    align-items: baseline;
+}
+
+.atk-stat-numero {
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #3b82f6;
+}
+
+.atk-stat-texto {
+    font-size: 0.6rem;
+    color: #6b7280;
+}
+
+.atk-ultimo-fecha {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.6rem;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+}
+
+.atk-ultimo-estado {
+    margin: 0.25rem 0;
+}
+
+.atk-ultimo-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+}
+
+.atk-ultimo-icono {
+    font-size: 0.9rem;
+}
+
+/* ===== UTILIDADES ===== */
+.atk-accion-global {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 1rem;
+    border-top: 1px solid #e0e0e0;
+    margin-top: 1.5rem;
+}
+
+.atk-sin-datos {
+    text-align: center;
+    padding: 10px;
+    color: #6b7280;
+}
+
+.atk-input, .atk-select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    flex: 1;
+    min-width: 150px;
+}
+
+.atk-busqueda-grid {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 4px;
+}
+
+/* ===== PAGINACIÓN ===== */
+.paginacion {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn-pagina {
+    display: inline-block;
+    padding: 0.3rem 0.7rem;
+    background: #f1f5f9;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+}
+
+.btn-pagina.active {
+    background: #2563eb;
+    color: white;
+}
+
+.btn-pagina.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+    .atk-ultimos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .atk-grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .atk-grid-2 {
+        grid-template-columns: 1fr;
+    }
+    
+    .atk-ultimos-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .atk-titulo {
+        font-size: 1.5rem;
+    }
+    
+    .atk-barras-actividad {
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .atk-container {
+        padding: 0.75rem;
+    }
+    
+    .atk-grid-4 {
+        grid-template-columns: 1fr;
+    }
+    
+    .atk-ultimo-stats {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .atk-ultimo-acciones {
+        flex-direction: column;
+    }
+    
+    .atk-btn-small {
+        width: 100%;
+        justify-content: center;
+    }
+}

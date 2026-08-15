@@ -1,0 +1,37 @@
+/cache/*
+/includes/feeds/
+/logs/*
+/tmp/*
+/backups/*
+/vendor/
+/node_modules/
+.maintenance
+*.zip
+.env
+includes/mail-config.php
+/includes/aemet-config.php
+*.backup.*
+setup_*.sh
+
+# Archivos generados y datos de usuario
+/uploads/
+/images-externas/
+*.bak
+*.log
+OPEN-FOLDER.geany
+
+# Archivos temporales del sistema y editores
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Configuración sensible y exportaciones de base de datos
+db_news.sql
+*.sql
+!migrations/*.sql
+.git-antiguo/
+
+/storage/
+/assets/vendor/
+*.bak-*

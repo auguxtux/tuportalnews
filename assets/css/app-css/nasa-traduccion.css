@@ -1,0 +1,61 @@
+.nasa-traduccion-opciones {
+    display: grid;
+    grid-template-columns: auto minmax(180px, 240px);
+    align-items: center;
+    gap: .45rem .75rem;
+    margin: 0 0 1rem;
+    padding: .85rem 1rem;
+    border: 1px solid #c9d9e9;
+    border-radius: 10px;
+    background: #f6faff;
+    color: #17365d;
+}
+
+.nasa-traduccion-opciones label {
+    font-weight: 700;
+}
+
+.nasa-traduccion-opciones select {
+    min-height: 40px;
+    padding: .5rem;
+    border: 1px solid #aebfd3;
+    border-radius: 7px;
+    background: #fff;
+}
+
+.nasa-traduccion-opciones small {
+    grid-column: 1 / -1;
+    color: #607286;
+}
+
+.nasa-traducir-tarjeta {
+    margin: 0 0 .75rem;
+    padding: .42rem .65rem;
+    border: 1px solid #9dbbd8;
+    border-radius: 7px;
+    background: #f3f8fd;
+    color: #145da0;
+    font: inherit;
+    font-size: .85rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.nasa-traducir-tarjeta:hover:not(:disabled) {
+    background: #e1eef9;
+}
+
+.nasa-traducir-tarjeta:disabled {
+    cursor: default;
+    opacity: .75;
+}
+
+@media (max-width: 650px) {
+    .nasa-traduccion-opciones {
+        grid-template-columns: 1fr;
+    }
+
+    .nasa-traduccion-opciones small {
+        grid-column: auto;
+    }
+}

@@ -1,0 +1,22 @@
+.listado-reportes { max-width: 1100px; margin: 0 auto; padding: 0 1rem 1.5rem; }
+.listado-reportes-cabecera { padding: 1rem; border-bottom: 3px solid #d97706; border-radius: .65rem; background: #fffbeb; text-align: center; }
+.listado-reportes-cabecera.es-privado { border-color: #7c3aed; background: #f5f3ff; }
+.listado-reportes-cabecera h1, .listado-reportes-cabecera p { margin: 0; }
+.listado-reportes-cabecera h1 { color: #78350f; font-size: 1.2rem; }
+.listado-reportes-cabecera.es-privado h1 { color: #5b21b6; }
+.listado-reportes-cabecera p { margin-top: .4rem; color: #64748b; font-size: .85rem; }
+.listado-reportes-filtros { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin: 1rem 0; }
+.listado-reportes-filtros a { padding: .5rem 1rem; border: 1px solid #cbd5e1; border-radius: 2rem; background: #fff; color: #334155; text-decoration: none; }
+.listado-reportes-filtros a.activo { border-color: #1d4ed8; background: #1d4ed8; color: #fff; }
+.listado-reportes-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.listado-reporte-card { padding: 1rem; border: 1px solid #e2e8f0; border-left: 4px solid #d97706; border-radius: .65rem; background: #fff; box-shadow: 0 2px 8px rgba(15, 23, 42, .06); }
+.listado-reporte-card.es-comentario { border-left-color: #2563eb; }
+.listado-reporte-tipo { color: #64748b; font-size: .75rem; font-weight: 700; text-transform: uppercase; }
+.listado-reporte-card h2 { margin: .45rem 0; font-size: 1rem; }
+.listado-reporte-card h2 a { color: #1e3a8a; text-decoration: none; }
+.listado-reporte-card p { margin: .4rem 0; color: #475569; font-size: .82rem; }
+.listado-reporte-extracto { padding: .55rem; border-radius: .35rem; background: #f8fafc; }
+.listado-reporte-abrir { display: inline-block; margin-top: .5rem; font-size: .82rem; font-weight: 700; }
+.listado-reportes-mensaje { padding: 1.25rem; border-radius: .5rem; background: #f8fafc; color: #475569; text-align: center; }
+.listado-reportes-mensaje.error { background: #fef2f2; color: #991b1b; }
+@media (max-width: 700px) { .listado-reportes-grid { grid-template-columns: 1fr; } .listado-reportes-filtros a { flex: 1; text-align: center; } }

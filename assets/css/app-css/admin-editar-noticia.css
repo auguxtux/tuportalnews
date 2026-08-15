@@ -1,0 +1,414 @@
+
+/* EDITAR NOTICIA ADMIN - ESTILOS CON PREFIJO admin-editar-noticia- */
+
+.admin-editar-noticia-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+/* HEADER */
+.admin-editar-noticia-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.admin-editar-noticia-titulo {
+    font-size: 1.8rem;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.admin-editar-noticia-desc {
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+/* ALERTAS */
+.admin-editar-noticia-alerta {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.admin-editar-noticia-error-list {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+
+/* TARJETA PRINCIPAL */
+.admin-editar-noticia-card {
+    background: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.admin-editar-noticia-form {
+    padding: 1.5rem;
+}
+
+/* GRID DE CAMPOS */
+.admin-editar-noticia-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* CAMPOS */
+.admin-editar-noticia-campo {
+    margin-bottom: 1rem;
+}
+
+.admin-editar-noticia-campo input[type="file"] {
+    width: 100%;
+    padding: 0.5rem 0;
+}
+
+/* SECCIÓN IMAGEN */
+.admin-editar-noticia-imagen-section {
+    background: #f8fafc;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #e5e7eb;
+}
+
+.admin-editar-noticia-imagen-label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+.admin-editar-noticia-imagen-actual {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: white;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.admin-editar-noticia-imagen-actual img {
+    max-width: 200px;
+    max-height: 120px;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.admin-editar-noticia-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.admin-editar-noticia-preview {
+    max-width: 150px;
+    max-height: 100px;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+    border: 1px solid #e5e7eb;
+}
+
+/* ACCIONES */
+.admin-editar-noticia-acciones {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.admin-editar-noticia-btn-guardar {
+    background: #3b82f6;
+    color: white;
+}
+
+.admin-editar-noticia-btn-guardar:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+.admin-editar-noticia-btn-cancelar {
+    background: #6b7280;
+    color: white;
+}
+
+.admin-editar-noticia-btn-cancelar:hover {
+    background: #4b5563;
+    transform: translateY(-2px);
+}
+
+/* SECCIÓN RELACIONES */
+.admin-editar-noticia-relaciones-section {
+    background: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+    padding: 1.5rem;
+}
+
+.admin-editar-noticia-relaciones-header {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.admin-editar-noticia-relaciones-titulo {
+    font-size: 1.2rem;
+    color: #1f2937;
+    margin-bottom: 0.25rem;
+}
+
+.admin-editar-noticia-relaciones-desc {
+    color: #6b7280;
+    font-size: 0.8rem;
+}
+
+/* GRID DE RELACIONES (3 → 2 → 1) */
+.admin-editar-noticia-relaciones-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.admin-editar-noticia-relacion-card {
+    background: #f8fafc;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.admin-editar-noticia-relacion-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.admin-editar-noticia-relacion-card-contenido {
+    margin-bottom: 0.75rem;
+}
+
+.admin-editar-noticia-relacion-titulo {
+    font-size: 0.9rem;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.4;
+}
+
+.admin-editar-noticia-relacion-titulo a {
+    color: #1f2937;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.admin-editar-noticia-relacion-titulo a:hover {
+    color: #3b82f6;
+}
+
+.admin-editar-noticia-relacion-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.65rem;
+    color: #6b7280;
+}
+
+.admin-editar-noticia-relacion-acciones {
+    text-align: right;
+}
+
+.admin-editar-noticia-btn-relacion {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    border: none;
+}
+
+.admin-editar-noticia-btn-relacion-eliminar {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.admin-editar-noticia-btn-relacion-eliminar:hover {
+    background: #fecaca;
+}
+
+.admin-editar-noticia-relaciones-vacio {
+    text-align: center;
+    padding: 2rem;
+    background: #f8fafc;
+    border-radius: 0.75rem;
+    margin-bottom: 1.5rem;
+    color: #6b7280;
+}
+
+/* FORMULARIO DE RELACIÓN */
+.admin-editar-noticia-relacion-formulario {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.admin-editar-noticia-relacion-formulario-titulo {
+    font-size: 1rem;
+    color: #1f2937;
+    margin-bottom: 1rem;
+}
+
+.admin-editar-noticia-relacion-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-end;
+}
+
+.admin-editar-noticia-relacion-campo {
+    flex: 2;
+    min-width: 200px;
+}
+
+.admin-editar-noticia-relacion-campo label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.25rem;
+}
+
+.admin-editar-noticia-relacion-campo select,
+.admin-editar-noticia-relacion-campo input {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.admin-editar-noticia-relacion-campo small {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.65rem;
+    color: #6b7280;
+}
+
+.admin-editar-noticia-btn-relacion-agregar {
+    background: #10b981;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    flex: 0 0 auto;
+}
+
+.admin-editar-noticia-btn-relacion-agregar:hover {
+    background: #059669;
+    transform: translateY(-2px);
+}
+
+/* ============================================ */
+/* RESPONSIVE */
+/* ============================================ */
+
+@media (max-width: 768px) {
+    .admin-editar-noticia-container {
+        padding: 0.75rem;
+    }
+    
+    .admin-editar-noticia-titulo {
+        font-size: 1.5rem;
+    }
+    
+    .admin-editar-noticia-form {
+        padding: 1.25rem;
+    }
+    
+    .admin-editar-noticia-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    
+    .admin-editar-noticia-acciones {
+        flex-direction: column;
+    }
+    
+    .admin-editar-noticia-btn {
+        width: 100%;
+    }
+    
+    .admin-editar-noticia-relaciones-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+    
+    .admin-editar-noticia-relacion-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .admin-editar-noticia-btn-relacion-agregar {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-editar-noticia-container {
+        padding: 0.5rem;
+    }
+    
+    .admin-editar-noticia-titulo {
+        font-size: 1.3rem;
+    }
+    
+    .admin-editar-noticia-desc {
+        font-size: 0.8rem;
+    }
+    
+    .admin-editar-noticia-form {
+        padding: 1rem;
+    }
+    
+    .admin-editar-noticia-campo label {
+        font-size: 0.8rem;
+    }
+    
+    .admin-editar-noticia-campo input[type="text"],
+    .admin-editar-noticia-campo select,
+    .admin-editar-noticia-campo textarea {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.85rem;
+    }
+    
+    .admin-editar-noticia-relaciones-section {
+        padding: 1rem;
+    }
+    
+    .admin-editar-noticia-relaciones-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .admin-editar-noticia-relacion-titulo {
+        font-size: 0.85rem;
+    }
+    
+    .admin-editar-noticia-btn-relacion-agregar {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+}

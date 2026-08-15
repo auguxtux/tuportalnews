@@ -1,0 +1,536 @@
+/* ============================================ */
+/* PANEL PERIODISTA - ESTILOS CON PREFIJO panel-periodista- */
+/* ============================================ */
+
+.panel-periodista-dashboard {
+    max-width: 1200px;
+    margin: 0 auto;
+    /*! padding: 1rem; */
+}
+
+/* ============================================ */
+/* 1º. HEADER */
+/* ============================================ */
+.panel-periodista-header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.panel-periodista-titulo {
+  font-size: 1rem;
+  color: #0250a4;
+  padding: 4px;
+  text-transform: uppercase;
+  text-align: center;
+  background: linear-gradient(180deg, #87bcfe 0%, #d9fde9 100%);
+  border-bottom: 1px inset blue;
+}
+
+.panel-periodista-subtitulo {
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+/* ============================================ */
+/* 2º. ALERTA */
+/* ============================================ */
+.panel-periodista-alert {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+    background: #e0f2fe;
+    /*! border-left: 4px solid #0ea5e9; */
+    float: left;
+    margin-left: 2%;
+    /*! width: 555px; */
+}
+
+.panel-periodista-alert-icon {
+    font-size: 1.2rem;
+}
+
+.panel-periodista-alert-text {
+    color: #0369a1;
+    font-size: 0.9rem;
+}
+
+.panel-periodista-alert-text strong {
+    font-weight: 600;
+}
+
+/* ============================================ */
+/* 3º. ACCIONES RÁPIDAS */
+/* ============================================ */
+.panel-periodista-seccion-acciones {
+    margin-bottom: 2rem;
+}
+
+.panel-periodista-acciones-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.panel-periodista-btn-accion {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 5px 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-weight: bold;
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid #e5e7eb;
+}
+
+.panel-periodista-btn-accion:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.panel-periodista-btn-icono {
+    font-size: 1.1rem;
+}
+
+.panel-periodista-btn-texto {
+    font-size: 0.9rem;
+}
+
+.panel-periodista-btn-primary {
+    background: #3b82f6;
+    color: white;
+    border: none;
+}
+
+.panel-periodista-btn-primary:hover {
+    background: #2563eb;
+}
+
+.panel-periodista-btn-success {
+    background: #10b981;
+    color: white;
+    border: none;
+}
+
+.panel-periodista-btn-success:hover {
+    background: #059669;
+}
+
+.panel-periodista-btn-info {
+    background: #8b5cf6;
+    color: white;
+    border: none;
+}
+
+.panel-periodista-btn-info:hover {
+    background: none;
+    color: #757575;
+}
+
+.panel-periodista-btn-secondary {
+    background: #b9b9b9;
+    color: white;
+    border: none;
+}
+
+.panel-periodista-btn-secondary:hover {
+    background: none;
+    color: gray;
+}
+
+/* ============================================ */
+/* 4º. NOTICIAS - GRID RESPONSIVE */
+/* ============================================ */
+.panel-periodista-seccion-noticias {
+    margin-bottom: 2.5rem;
+}
+
+.panel-periodista-seccion-header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 1.4rem;
+    flex-wrap: wrap;
+    gap: 10px;
+    /*! text-align: center; */
+}
+
+.panel-periodista-seccion-titulo {
+    font-size: 1rem;
+    color: #1f2937;
+    margin: 0;
+    padding-bottom: 0.25rem;
+    border-bottom: 2px solid #3b82f6;
+    display: inline-block;
+    text-transform: uppercase;
+}
+
+.panel-periodista-ver-todas-link {
+    color: #3b82f6;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    border: 1px solid;
+    padding: 2px 1rem;
+    border-radius: 1rem;
+}
+
+.panel-periodista-ver-todas-link:hover {
+    /*! text-decoration: underline; */
+    color: green;
+    margin-left: 4px;
+}
+
+.panel-periodista-noticias-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin: 1rem;
+}
+
+.panel-periodista-noticia-card {
+    border-radius: 4px;
+    /*! border: 1px solid #e5e7eb; */
+    /*! display: flex; */
+    /*! flex-direction: column; */
+}
+
+.panel-periodista-card-imagen {
+    height: 150px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.panel-periodista-card-imagen.panel-periodista-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: rgba(255,255,255,0.8);
+}
+
+.panel-periodista-card-contenido {
+    padding: 7px;
+    /*! flex: 1; */
+    /*! display: flex; */
+    /*! flex-direction: column; */
+    /*! gap: 6px; */
+    /*! justify-content: space-around; */
+}
+
+.panel-periodista-card-titulo {
+    font-size: 0.95rem;
+    margin: 0;
+    line-height: 1.4;
+    text-align: center;
+    margin-bottom: 9px;
+    border-bottom: 1px solid #cacaca;
+    padding-bottom: 4px;
+}
+
+.panel-periodista-card-titulo a {
+    font-weight: 600;
+}
+
+.panel-periodista-card-titulo a:hover {
+    color: #3b82f6;
+}
+
+.panel-periodista-card-meta {
+    /*! flex-wrap: wrap; */
+    gap: 0.9rem;
+    font-size: 0.8rem;
+    margin-bottom: 4px;
+}
+
+.panel-periodista-badge-panel-periodista-privada {
+    background: #fef3c7;
+    color: #92400e;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.65rem;
+}
+
+.panel-periodista-card-stats {
+    font-size: 0.9rem;
+    color: #9ca3af;
+}
+
+.panel-periodista-card-acciones {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    justify-content: space-around;
+}
+
+.panel-periodista-btn-editar {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s;
+    background: #e0e7ff;
+    color: #4338ca;
+    font-weight: bold;
+}
+
+.panel-periodista-btn-editar:hover {
+    background: #c7d2fe;
+}
+
+.panel-periodista-btn-eliminar {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.9rem;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s;
+    background: #fee2e2;
+    color: #dc2626;
+    font-weight: bold;
+}
+
+.panel-periodista-btn-eliminar:hover {
+    background: #fecaca;
+}
+
+/* ============================================ */
+/* 5º. COMENTARIOS - GRID RESPONSIVE */
+/* ============================================ */
+.panel-periodista-seccion-comentarios {
+    margin-bottom: 1rem;
+}
+
+.panel-periodista-comentarios-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 96%;
+    margin: 0 auto;
+}
+
+.panel-periodista-comentario-card {
+    background: #fff;
+    border-radius: 4px;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px inset #e5e7eb;
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    /*! width: 55555px; */
+}
+
+.panel-periodista-comentario-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.panel-periodista-comentario-header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.panel-periodista-comentario-autor {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+}
+
+.panel-periodista-autor-icono {
+    font-size: 0.9rem;
+}
+
+.panel-periodista-comentario-fecha {
+    font-size: 0.8rem;
+    color: #707680;
+}
+
+.panel-periodista-comentario-contenido p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #4b5563;
+    line-height: 1.4;
+}
+
+.panel-periodista-comentario-noticia a {
+    display: inline-block;
+    font-size: 0.75rem;
+    color: #3b82f6;
+    text-decoration: none;
+    word-break: break-word;
+}
+
+.panel-periodista-comentario-noticia a:hover {
+    text-decoration: underline;
+}
+
+/* ============================================ */
+/* ESTADOS VACÍOS */
+/* ============================================ */
+.panel-periodista-empty-state {
+    text-align: center;
+    padding: 2rem;
+    background: #f8fafc;
+    border-radius: 1rem;
+    border: 1px solid #e5e7eb;
+}
+
+.panel-periodista-empty-state p {
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+}
+
+.panel-periodista-btn-link {
+    color: #3b82f6;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.panel-periodista-btn-link:hover {
+    text-decoration: underline;
+}
+
+/* ============================================ */
+/* AVATAR EN COMENTARIOS */
+/* ============================================ */
+.panel-periodista-autor-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 0.25rem;
+}
+
+.panel-periodista-comentario-autor {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    color: #1976d2;
+}
+
+.panel-periodista-autor-icono {
+    font-size: 1rem;
+}
+
+/* ============================================ */
+/* RESPONSIVE - GRID: 4 → 3 → 2 → 1 */
+/* ============================================ */
+
+/* Escritorio mediano: 3 columnas */
+@media (max-width: 1024px) {
+    .panel-periodista-noticias-grid,
+    .panel-periodista-comentarios-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+}
+
+/* Tablet: 2 columnas */
+@media (max-width: 768px) {
+    .panel-periodista-titulo {
+        font-size: 1.5rem;
+    }
+    
+    .panel-periodista-noticias-grid,
+    .panel-periodista-comentarios-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .panel-periodista-acciones-grid {
+        gap: 0.75rem;
+    }
+    
+    .panel-periodista-btn-accion {
+        padding: 0.6rem 1rem;
+    }
+    
+    .panel-periodista-seccion-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Móvil: 1 columna */
+@media (max-width: 480px) {
+    .panel-periodista-dashboard {
+        padding: 0.75rem;
+    }
+    
+    .panel-periodista-noticias-grid,
+    .panel-periodista-comentarios-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .panel-periodista-acciones-grid {
+        flex-direction: column;
+    }
+    
+    .panel-periodista-btn-accion {
+        justify-content: center;
+    }
+    
+    .panel-periodista-card-imagen {
+        height: 130px;
+    }
+    
+    .panel-periodista-alert {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+
+/* Botón eliminar cuenta */
+.panel-periodista-btn-danger {
+    background: #dc2626;
+    color: white;
+}
+
+.panel-periodista-btn-danger:hover {
+    background: #b91c1c;
+    transform: translateY(-2px);
+}
+
+/* Separación del panel público y mejoras de usabilidad */
+.panel-periodista-dashboard { padding: 0 1rem 1.5rem; }
+.panel-periodista-alert { float: none; margin: 0 0 1.5rem; }
+.panel-periodista-alert a { color: inherit; }
+.panel-periodista-stats-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin: 1rem 0 1.5rem; }
+.panel-periodista-stat-card { display: flex; flex-direction: column; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.75rem; text-align: center; }
+.panel-periodista-stat-card strong { color: #2563eb; font-size: 1.25rem; }
+.panel-periodista-stat-card span { color: #6b7280; font-size: 0.8rem; }
+.panel-periodista-acciones-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+.panel-periodista-btn-accion { justify-content: center; min-height: 3.5rem; }
+.panel-periodista-btn-private { background: #7c3aed; color: #fff; border-color: #6d28d9; }
+.panel-periodista-noticias-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin: 1rem 0; }
+.panel-periodista-card-meta { flex-wrap: wrap; }
+.panel-periodista-eliminar-form { display: inline-flex; }
+.panel-periodista-btn-accion:focus-visible, .panel-periodista-btn-editar:focus-visible, .panel-periodista-btn-eliminar:focus-visible { outline: 3px solid rgba(59, 130, 246, 0.35); outline-offset: 2px; }
+.panel-periodista-zona-peligro { max-width: 1168px; margin: 1.5rem auto; padding: 1rem; border: 1px solid #fecaca; border-radius: 0.75rem; background: #fff7f7; text-align: center; }
+.panel-periodista-zona-peligro h2 { margin: 0 0 0.5rem; color: #991b1b; font-size: 1rem; }
+.panel-periodista-zona-peligro p { margin: 0 0 1rem; color: #6b7280; font-size: 0.85rem; }
+.almacenamiento-card { transition: transform 0.2s, box-shadow 0.2s; }
+.almacenamiento-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
+@media (max-width: 768px) { .panel-periodista-stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .panel-periodista-stats-grid, .panel-periodista-acciones-grid { grid-template-columns: 1fr; } }

@@ -1,0 +1,91 @@
+/* LOGIN - ESTILOS CON PREFIJO public-login- */
+
+.public-login-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+/* TARJETA PRINCIPAL */
+.public-login-card {
+    background: #ffffff;
+    border-radius: 4px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+}
+
+.public-login-titulo {
+    font-size: 1.4rem;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+/* ALERTAS */
+.public-login-alerta {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin: 1rem 1.5rem;
+    text-align: center;
+}
+
+/* FORMULARIO */
+.public-login-form {
+    padding: 1.5rem;
+}
+
+/* CAMPOS */
+.public-login-campo {
+    margin-bottom: 1.25rem;
+}
+
+.public-login-campo label {
+    display: block;
+    font-weight: 600;
+    color: #374151;
+    margin: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.public-login-campo input::placeholder {
+    color: #9ca3af;
+    font-size: 0.85rem;
+}
+
+/* ACCIONES */
+.public-login-acciones {
+    margin-top: 1.5rem;
+}
+
+.public-login-btn {
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    border: none;
+    width: 100%;
+}
+
+.public-login-btn-ingresar:hover {
+    background: none;
+    transform: translateY(-2px);
+    color: #029d37;
+}
+
+/* ENLACES */
+.public-login-enlaces {
+    padding-top: 1rem;
+    margin-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.public-login-enlaces p {
+    margin: 0.5rem 0;
+    font-size: 0.85rem;
+    color: #6b7280;
+}

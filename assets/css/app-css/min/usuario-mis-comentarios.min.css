@@ -1,0 +1,444 @@
+/* ============================================
+   USUARIO - MIS COMENTARIOS
+   Estilos exclusivos para usuario/mis-comentarios.php
+   ============================================ */
+
+/* ---------- CONTENEDOR PRINCIPAL ---------- */
+.comentarios-container {
+  max-width: 1024px;
+  margin: 1rem auto;
+}
+
+.comentary {
+    text-align: center; 
+    padding: 3rem; 
+    background: white; 
+    border-radius: 12px;
+}
+
+.comentarios-container h1 {
+  font-size: 0.95rem;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 4px;
+}
+
+/* ---------- RESULTADOS INFO ---------- */
+.usuario-comentarios-resultados-info {
+    padding: 0.75rem;
+    color: #c45200;
+    font-size: 0.9rem;
+}
+
+/* ---------- GRID DE TARJETAS ---------- */
+.usuario-comentarios-grid {
+    padding: 10px;
+}
+
+/* ============================================
+   TARJETA DE COMENTARIO (REGLAS PRIORITARIAS)
+   ============================================ */
+.comentario-card {
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.comentario-header {
+    padding: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f8fafc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.comentario-noticia {
+    font-size: 0.85rem;
+    color: #2563eb;
+}
+
+.comentario-fecha {
+    font-size: 0.7rem;
+    color: #6b7280;
+}
+
+.comentario-contenido {
+    padding: 1rem;
+    line-height: 1.5;
+}
+
+.comentario-acciones {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* ---------- BOTONES BASE ---------- */
+.btn {
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    display: inline-block;
+}
+
+.btn-editar {
+    background: #dbeafe;
+    color: #1e40af;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-eliminar {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.btn-guardar {
+    background: #10b981;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-cancelar {
+    background: #6b7280;
+    color: white;
+}
+
+/* ---------- FORMULARIO EDITAR ---------- */
+.form-editar {
+    padding: 1rem;
+}
+
+.form-editar textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+/* ============================================
+   TARJETA USUARIO (ESTILOS ADICIONALES)
+   ============================================ */
+.usuario-comentarios-card {
+    border-radius: 4px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.usuario-comentarios-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+    border-color: #3b82f6;
+}
+
+/* HEADER */
+.usuario-comentarios-card-header {
+    text-align: right;
+}
+
+/* BADGES */
+.usuario-comentarios-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 2rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.usuario-comentarios-badge-aprobado {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.usuario-comentarios-badge-pendiente {
+    background: #ffedd5;
+    color: #92400e;
+}
+
+.usuario-comentarios-badge-rechazado {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* CUERPO */
+.usuario-comentarios-card-body {
+    padding: 1rem;
+    flex: 1;
+}
+
+.usuario-comentarios-texto {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #1f2937;
+    margin-bottom: 1rem;
+    word-break: break-word;
+    background: #fff;
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+/* METADATOS */
+.usuario-comentarios-meta {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.usuario-comentarios-fecha {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.7rem;
+    color: #9ca3af;
+}
+
+.usuario-comentarios-fecha-completa {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.9rem;
+    color: #848383;
+}
+
+.usuario-comentarios-fecha-relativa {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.9rem;
+    color: #959595;
+}
+
+/* NOTICIA RELACIONADA */
+.usuario-comentarios-noticia {
+    text-align: right;
+    margin-right: 20%;
+}
+
+.usuario-comentarios-noticia-icono {
+    font-size: 1rem;
+    color: gray;
+    margin-right: 4px;
+}
+
+.usuario-comentarios-noticia-link {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+    word-break: break-word;
+    flex: 1;
+}
+
+.usuario-comentarios-noticia-link:hover {
+    text-decoration: underline;
+}
+
+/* FOOTER */
+.usuario-comentarios-card-footer {
+    padding: 0.75rem;
+    background: #f8fafc;
+    border-top: 1px solid #e5e7eb;
+}
+
+/* ACCIONES */
+.usuario-comentarios-acciones {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.usuario-comentarios-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    border: none;
+}
+
+.usuario-comentarios-btn-editar {
+    background: #3b82f6;
+    color: white;
+    padding: 7px 4.5rem;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.usuario-comentarios-btn-editar:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+.usuario-comentarios-btn-eliminar {
+    background: #ef4444;
+    color: white;
+    padding: 7px 4rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.usuario-comentarios-btn-eliminar:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+}
+
+.usuario-comentarios-btn-link {
+    background: none;
+    color: #3b82f6;
+    padding: 0;
+    display: inline-block;
+}
+
+.usuario-comentarios-btn-link:hover {
+    color: #2563eb;
+    text-decoration: underline;
+    transform: none;
+}
+
+/* ---------- ALERTAS ---------- */
+.usuario-comentarios-alerta {
+    padding: 1rem;
+    border-radius: 0.75rem;
+    margin: 1rem 0;
+}
+
+.usuario-comentarios-alerta-error {
+    background: #fee2e2;
+    color: #991b1b;
+    border-left: 4px solid #ef4444;
+}
+
+.usuario-comentarios-alerta-info {
+    background: #e0f2fe;
+    color: #0369a1;
+    border-left: 4px solid #0284c7;
+    text-align: center;
+}
+
+/* ---------- PAGINACIÓN ---------- */
+.paginacion {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+}
+
+.usuario-comentarios-pagina-btn:hover {
+    background: #f8fafc;
+    border-color: #3b82f6;
+    transform: translateY(-2px);
+}
+
+.usuario-comentarios-pagina-numero:hover {
+    background: #f8fafc;
+    border-color: #3b82f6;
+}
+
+.usuario-comentarios-pagina-activo {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
+}
+
+.usuario-comentarios-pagina-activo:hover {
+    background: #3b82f6;
+    cursor: default;
+    transform: none;
+}
+
+/* ---------- MENÚ PERFIL ---------- */
+.menu-perfil {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.menu-perfil a {
+    background: #f3f4f6;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #374151;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .usuario-comentarios-titulo {
+        font-size: 1.5rem;
+    }
+
+    .usuario-comentarios-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .usuario-comentarios-card-header {
+        text-align: center;
+    }
+
+    .usuario-comentarios-fecha {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+
+    .usuario-comentarios-acciones {
+        flex-direction: column;
+    }
+
+    .usuario-comentarios-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+}
+
+@media (max-width: 480px) {
+    .usuario-comentarios-titulo {
+        font-size: 1.3rem;
+    }
+
+    .usuario-comentarios-texto {
+        font-size: 0.85rem;
+    }
+
+    .usuario-comentarios-noticia {
+        flex-direction: column;
+        text-align: center;
+        margin-right: 0;
+    }
+
+    .usuario-comentarios-noticia-icono {
+        font-size: 1.2rem;
+    }
+
+    .usuario-comentarios-pagina-numero {
+        min-width: 1.8rem;
+        height: 1.8rem;
+        font-size: 0.75rem;
+    }
+}

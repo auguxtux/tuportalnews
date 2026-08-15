@@ -1,0 +1,298 @@
+/* ============================================
+   NOTICIAS PRIVADAS - ESTILOS PRINCIPALES
+   ============================================ */
+
+/* ---------- CONTENEDOR ---------- */
+.privado-noticias-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    /*! padding: 1rem; */
+}
+
+/* ---------- TÍTULO ---------- */
+.privado-noticias-titulo {
+    font-size: 0.95rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+    text-transform: uppercase;
+}
+
+/* ---------- ALERTAS ---------- */
+.privado-noticias-alerta,
+.privado-noticias-alert {
+    padding: 4px 1rem;
+    border-radius: 8px;
+    /*! margin: 1rem 0; */
+    background: #f8f9fa;
+    /*! border-left: 4px solid #6c757d; */
+}
+
+.privado-noticias-alerta-info,
+.privado-noticias-alert-info {
+    background: #e3f2fd;
+    border-left-color: #2196f3;
+    color: #0b5e7e;
+}
+
+.privado-noticias-alerta-error {
+    background: #ffebee;
+    border-left-color: #f44336;
+    color: #b71c1c;
+}
+
+.privado-noticias-resultados-info {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin: 1rem 0;
+}
+
+/* ---------- BOTONES ---------- */
+.privado-noticias-btn {
+    display: inline-block;
+    padding: 0.4rem 0.7rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: none;
+    /*! cursor: pointer; */
+}
+
+.privado-noticias-btn-primary {
+    background: #0d6efd;
+    color: white;
+}
+.privado-noticias-btn-primary:hover {
+    background: #0b5ed7;
+    transform: translateY(-1px);
+}
+
+.privado-noticias-btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+.privado-noticias-btn-secondary:hover {
+    background: #5c636a;
+}
+
+.privado-noticias-btn-editar {
+    background: #ffc107;
+    color: #000;
+}
+.privado-noticias-btn-editar:hover {
+    background: #e0a800;
+}
+
+.privado-noticias-btn-ver {
+    background: #17a2b8;
+    color: white;
+}
+.privado-noticias-btn-ver:hover {
+    background: #138496;
+}
+
+.privado-noticias-btn-danger {
+    background: #dc3545;
+    color: white;
+}
+.privado-noticias-btn-danger:hover {
+    background: #c82333;
+}
+
+/* Grupo de acciones en la parte superior */
+.privado-noticias-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin: 1.5rem 0;
+}
+
+/* ---------- GRID DE TARJETAS ---------- */
+.privado-noticias-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
+    margin: 1rem;
+    /*! width: 55555555555555555555px; */
+}
+
+/* ---------- TARJETA ---------- */
+.privado-noticias-card {
+    /*! background: white; */
+    border-radius: 4px;
+    /*! box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); */
+    padding: 8px 4px;
+}
+
+/* Título */
+.privado-noticias-card-titulo {
+    font-size: 0.95rem;
+    margin: 0 0 0.4rem 0;
+    text-align: center;
+}
+.privado-noticias-card-titulo a {
+    text-transform: uppercase;
+}
+.privado-noticias-card-titulo a:hover {
+    color: #0d6efd;
+}
+
+/* Subtítulo */
+.privado-noticias-card-subtitulo {
+    font-size: 0.85rem;
+    text-align: center;
+    margin-bottom: 0.75rem;
+}
+
+/* Imagen */
+.privado-noticias-card-imagen {
+    width: 100%;
+    height: 160px;
+    border-radius: 2px;
+    margin-bottom: 0.75rem;
+}
+/* Categoría y fecha */
+.privado-noticias-card-categoria,
+.privado-noticias-card-fecha {
+    font-size: 0.8rem;
+    color: #6c757d;
+    text-align: center;
+    margin-bottom: 0.25rem;
+}
+
+/* Estadísticas */
+.privado-noticias-card-stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 4px 0;
+    padding: 0.25rem 0;
+    border-top: 1px solid #e9ecef;
+    border-bottom: 1px solid #e9ecef;
+}
+.privado-noticias-stat {
+    text-align: center;
+}
+.privado-noticias-stat-numero {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #0d6efd;
+}
+.privado-noticias-stat-etiqueta {
+    font-size: 0.7rem;
+    color: #6c757d;
+    display: block;
+}
+
+/* Estado (badge) */
+.privado-noticias-card-estado {
+    text-align: center;
+    margin: 0.5rem 0;
+}
+.privado-noticias-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+.privado-noticias-badge-publicada {
+    background: #d1fae5;
+    color: #065f46;
+}
+.privado-noticias-badge-borrador {
+    background: #fef3c7;
+    color: #92400e;
+}
+.privado-noticias-badge-archivada {
+    background: #e2e3e5;
+    color: #383d41;
+}
+
+/* Acciones de la tarjeta */
+.privado-noticias-card-acciones {
+    /*! display: flex; */
+    /*! flex-wrap: wrap; */
+    /*! gap: 7px; */
+    justify-content: space-between;
+    margin-top: 0.5rem;
+}
+.privado-noticias-card-acciones .privado-noticias-btn {
+    /*! padding: 0.3rem 0.8rem; */
+    font-size: 0.85rem;
+    width: 46%;
+    display: block;
+    float: left;
+    margin: 0 1%;
+    text-align: center;
+    font-weight: 700;
+}
+
+/* ---------- PAGINACIÓN ---------- */
+.privado-noticias-paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin: 2rem 0;
+}
+.privado-noticias-pagina-numeros {
+    display: flex;
+    gap: 0.25rem;
+}
+.privado-noticias-btn-pagina {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #0d6efd;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+.privado-noticias-btn-pagina:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+}
+.privado-noticias-active {
+    background: #0d6efd;
+    color: white;
+    border-color: #0d6efd;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 992px) {
+    .privado-noticias-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .privado-noticias-container {
+        padding: 0.5rem;
+    }
+    .privado-noticias-titulo {
+        font-size: 1.5rem;
+    }
+    .privado-noticias-acciones {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .privado-noticias-acciones .privado-noticias-btn {
+        text-align: center;
+    }
+    .privado-noticias-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    .privado-noticias-paginacion {
+        flex-direction: column;
+    }
+}

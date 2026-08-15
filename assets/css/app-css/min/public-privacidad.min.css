@@ -1,0 +1,218 @@
+/* ============================================ */
+/* POLÍTICA DE PRIVACIDAD - ESTILOS CON PREFIJO public-privacidad- */
+/* Grid: 4 → 3 → 2 → 1 columnas */
+/* ============================================ */
+
+.public-privacidad-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.public-privacidad-container h1 {
+  text-align: center;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+}
+/* HEADER */
+.public-privacidad-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.public-privacidad-titulo {
+    font-size: 1.8rem;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.public-privacidad-descripcion {
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+/* GRID DE TARJETAS (4 → 3 → 2 → 1) */
+.public-privacidad-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    margin: 0 0.3rem 0;
+}
+
+/* TARJETA INDIVIDUAL */
+.public-privacidad-card {
+    background: #ffffff;
+    border-radius: 4px;
+    padding: 9px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+}
+
+.public-privacidad-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+}
+
+/* TÍTULO DE TARJETA */
+.public-privacidad-card-titulo {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 10px 0;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #b5b5b5;
+    display: inline-block;
+}
+
+/* CONTENIDO */
+.public-privacidad-card-contenido {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #4b5563;
+    flex: 1;
+}
+
+.public-privacidad-card-contenido p {
+    margin: 0 0 0.75rem 0;
+    text-align: justify;
+}
+
+/* LISTA */
+.public-privacidad-lista {
+    margin: 0.5rem 0 0 1.25rem;
+    padding: 0;
+}
+
+.public-privacidad-lista li {
+    margin: 0.5rem 0;
+    line-height: 1.4;
+}
+
+/* ENLACE */
+.public-privacidad-enlace {
+    color: #3b82f6;
+    text-decoration: none;
+}
+
+.public-privacidad-enlace:hover {
+    text-decoration: underline;
+}
+
+/* CONTACTO */
+.public-privacidad-contacto {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+/* FOOTER */
+.public-privacidad-footer {
+  text-align: center;
+  padding: 1rem;
+  background: #f8fafc;
+}
+.public-privacidad-fecha {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin: 0 0 1rem 0;
+}
+
+.public-privacidad-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.5rem;
+    background: #3b82f6;
+    color: white;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.public-privacidad-btn:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+/* ============================================ */
+/* RESPONSIVE - GRID 4 → 3 → 2 → 1 */
+/* ============================================ */
+
+/* Escritorio mediano: 3 columnas */
+@media (max-width: 1024px) {
+    .public-privacidad-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Tablet: 2 columnas */
+@media (max-width: 768px) {
+    
+    .public-privacidad-titulo {
+        font-size: 1.5rem;
+    }
+    
+    .public-privacidad-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .public-privacidad-card {
+        padding: 1.25rem;
+    }
+    
+    .public-privacidad-card-titulo {
+        font-size: 1rem;
+    }
+}
+
+/* Móvil: 1 columna */
+@media (max-width: 480px) {
+    .public-privacidad-container {
+        padding: 0.5rem;
+    }
+    
+    .public-privacidad-titulo {
+        font-size: 1.3rem;
+    }
+    
+    .public-privacidad-descripcion {
+        font-size: 0.85rem;
+    }
+    
+    .public-privacidad-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .public-privacidad-card {
+        padding: 1rem;
+    }
+    
+    .public-privacidad-card-icono {
+        font-size: 1.5rem;
+    }
+    
+    .public-privacidad-card-titulo {
+        font-size: 0.95rem;
+    }
+    
+    .public-privacidad-card-contenido {
+        font-size: 0.8rem;
+    }
+    
+    .public-privacidad-lista {
+        margin-left: 1rem;
+    }
+    
+    .public-privacidad-footer {
+        padding: 1rem;
+    }
+    
+    .public-privacidad-btn {
+        padding: 0.5rem 1.2rem;
+        font-size: 0.8rem;
+    }
+}

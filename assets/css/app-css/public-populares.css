@@ -1,0 +1,319 @@
+/* Contenedor principal */
+.populares-header h1 {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 4px;
+}
+
+.public-categorias-card-imagen{
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+/* Contenedor principal */
+.populares-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header de la página */
+.populares-header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.populares-titulo {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    text-align: center;
+    background: #bfbfbf;
+    padding: 4px;
+    text-transform: uppercase;
+}
+
+.populares-subtitulo {
+    color: #6b7280;
+    /*! text-align: left; */
+}
+
+/* Tarjeta de noticia top */
+
+.top-noticia-badge {
+    background: wheat;
+    font-weight: 600;
+    text-align: center;
+    /*! text-transform: uppercase; */
+    padding-top: 4px;
+    color: #603e00;
+    /*! width: 55555555px; */
+}
+
+.top-noticia-contenido {
+    padding: 4px;
+    background: wheat;
+    border-radius: 4px;
+}
+
+.top-noticia-titulo  {
+  flex: 1;
+  text-align: center;
+  float: left;
+  width: 50%;
+}
+.top-noticia-titulo a {
+    font-size: 1.05rem;
+}
+
+.top-noticia-visitas {
+    font-size: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    /*! color: wheat; */
+}
+
+.visitas-numero {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-right: 10px;
+    color: #755519;
+}
+
+.visitas-label {
+    font-size: 1.2rem;
+    color: #603f01;
+}
+
+/* Filtros */
+.filtros-periodo {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.filtros-form {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 3rem;
+  width: 99%;
+  justify-content: center;
+}
+.filtros-form label {
+    /*! color: #0479fc; */
+    font-weight: bold;
+}
+
+.filtros-form select {
+  padding: 4px 12px;
+  border-radius: 7px;
+  font-size: 0.95rem;
+  color: #1f2937;
+  outline: none;
+  appearance: none;
+  border: 1px inset #b9b9b9;
+    border-top-color: rgb(185, 185, 185);
+    border-right-color: rgb(185, 185, 185);
+    border-bottom-color: rgb(185, 185, 185);
+    border-left-color: rgb(185, 185, 185);
+  width: 30%;
+}
+
+.filtros-form select:hover {
+    border-color: #9ca3af;
+}
+
+/* Alertas */
+.alerta {
+    padding: 1rem 1.5rem;
+    border-radius: 0.75rem;
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+.alerta-error {
+    background: #fee2e2;
+    color: #991b1b;
+    border-left: 4px solid #dc2626;
+}
+
+.alerta-info {
+    background: #e0f2fe;
+    color: #075985;
+    border-left: 4px solid #0284c7;
+}
+
+/* Resultados header */
+.resultados-header {
+    margin: 0;
+}
+
+.resultados-info {
+    color: #6b7280;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Grid de tarjetas populares */
+.populares-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 4px;
+  margin: 0 10px;
+}
+
+/* Tarjeta individual */
+.popular-card {
+    border-radius: 4px;
+    border: 1px solid #f3f4f6;
+}
+
+/* Header de la tarjeta */
+.popular-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px;
+    background: #dbdbdb;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.popular-posicion {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #6b7280;
+    background: white;
+    padding: 0.25rem 1rem;
+    border-radius: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.popular-stats-header {
+    background: #e5e7eb;
+    padding: 0.25rem 0.75rem;
+    border-radius: 2rem;
+    font-size: 0.875rem;
+    color: #4b5563;
+}
+
+/* Imagen */
+.popular-imagen {
+    position: relative;
+}
+
+.popular-imagen img {
+    height: 200px;
+}
+
+.popular-imagen::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
+}
+
+.popular-titulo {
+  font-size: 0.95rem;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.popular-titulo a {
+  font-size: 0.9rem;
+  color: #2b2927;
+}
+
+.popular-titulo a:hover  {
+  color: #03aa25;
+}
+
+.popular-subtitulo {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+
+/* Stats grid */
+.popular-stats-grid {
+  display: flex;
+  gap: 9px;
+  flex-direction: row-reverse;
+  justify-content: center;
+  background: wheat;
+  padding: 4px;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.popular-stat-card {
+    transition: background 0.3s;
+    display: flex;
+}
+
+.popular-stat-card:hover {
+    background: #f3f4f6;
+}
+
+.popular-stat-icon  {
+  font-size: 0.85rem;
+}
+
+.popular-stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.popular-stat-value {
+    font-weight: 700;
+    color: #1f2937;
+    font-size: 0.8rem;
+}
+
+.popular-stat-label {
+    font-size: 0.7rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Footer de la tarjeta */
+.popular-card-footer {
+    padding: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.btn-leer-mas {
+    background: whitesmoke;
+    padding: 7px 14px;
+    font-weight: 500;
+    color: green;
+}
+
+.btn-leer-mas:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  transform: scale(1.02);
+  color: white;
+}
+
+.btn-icon {
+    font-size: 1.25rem;
+    transition: transform 0.3s;
+}
+
+.btn-leer-mas:hover .btn-icon {
+    transform: translateX(5px);
+}

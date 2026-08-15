@@ -1,0 +1,758 @@
+/* ADMIN - USUARIOS CON ACCESO PRIVADO
+   Estilos exclusivos para admin/usuarios-privados.php */
+
+
+/* TÍTULO PRINCIPAL */
+
+
+.privados-titulo {
+    font-size: 1.4rem;
+    color: #1f2937;
+    font-weight: 700;
+    text-align: center;
+    /*! margin: 1.5rem 0; */
+}
+
+
+/* BARRA DE GESTIÓN Y FILTROS */
+
+
+.privados-barra-gestion {
+    background: #f8fafc;
+    border-radius: 1rem;
+    padding: 9PX;
+    /*! margin-bottom: 1.5rem; */
+}
+
+.privados-filtros-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.privados-filtro-grupo {
+    flex: 1;
+    min-width: 200px;
+}
+
+.privados-campo-busqueda {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.privados-campo-busqueda:focus {
+    outline: none;
+    border-color: #9c27b0;
+    box-shadow: 0 0 0 3px rgba(156,39,176,0.1);
+}
+
+.privados-filtro-estado {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    background: white;
+}
+
+.privados-filtro-acciones {
+    display: flex;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+
+
+/* RESULTADOS INFO */
+
+
+.privados-resultados-info {
+    text-align: center;
+    /*! padding: 0.75rem; */
+    background: #f8fafc;
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+
+/* GRID DE TARJETAS */
+
+
+.privados-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10PX;
+    margin: 1.5rem 0;
+}
+
+
+/* TARJETA DE USUARIO */
+
+
+.privados-card {
+    background: white;
+    border-radius: 4PX;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    /*! border: 1px solid #e9ecef; */
+}
+
+.privados-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 24px rgba(0,0,0,0.12);
+    border-color: #8eb0ce;
+}
+
+
+/* HEADER DE LA TARJETA */
+
+
+.privados-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1rem;
+    background: linear-gradient(135deg, #8db0ce 0%, #f1f5f9 100%);
+    position: relative;
+}
+
+.privados-card-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    background: white;
+}
+
+.privados-card-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.privados-card-id {
+    background: rgba(0,0,0,0.6);
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 1rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+    backdrop-filter: blur(4px);
+}
+
+
+/* CUERPO DE LA TARJETA */
+
+
+.privados-card-body {
+    /*! padding: 1rem; */
+    flex: 1;
+}
+
+.privados-card-nombre {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1f2937;
+    text-align: center;
+}
+
+.privados-card-nombre a {
+    color: #1f2937;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.privados-card-nombre a:hover {
+    color: #9c27b0;
+}
+
+.privados-card-email {
+    font-size: 0.8rem;
+    color: #6b7280;
+    padding: 0.25rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    word-break: break-all;
+}
+
+.privados-card-fecha {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    text-align: center;
+    margin: 0.5rem 0;
+}
+
+.privados-correo-form {
+    margin: 0.65rem;
+    padding: 0.65rem;
+    border: 1px solid #dbeafe;
+    border-radius: 0.5rem;
+    background: #f8fbff;
+}
+
+.privados-correo-form label {
+    display: block;
+    margin-bottom: 0.35rem;
+    color: #334155;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.privados-correo-controles {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.privados-correo-controles input {
+    min-width: 0;
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.4rem;
+    font-size: 0.78rem;
+}
+
+.privados-btn-correo {
+    border: 0;
+    background: #2563eb;
+    color: #fff;
+    cursor: pointer;
+}
+
+
+/* BADGES DE ESTADO */
+
+
+.privados-card-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    /*! margin: 0.75rem 0; */
+    background: wheat;
+    padding: 7px 0;
+}
+
+.privados-badge {
+    display: inline-block;
+    padding: 0.25rem 0.6rem;
+    border-radius: 2rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.privados-badge-activo {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.privados-badge-inactivo {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.privados-badge-privado-activo {
+    background: #e9ecef;
+    color: #1f2937;
+    border: 1px solid #9c27b0;
+}
+
+.privados-badge-privado-inactivo {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+
+/* ESTADÍSTICAS */
+
+
+.privados-card-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /*! gap: 0.5rem; */
+    /*! margin-top: 1rem; */
+    /*! padding-top: 0.75rem; */
+    border-top: 1px solid #9d9d9d;
+}
+
+.privados-stat-item {
+    text-align: center;
+    background: #f8fafc;
+    padding: 0.5rem 0.25rem;
+    border-radius: 0.5rem;
+}
+
+.privados-stat-valor {
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #9c27b0;
+    line-height: 1.2;
+}
+
+.privados-stat-etiqueta {
+    font-size: 0.6rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+
+/* FOOTER DE LA TARJETA */
+
+
+.privados-card-footer {
+    padding: 1rem;
+    background: linear-gradient(135deg, #8db0ce 0%, #f1f5f9 100%);
+    border-top: 1px solid #e5e7eb;
+}
+
+
+/* ACCIONES Y BOTONES */
+
+
+.privados-acciones-botones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.privados-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    /*! cursor: pointer; */
+    transition: all 0.2s;
+    /*! text-decoration: none; */
+    /*! border: none; */
+}
+
+.privados-btn-filtrar {
+    background: #9c27b0;
+    color: white;
+}
+
+.privados-btn-filtrar:hover {
+    background: #7b1fa2;
+    transform: translateY(-2px);
+}
+
+.privados-btn-limpiar {
+    background: #6b7280;
+    color: white;
+}
+
+.privados-btn-limpiar:hover {
+    background: #4b5563;
+    transform: translateY(-2px);
+}
+
+.privados-btn-nuevo {
+    background: #10b981;
+    color: white;
+}
+
+.privados-btn-nuevo:hover {
+    background: #059669;
+    transform: translateY(-2px);
+}
+
+.privados-btn-activar {
+    background: #10b981;
+    color: white;
+}
+
+.privados-btn-activar:hover {
+    background: #059669;
+    transform: translateY(-2px);
+}
+
+.privados-btn-desactivar {
+    background: #f59e0b;
+    color: white;
+}
+
+.privados-btn-desactivar:hover {
+    background: #d97706;
+    transform: translateY(-2px);
+}
+
+.privados-btn-eliminar {
+    background: #ef4444;
+    color: white;
+}
+
+.privados-btn-eliminar:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+}
+
+.privados-btn-ver {
+    background: #3b82f6;
+    color: white;
+}
+
+.privados-btn-ver:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+
+/* ALERTAS */
+
+
+.privados-alerta {
+    padding: 1rem;
+    border-radius: 0.75rem;
+    margin: 1rem 0;
+}
+
+.privados-alerta-error {
+    background: #fee2e2;
+    color: #991b1b;
+    border-left: 4px solid #ef4444;
+}
+
+.privados-alerta-info {
+    background: #e0f2fe;
+    color: #0369a1;
+    border-left: 4px solid #0284c7;
+    text-align: center;
+}
+
+
+/* PAGINACIÓN */
+
+
+.privados-pagina-btn:hover {
+    background: #f8fafc;
+    border-color: #9c27b0;
+    transform: translateY(-2px);
+}
+
+.privados-pagina-numero:hover {
+    background: #f8fafc;
+    border-color: #9c27b0;
+}
+
+.privados-pagina-activo {
+    background: #9c27b0;
+    border-color: #9c27b0;
+    color: white;
+}
+
+.privados-pagina-activo:hover {
+    background: #9c27b0;
+    cursor: default;
+    transform: none;
+}
+
+
+/* RESPONSIVE */
+
+
+@media (max-width: 1200px) {
+    .privados-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .privados-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .privados-titulo {
+        font-size: 1.5rem;
+    }
+    
+    .privados-filtros-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .privados-filtro-grupo {
+        min-width: auto;
+    }
+    
+    .privados-filtro-acciones {
+        flex-direction: column;
+    }
+    
+    .privados-btn-filtrar,
+    .privados-btn-limpiar,
+    .privados-btn-nuevo {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .privados-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .privados-card-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        text-align: center;
+    }
+    
+    .privados-card-id {
+        position: static;
+        display: inline-block;
+    }
+    
+    .privados-card-stats {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+    
+    .privados-stat-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem;
+    }
+    
+    .privados-stat-valor {
+        display: inline;
+        font-size: 0.9rem;
+    }
+    
+    .privados-stat-etiqueta {
+        display: inline;
+        font-size: 0.7rem;
+    }
+    
+    .privados-acciones-botones {
+        flex-direction: column;
+    }
+    
+    .privados-btn {
+        width: 100%;
+        text-align: center;
+    }
+    
+}
+
+@media (max-width: 480px) {
+    .privados-card-avatar {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .privados-card-nombre {
+        font-size: 1rem;
+    }
+    
+    .privados-card-email {
+        font-size: 0.75rem;
+    }
+}
+
+
+/* Modal */
+.privados-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.privados-btn-warning {
+    background: #f59e0b;
+    color: white;
+}
+
+.privados-btn-warning:hover {
+    background: #d97706;
+}
+
+.privados-btn-danger {
+    background: #dc2626;
+    color: white;
+}
+
+.privados-btn-danger:hover {
+    background: #b91c1c;
+}
+
+.privados-btn-secondary {
+    background: #6b7280;
+    color: white;
+}
+
+.privados-btn-secondary:hover {
+    background: #4b5563;
+}
+
+/* Ajustes de presentación de la vista actual */
+.privados-encabezado {
+    margin: 1rem 0 1.25rem;
+    padding: 1.25rem;
+    text-align: center;
+    background: linear-gradient(135deg, #eef6ff, #f8fafc);
+    border: 1px solid #dbeafe;
+    border-radius: 0.9rem;
+}
+
+.privados-encabezado .privados-titulo {
+    margin: 0;
+}
+
+.privados-encabezado p {
+    margin: 0.4rem 0 0;
+    color: #526173;
+}
+
+.privados-barra-gestion {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #e2e8f0;
+}
+
+.privados-filtro-grupo label {
+    display: block;
+    margin-bottom: 0.35rem;
+    color: #374151;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.privados-filtro-estado-grupo {
+    max-width: 220px;
+}
+
+.privados-filtro-acciones {
+    align-self: flex-end;
+}
+
+.privados-vacio {
+    padding: 2rem 1rem;
+    text-align: center;
+    color: #64748b;
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 0.75rem;
+}
+
+.privados-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.privados-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+}
+
+.privados-card:hover {
+    transform: translateY(-3px);
+}
+
+.privados-card-header {
+    align-items: center;
+}
+
+.privados-card-body {
+    padding: 1rem;
+}
+
+.privados-card-badges {
+    margin: 0.8rem -1rem 0;
+    padding: 0.7rem 0.5rem;
+    background: #f8fafc;
+}
+
+.privados-card-stats {
+    margin: 0 -1rem -1rem;
+}
+
+.privados-stat-item {
+    border-radius: 0;
+}
+
+.privados-card-footer {
+    padding: 0.8rem;
+}
+
+.privados-accion-form {
+    display: flex;
+}
+
+.privados-modal {
+    display: flex;
+    padding: 1rem;
+}
+
+.privados-modal-opciones {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.privados-opcion {
+    margin: 0;
+    align-items: center;
+}
+
+.privados-btn-warning,
+.privados-btn-danger,
+.privados-btn-secondary {
+    padding: 0.6rem 1rem;
+    border: 0;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .privados-filtro-estado-grupo {
+        max-width: none;
+    }
+
+    .privados-filtro-acciones,
+    .privados-acciones-botones,
+    .privados-accion-form {
+        width: 100%;
+    }
+
+    .privados-modal-buttons {
+        flex-direction: column-reverse;
+    }
+
+    .privados-modal-buttons > * {
+        width: 100%;
+        text-align: center;
+    }
+}

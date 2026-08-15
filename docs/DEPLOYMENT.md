@@ -1,0 +1,78 @@
+# Despliegue y reversión
+
+## Preparación
+
+1. Trabajar y validar en una rama de desarrollo creada desde `main`.
+2. Ejecutar `scripts/check-version.sh`.
+3. Confirmar un árbol Git limpio y dependencias bloqueadas.
+4. Crear un backup reciente de producción.
+5. Revisar las migraciones pendientes y su reversión.
+6. Crear el commit y la etiqueta de versión autorizados.
+
+## Despliegue
+
+Desplegar únicamente código y migraciones. Conservar en producción:
+
+- `.env` y credenciales locales;
+- configuración SMTP y AEMET;
+- base de datos y sesiones;
+- uploads, logs, cachés y backups.
+
+Las cachés de INE, Eurostat, ONU y UNICEF ubicadas en `storage/cache/` son
+datos locales y no deben versionarse. El servidor necesita salida HTTPS hacia
+los endpoints oficiales de estos organismos; una caché anterior permite
+tolerar una caída temporal, pero la primera carga requiere acceso a los
+proveedores. ONU consulta como máximo seis países por petición y cada
+proveedor conserva su error y caché de forma independiente. Las fuentes
+internacionales de actualización lenta se renuevan semanalmente; la tabla MPI
+se renueva mensualmente.
+
+El catálogo NASA necesita salida HTTPS hacia `images-api.nasa.gov` y
+`images-assets.nasa.gov`. Su caché vive en `storage/cache/nasa/`, no se
+versiona y puede recrearse automáticamente. Antes de desplegar el módulo deben
+aplicarse las migraciones de `video_tipo` y `medio_principal`.
+
+Aplicar las migraciones pendientes una a una y ejecutar su verificación.
+No copiar la base de datos de desarrollo a producción.
+
+Para 1.0.0 revisar y aplicar, si todavía están pendientes:
+
+- `20260813_eliminar_fecha_nacimiento_usuarios.sql`: elimina la columna que
+  la aplicación ya no solicita; requiere backup porque los valores anteriores
+  no pueden reconstruirse;
+- `20260813_sincronizar_valoraciones_noticias.sql`: recalcula los acumulados
+  desde los votos existentes y puede repetirse de forma segura.
+- `20260813_asignar_ubicacion_noticias.sql`: asigna “Sin ubicación” únicamente
+  a noticias antiguas que carecen de una ubicación válida.
+
+## Verificación posterior
+
+- comprobar portada, login, categorías, fuentes, noticias por lugares, noticia,
+  tiempo y catálogo NASA;
+- comprobar que las tarjetas y metadatos coinciden con desarrollo y regenerar
+  las copias CSS antes de activar el modo de producción;
+- comprobar permisos de administrador, articulista y colaborador;
+- ejecutar el flujo afectado por cada migración;
+- revisar respuestas 500 y logs recientes;
+- confirmar versión y commit desplegados.
+
+Confirmar además que los scripts se sirven desde
+`assets/js/app-js/` y que las antiguas rutas JavaScript `/min/*.min.js` no son
+necesarias.
+
+## Backups y restauración
+
+La restauración de archivos extrae y valida primero el ZIP en `tmp/`. Cada
+archivo se sustituye mediante un nombre temporal, pero MySQL y el sistema de
+archivos no comparten una única transacción. Por ello sigue siendo obligatorio
+crear un backup reciente antes de una restauración completa y verificar el
+resultado antes de reabrir el portal.
+
+## Reversión
+
+1. Detener el despliegue ante la primera prueba fallida.
+2. Recuperar el commit o artefacto anterior sin reescribir el historial.
+3. Ejecutar la reversión documentada de la migración afectada o restaurar el
+   backup previo si la migración no es reversible.
+4. Conservar los datos y archivos locales de producción.
+5. Repetir las comprobaciones de la versión anterior.

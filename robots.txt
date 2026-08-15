@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /ajax/
+Disallow: /includes/
+Disallow: /periodista/
+Disallow: /privado/
+Disallow: /usuario/
+Disallow: /cache/
+Disallow: /logs/
+Disallow: /tmp/
+
+Sitemap: https://develop.erun.es/sitemap.xml

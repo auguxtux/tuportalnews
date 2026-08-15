@@ -118,20 +118,21 @@
 .public-periodista-header {
   display: flex;
   margin-bottom: 4px;
-  justify-content: space-between;
+  justify-content: space-around;
   border-bottom: 1px solid #ccc;
   align-items: center;
+  gap: 1rem;
 }
 .public-periodista-header-avatar {
   flex-shrink:0;
 }
 .public-periodista-header-avatar img {
-  width:auto;
-  height:60px;
-  border-radius:50%;
-  object-fit:cover;
-  border:1px solid #3b82f6;
-  margin:0 9%;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #3b82f6;
+  padding: 2px;
 }
 .public-periodista-header-info {
   flex:1;
@@ -182,12 +183,11 @@
   padding:0 4px;
 }
 .public-periodista-noticias-titulo {
-  font-size:1.05rem;
-  font-weight:600;
-  color:#1f2937;
-  margin-bottom:1rem;
-  text-align:center;
-  text-transform:uppercase;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #1f2937;
+  text-align: center;
+  text-transform: uppercase;
 }
 .public-periodista-noticias-resultados {
   text-align:center;

@@ -288,11 +288,6 @@ $esta_logueado = isset($_SESSION['usuario_id']);
             <a href="<?php echo route('mis_comentarios'); ?>">💬&nbsp;&nbsp; Mis Comentarios</a>
 
         </li>
-        <li class="<?php echo is_active('mis_favoritas'); ?>">
-
-            <a href="<?php echo route('mis_favoritas'); ?>">❤️&nbsp;&nbsp; Mis Favoritas</a>
-
-        </li>
         <?php endif; ?>
 
         
@@ -307,6 +302,11 @@ $esta_logueado = isset($_SESSION['usuario_id']);
         <li class="<?php echo is_active($perfil_route); ?>">
 
             <a href="<?php echo route($perfil_route); ?>">👤&nbsp;&nbsp; Mi Perfil</a>
+
+        </li>
+        <li class="<?php echo is_active('mis_favoritas'); ?>">
+
+            <a href="<?php echo route('mis_favoritas'); ?>">❤️&nbsp;&nbsp; Mis Favoritas</a>
 
         </li>
         <?php endif; ?>

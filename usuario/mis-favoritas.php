@@ -8,16 +8,19 @@ declare(strict_types=1);
 require_once __DIR__ . '/../includes/bootstrap.php';
 require_once __DIR__ . '/../includes/permisos.php';
 require_once __DIR__ . '/../includes/minify.php';
+require_once __DIR__ . '/../includes/privado.php';
 
 Permisos::requerirLogin();
 
-if (!esUsuario()) {
-    http_response_code(403);
-    exit('Acceso no autorizado');
-}
-
 $pdo = db();
 $idUsuario = (int) ($_SESSION['usuario_id'] ?? 0);
+$rutaPanel = match ($_SESSION['usuario_rol'] ?? '') {
+    'admin' => 'admin',
+    'periodista' => usuarioEsPrivado()
+        ? 'privado_dashboard'
+        : 'periodista_dashboard',
+    default => 'usuario_dashboard',
+};
 $favoritas = [];
 $error = null;
 
@@ -89,7 +92,7 @@ require_once __DIR__ . '/../partials/header.php';
     <?php endif; ?>
 
     <p class="panel-usuario-accion-cuenta">
-        <a href="<?php echo route('usuario_dashboard'); ?>" class="panel-usuario-btn panel-usuario-btn-principal">
+        <a href="<?php echo route($rutaPanel); ?>" class="panel-usuario-btn panel-usuario-btn-principal">
             ← Volver a Mi Panel
         </a>
     </p>

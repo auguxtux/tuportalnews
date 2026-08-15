@@ -138,6 +138,12 @@ function configurarSelectoresAemet() {
         cargarMunicipios(provinciaSelect.value);
     });
 
+    formulario.addEventListener('submit', () => {
+        const destino = new URL(urlTiempo, window.location.origin);
+        destino.hash = 'aemetResultados';
+        formulario.action = destino.toString();
+    });
+
     if (!botonUbicacion) {
         return;
     }
@@ -248,6 +254,7 @@ function configurarSelectoresAemet() {
         'municipio',
         datos.municipio.codigo
     );
+    destino.hash = 'aemetResultados';
 
     window.location.assign(destino.toString());
 

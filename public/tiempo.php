@@ -281,7 +281,7 @@ $separadorVersion = str_contains($urlJavaScriptTiempo, '?')
     ? '&'
     : '?';
 
-$urlJavaScriptTiempo .= $separadorVersion . 'v=20260806-6';
+$urlJavaScriptTiempo .= $separadorVersion . 'v=20260815-1';
 ?>
 
 <script
@@ -431,6 +431,12 @@ $urlJavaScriptTiempo .= $separadorVersion . 'v=20260806-6';
             </p>
         </form>
     <?php endif; ?>
+
+    <div
+        id="aemetResultados"
+        class="aemet-resultados-ancla"
+        tabindex="-1"
+    ></div>
 
     <?php if (
         is_array($estadoCache)

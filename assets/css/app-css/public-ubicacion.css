@@ -229,6 +229,17 @@
     align-items: center !important;
 }
 
+.grid-noticias .news-card--location .tarjeta-metadatos {
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 0.5rem 1rem;
+}
+
+.grid-noticias .news-card--location .tarjeta-metadatos > * {
+    flex: 0 1 auto;
+    width: auto;
+}
+
 .metadato-autor {
     display: flex;
     align-items: center;

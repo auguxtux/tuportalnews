@@ -472,3 +472,14 @@
         font-size: 0.9rem;
     }
 }
+
+.news-card.news-card--source .tarjeta-metadatos {
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 0.5rem 1rem;
+}
+
+.news-card.news-card--source .tarjeta-metadatos > * {
+    flex: 0 1 auto;
+    width: auto;
+}

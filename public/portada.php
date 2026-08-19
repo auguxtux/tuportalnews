@@ -433,7 +433,25 @@ require_once __DIR__ . '/../partials/header.php';
                     </div>
                     <div class="ultima-contenido news-card__body">
                         <span class="ultima-categoria"><?php echo htmlspecialchars($noticia['nombre_categoria']); ?></span>
-                        <div class="ultima-meta news-card__meta news-card__meta--standard news-card__meta--inline"><span>👤 <a href="<?php echo route('periodistas', ['id' => (int) $noticia['id_autor']]); ?>"><?php echo htmlspecialchars($noticia['autor_nombre']); ?></a></span><span>👁️ <?php echo number_format($noticia['visitas']); ?></span></div>
+                        <div class="ultima-meta news-card__meta news-card__meta--standard news-card__meta--inline">
+                            <span>👤 <a href="<?php echo route('periodistas', ['id' => (int) $noticia['id_autor']]); ?>"><?php echo htmlspecialchars($noticia['autor_nombre']); ?></a></span>
+                            <span>👁️ <?php echo number_format($noticia['visitas']); ?></span>
+                            <?php
+                            $nombre_ubi = '';
+                            if ($noticia['tipo_ubicacion'] == 'espana' && $noticia['id_provincia']) {
+                                $stmt_ub = $pdo->prepare("SELECT p.nombre as provincia, c.nombre as comunidad FROM provincias p JOIN comunidades c ON p.id_comunidad = c.id_comunidad WHERE p.id_provincia = ?");
+                                $stmt_ub->execute([$noticia['id_provincia']]);
+                                $ubi = $stmt_ub->fetch();
+                                if ($ubi) $nombre_ubi = $ubi['provincia'];
+                            } elseif ($noticia['tipo_ubicacion'] == 'internacional' && !empty($noticia['lugar_internacional'])) {
+                                $nombre_ubi = $noticia['lugar_internacional'];
+                            } elseif ($noticia['tipo_ubicacion'] == 'otras' && !empty($noticia['otras_ubicacion'])) {
+                                $nombre_ubi = $noticia['otras_ubicacion'];
+                            }
+                            if ($nombre_ubi): ?>
+                                <span>📍 <?php echo htmlspecialchars($nombre_ubi); ?></span>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </article>
                 <?php endforeach; ?>

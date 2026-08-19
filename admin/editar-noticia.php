@@ -42,6 +42,7 @@ if (!$noticia) {
 // Obtener categorías para el selector
 $categorias = $pdo->query("SELECT * FROM categorias WHERE activa = 1 ORDER BY nombre_categoria")->fetchAll();
 $fuentes = $pdo->query("SELECT id_fuente, nombre FROM fuentes WHERE activa = 1 ORDER BY nombre")->fetchAll();
+$provincias = $pdo->query("SELECT id_provincia, nombre FROM provincias ORDER BY nombre")->fetchAll();
 
 $errores = [];
 $datos = $noticia;
@@ -63,7 +64,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
         'id_categoria' => (int)($_POST['id_categoria'] ?? 0),
         'id_fuente' => !empty($_POST['id_fuente']) ? (int) $_POST['id_fuente'] : null,
         'fuente' => '',
-        'estado' => $_POST['estado'] ?? 'borrador'
+        'estado' => $_POST['estado'] ?? 'borrador',
+        'tipo_ubicacion' => $_POST['tipo_ubicacion'] ?? 'otras',
+        'id_provincia' => (int)($_POST['id_provincia'] ?? 0),
+        'lugar_internacional' => limpiarDatos($_POST['lugar_internacional'] ?? ''),
+        'otras_ubicacion' => limpiarDatos($_POST['otras_ubicacion'] ?? '')
     ];
     
     if (empty($datos['titulo'])) $errores[] = 'El título es obligatorio';
@@ -80,13 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
         }
     }
 
-    if (!empty($noticia['id_fuente_rss'])) {
-        $datos['fuente'] = trim((string) ($noticia['fuente'] ?? ''));
-        $datos['id_fuente'] = $noticia['id_fuente'] ?? null;
-        if ($datos['fuente'] === '') {
-            $errores[] = 'La noticia RSS no tiene una fuente válida';
-        }
-    } elseif (empty($datos['id_fuente'])) {
+    if (empty($datos['id_fuente'])) {
         $errores[] = 'Debes seleccionar una fuente';
     } else {
         $stmt_fuente = $pdo->prepare(
@@ -129,6 +128,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
         $errores[] = 'La imagen principal es obligatoria';
     }
 
+    // Validación de ubicación
+    if (!in_array($datos['tipo_ubicacion'], ['espana', 'internacional', 'otras'], true)) {
+        $errores[] = 'Debes seleccionar una ubicación';
+    } elseif ($datos['tipo_ubicacion'] === 'espana' && $datos['id_provincia'] <= 0) {
+        $errores[] = 'Debes seleccionar una provincia';
+    } elseif ($datos['tipo_ubicacion'] === 'internacional' && empty($datos['lugar_internacional'])) {
+        $errores[] = 'Debes indicar el lugar internacional';
+    } elseif ($datos['tipo_ubicacion'] === 'otras' && empty($datos['otras_ubicacion'])) {
+        $errores[] = 'Debes indicar el nombre del lugar';
+    }
+
     if (empty($errores)) {
         try {
             $slug = generarSlug($datos['titulo']);
@@ -143,6 +153,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
                     id_categoria = :id_categoria,
                     id_fuente = :id_fuente,
                     estado = :estado,
+                    tipo_ubicacion = :tipo_ubicacion,
+                    id_provincia = :id_provincia,
+                    lugar_internacional = :lugar_internacional,
+                    otras_ubicacion = :otras_ubicacion,
                     fecha_actualizacion = NOW()
                     WHERE id_noticia = :id";
 
@@ -157,6 +171,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
                 ':id_categoria' => $datos['id_categoria'],
                 ':id_fuente' => $datos['id_fuente'],
                 ':estado' => $datos['estado'],
+                ':tipo_ubicacion' => $datos['tipo_ubicacion'],
+                ':id_provincia' => $datos['tipo_ubicacion'] === 'espana' ? $datos['id_provincia'] : null,
+                ':lugar_internacional' => $datos['tipo_ubicacion'] === 'internacional' ? $datos['lugar_internacional'] : null,
+                ':otras_ubicacion' => $datos['tipo_ubicacion'] === 'otras' ? $datos['otras_ubicacion'] : null,
                 ':id' => $id_noticia
             ]);
 
@@ -292,16 +310,8 @@ require_once __DIR__ . '/../partials/header.php';
 
                 <div class="admin-editar-noticia-campo">
                     <label for="id_fuente">📰 Fuente *</label>
-                    <?php if (!empty($noticia['id_fuente_rss'])): ?>
-                        <input
-                            type="text"
-                            id="id_fuente"
-                            value="<?php echo htmlspecialchars((string) $noticia['fuente'], ENT_QUOTES, 'UTF-8'); ?>"
-                            readonly
-                        >
-                        <small>La fuente original de una noticia RSS se conserva automáticamente.</small>
-                    <?php else: ?>
-                        <select id="id_fuente" name="id_fuente" required>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <select id="id_fuente" name="id_fuente" required style="flex: 1;">
                             <option value="">Selecciona una fuente</option>
                             <?php foreach ($fuentes as $fuente): ?>
                                 <option
@@ -312,6 +322,10 @@ require_once __DIR__ . '/../partials/header.php';
                                 </option>
                             <?php endforeach; ?>
                         </select>
+                        <button type="button" id="btnCrearFuente" class="admin-editar-noticia-btn-mini">+ Nueva</button>
+                    </div>
+                    <?php if (!empty($noticia['id_fuente_rss'])): ?>
+                        <small>Fuente RSS original.</small>
                     <?php endif; ?>
                 </div>
                 
@@ -329,6 +343,38 @@ require_once __DIR__ . '/../partials/header.php';
                         <option value="destacada" <?php echo $datos['estado'] == 'destacada' ? 'selected' : ''; ?>>⭐ Destacada</option>
 
                     </select>
+                </div>
+
+                <div class="admin-editar-noticia-campo admin-editar-noticia-campo-full">
+                    <label for="tipo_ubicacion">📍 Ubicación *</label>
+                    <div class="admin-editar-noticia-radio-group">
+                        <label><input type="radio" name="tipo_ubicacion" value="espana" <?php echo ($datos['tipo_ubicacion'] ?? 'espana') === 'espana' ? 'checked' : ''; ?>> 🇪🇸 España</label>
+                        <label><input type="radio" name="tipo_ubicacion" value="internacional" <?php echo ($datos['tipo_ubicacion'] ?? '') === 'internacional' ? 'checked' : ''; ?>> 🌍 Internacional</label>
+                        <label><input type="radio" name="tipo_ubicacion" value="otras" <?php echo ($datos['tipo_ubicacion'] ?? '') === 'otras' ? 'checked' : ''; ?>> 🗺️ Otras ubicaciones</label>
+                    </div>
+
+                    <div id="provincia-container" style="margin-top: 0.75rem; <?php echo ($datos['tipo_ubicacion'] ?? 'espana') !== 'espana' ? 'display:none;' : ''; ?>">
+                        <label>🏞️ Provincia</label>
+                        <select name="id_provincia">
+                            <option value="">Seleccionar</option>
+                            <?php foreach ($provincias as $prov): ?>
+                                <option value="<?php echo $prov['id_provincia']; ?>" <?php echo ($datos['id_provincia'] ?? 0) == $prov['id_provincia'] ? 'selected' : ''; ?>>
+                                    <?php echo htmlspecialchars($prov['nombre']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div id="internacional-container" style="margin-top: 0.75rem; <?php echo ($datos['tipo_ubicacion'] ?? '') !== 'internacional' ? 'display:none;' : ''; ?>">
+                        <label>🌎 Lugar internacional</label>
+                        <input type="text" name="lugar_internacional" value="<?php echo htmlspecialchars($datos['lugar_internacional'] ?? ''); ?>" placeholder="Ej: Nueva York, Londres, París...">
+                    </div>
+
+                    <div id="otras-container" style="margin-top: 0.75rem; <?php echo ($datos['tipo_ubicacion'] ?? '') !== 'otras' ? 'display:none;' : ''; ?>">
+                        <label>🗺️ Nombre del lugar</label>
+                        <input type="text" name="otras_ubicacion" value="<?php echo htmlspecialchars($datos['otras_ubicacion'] ?? ''); ?>" placeholder="Ej: Isla de Pascua, Machu Picchu...">
+                        <small>Escribe cualquier ubicación que no esté en la lista de provincias</small>
+                    </div>
                 </div>
             </div>
             
@@ -359,7 +405,11 @@ require_once __DIR__ . '/../partials/header.php';
             <div class="admin-editar-noticia-campo">
                 <label for="contenido">📰 Contenido *</label>
                 <textarea id="contenido" name="contenido" rows="12" required 
-                          placeholder="Escribe el contenido de la noticia..."><?php echo htmlspecialchars($datos['contenido']); ?></textarea>
+                          placeholder="Escribe el contenido de la noticia..."><?php echo htmlspecialchars(
+                    html_entity_decode((string) $datos['contenido'], ENT_QUOTES | ENT_HTML5, 'UTF-8'),
+                    ENT_QUOTES | ENT_SUBSTITUTE,
+                    'UTF-8'
+                ); ?></textarea>
 
             </div>
             
@@ -489,6 +539,18 @@ require_once __DIR__ . '/../partials/header.php';
 </div>
 
 <script>
+// Toggle ubicación
+function toggleUbicacion() {
+    const seleccionado = document.querySelector('input[name="tipo_ubicacion"]:checked');
+    if (!seleccionado) return;
+    const provinciaContainer = document.getElementById('provincia-container');
+    const internacionalContainer = document.getElementById('internacional-container');
+    const otrasContainer = document.getElementById('otras-container');
+    if (provinciaContainer) provinciaContainer.style.display = seleccionado.value === 'espana' ? 'block' : 'none';
+    if (internacionalContainer) internacionalContainer.style.display = seleccionado.value === 'internacional' ? 'block' : 'none';
+    if (otrasContainer) otrasContainer.style.display = seleccionado.value === 'otras' ? 'block' : 'none';
+}
+
 // Vista previa de imagen
 document.addEventListener('DOMContentLoaded', function() {
     const inputImagen = document.getElementById('imagen');
@@ -509,6 +571,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Toggle ubicación
+    toggleUbicacion();
+    document.querySelectorAll('input[name="tipo_ubicacion"]').forEach(function(radio) {
+        radio.addEventListener('change', toggleUbicacion);
+    });
 });
 </script>
 
@@ -561,6 +629,34 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
+});
+
+// Crear fuente nueva
+function crearFuente() {
+    var nombre = prompt('Nombre de la nueva fuente:');
+    if (!nombre) return;
+    fetch('/ajax/crear-fuente.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'nombre=' + encodeURIComponent(nombre) + '&csrf_token=<?php echo generarTokenCSRF(); ?>'
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            var select = document.getElementById('id_fuente');
+            var option = document.createElement('option');
+            option.value = data.id || '';
+            option.textContent = data.nombre;
+            option.selected = true;
+            select.appendChild(option);
+            alert('✅ Fuente creada');
+        } else {
+            alert('❌ ' + data.error);
+        }
+    });
+}
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('btnCrearFuente')?.addEventListener('click', crearFuente);
 });
 </script>
 

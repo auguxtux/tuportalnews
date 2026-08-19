@@ -900,7 +900,7 @@ function importarFeedNoticias($url, $id_categoria, $id_autor, $limite = 10) {
             $titulo, 
             $slug, 
             $contenido, 
-            $link, 
+            extraerDominioFuente($link), 
             $imagen_externa,
             $id_autor, 
             $id_categoria,

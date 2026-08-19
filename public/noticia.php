@@ -363,6 +363,28 @@ $mostrarGaleriaCompleta = $videoEsPrincipal ? $totalImagenes > 0 : $totalImagene
         </h2>
     <?php endif; ?>
 
+    <?php
+    $nombre_ubi = '';
+    if ($noticia['tipo_ubicacion'] == 'espana' && $noticia['id_provincia']) {
+        $stmt_ub = $pdo->prepare("SELECT p.nombre as provincia, c.nombre as comunidad FROM provincias p JOIN comunidades c ON p.id_comunidad = c.id_comunidad WHERE p.id_provincia = ?");
+        $stmt_ub->execute([$noticia['id_provincia']]);
+        $ubi = $stmt_ub->fetch();
+        if ($ubi) $nombre_ubi = $ubi['provincia'] . ' (' . $ubi['comunidad'] . ')';
+    } elseif ($noticia['tipo_ubicacion'] == 'internacional' && !empty($noticia['lugar_internacional'])) {
+        $nombre_ubi = $noticia['lugar_internacional'];
+    } elseif ($noticia['tipo_ubicacion'] == 'otras' && !empty($noticia['otras_ubicacion'])) {
+        $nombre_ubi = $noticia['otras_ubicacion'];
+    }
+    ?>
+    <div class="new-meta-bar" style="display:flex;flex-wrap:wrap;gap:1rem;padding:0.75rem 0;margin:0.5rem 0;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;font-size:0.9rem;color:#6b7280;">
+        <span>✍️ <?= htmlspecialchars($meta_autor); ?></span>
+        <span>📂 <?= htmlspecialchars($meta_seccion); ?></span>
+        <span>📅 <?= formatearFecha($noticia['fecha_publicacion'], 'd/m/Y H:i'); ?></span>
+        <?php if ($nombre_ubi): ?>
+            <span>📍 <?= htmlspecialchars($nombre_ubi); ?></span>
+        <?php endif; ?>
+    </div>
+
     <?php if ($reportesConfirmadosNoticia['total'] > 0): ?>
         <aside class="reporte-confirmado-aviso" aria-label="Reportes confirmados de esta noticia">
             <strong>🚩 <?= (int) $reportesConfirmadosNoticia['total']; ?> reporte<?= $reportesConfirmadosNoticia['total'] === 1 ? '' : 's'; ?> confirmado<?= $reportesConfirmadosNoticia['total'] === 1 ? '' : 's'; ?></strong>

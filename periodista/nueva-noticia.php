@@ -199,7 +199,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
         if ($rssSeleccionado !== null) {
-            $datos['fuente'] = (string) $rssSeleccionado['item']['enlace'];
+            $datos['fuente'] = extraerDominioFuente((string) $rssSeleccionado['item']['enlace']);
             $datos['id_fuente'] = null;
         } elseif ($datos['fuente'] === '') {
             $errores[] = 'Debes seleccionar una fuente';

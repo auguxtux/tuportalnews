@@ -165,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     $item['titulo'],
                                     $slug,
                                     $item['contenido'],
-                                    $item['enlace'],
+                                    extraerDominioFuente($item['enlace']),
                                     $idFuente,
                                     $hash,
                                     $item['imagen'],

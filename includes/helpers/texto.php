@@ -28,3 +28,32 @@ function obtenerPrimerParrafo($contenido, $limite = 300) {
     
     return $texto . '...';
 }
+
+/**
+ * Extrae el dominio legible de una URL (sin www ni extensión).
+ * Ejemplos:
+ *   https://www.elpais.com/noticia → elpais
+ *   https://feeds.efe.com/rss/efe → efe
+ *   elpais.com → elpais
+ *   Reuters → Reuters (si no es URL)
+ */
+function extraerDominioFuente(string $url): string {
+    $url = trim($url);
+    if ($url === '') return $url;
+
+    // Si no parece URL, devolver tal cual (nombre de fuente manual)
+    if (preg_match('/^https?:\/\//i', $url) === 0) {
+        return $url;
+    }
+
+    $host = parse_url($url, PHP_URL_HOST);
+    if (!$host) return $url;
+
+    // Quitar www.
+    $host = preg_replace('/^www\./i', '', $host);
+
+    // Quitar extensión (.com, .es, .org, etc.)
+    $host = preg_replace('/\.[a-z]{2,}$/', '', $host);
+
+    return strtolower(trim($host));
+}

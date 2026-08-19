@@ -180,6 +180,9 @@ require_once __DIR__ . '/../partials/header.php';
                         } elseif ($noticia['tipo_ubicacion'] == 'internacional' && $noticia['lugar_internacional']) {
                             $nombre_ubicacion = $noticia['lugar_internacional'];
                             $url_ubicacion = 'ubicacion.php?internacional=' . urlencode($noticia['lugar_internacional']);
+                        } elseif ($noticia['tipo_ubicacion'] == 'otras' && !empty($noticia['otras_ubicacion'])) {
+                            $nombre_ubicacion = $noticia['otras_ubicacion'];
+                            $url_ubicacion = 'ubicacion.php?otras=' . urlencode($noticia['otras_ubicacion']);
                         }
                         
                         if ($nombre_ubicacion): ?>

@@ -190,14 +190,8 @@ try {
         }
 
         if ($rssSeleccionado !== null) {
-            $datos['fuente'] = (string) $rssSeleccionado['item']['enlace'];
+            $datos['fuente'] = extraerDominioFuente((string) $rssSeleccionado['item']['enlace']);
             $datos['id_fuente'] = null;
-        } elseif (!empty($noticia['id_fuente_rss'])) {
-            $datos['fuente'] = trim((string) ($noticia['fuente'] ?? ''));
-            $datos['id_fuente'] = $noticia['id_fuente'] ?? null;
-            if ($datos['fuente'] === '') {
-                $errores[] = 'La noticia RSS no tiene una fuente válida';
-            }
         } elseif (empty($datos['id_fuente'])) {
             $errores[] = 'Debes seleccionar una fuente';
         } else {
@@ -593,29 +587,20 @@ require_once __DIR__ . '/../partials/header.php';
             
             <div class="editar-noticia-campo-form">
                 <label for="id_fuente">📰 Fuente *</label>
-                <?php if (!empty($noticia['id_fuente_rss'])): ?>
-                    <input
-                        type="text"
-                        id="id_fuente"
-                        value="<?php echo htmlspecialchars((string) ($_POST['rss_enlace'] ?? $noticia['fuente']), ENT_QUOTES, 'UTF-8'); ?>"
-                        readonly
-                    >
-                    <small>La fuente original de una noticia RSS se conserva automáticamente.</small>
-                <?php else: ?>
-                    <select name="id_fuente" id="id_fuente" required>
+                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <select name="id_fuente" id="id_fuente" required style="flex: 1;">
                         <option value="">Selecciona una fuente...</option>
                         <?php foreach ($fuentes as $f): ?>
-
-                            <option value="<?php echo $f['id_fuente']; ?>"
-
+                            <option value="<?php echo (int) $f['id_fuente']; ?>"
                                 <?php echo ($datos['id_fuente'] ?? '') == $f['id_fuente'] ? 'selected' : ''; ?>>
-
-                                <?php echo htmlspecialchars($f['nombre']); ?>
-
+                                <?php echo htmlspecialchars($f['nombre'], ENT_QUOTES, 'UTF-8'); ?>
                             </option>
                         <?php endforeach; ?>
-
                     </select>
+                    <button type="button" id="btnCrearFuente" class="btn-mini">+ Nueva</button>
+                </div>
+                <?php if (!empty($noticia['id_fuente_rss'])): ?>
+                    <small>Fuente RSS original.</small>
                 <?php endif; ?>
             </div>
             
@@ -1097,6 +1082,33 @@ document.addEventListener('DOMContentLoaded', function() {
     setupPreviewVideoUrl();
     setupGaleria();
     iniciarTinyMCE();
+});
+
+function crearFuente() {
+    var nombre = prompt('Nombre de la nueva fuente:');
+    if (!nombre) return;
+    fetch('/ajax/crear-fuente.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'nombre=' + encodeURIComponent(nombre) + '&csrf_token=<?php echo generarTokenCSRF(); ?>'
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            var select = document.getElementById('id_fuente');
+            var option = document.createElement('option');
+            option.value = data.id || '';
+            option.textContent = data.nombre;
+            option.selected = true;
+            select.appendChild(option);
+            alert('✅ Fuente creada');
+        } else {
+            alert('❌ ' + data.error);
+        }
+    });
+}
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('btnCrearFuente')?.addEventListener('click', crearFuente);
 });
 </script>
 <?php require_once __DIR__ . '/../partials/footer.php'; ?>

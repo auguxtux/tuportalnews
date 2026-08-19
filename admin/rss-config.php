@@ -58,15 +58,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             throw new RuntimeException('Usuario autenticado sin identificador válido');
                         }
 
+                        $idRegion = (int) ($_POST['id_region'] ?? 0) ?: null;
+
                         $stmt = $pdo->prepare(
                             'INSERT INTO fuentes_rss '
-                            . '(id_propietario, nombre, url, activa) '
-                            . 'VALUES (?, ?, ?, 1)'
+                            . '(id_propietario, nombre, url, id_region, activa) '
+                            . 'VALUES (?, ?, ?, ?, 1)'
                         );
                         $stmt->execute([
                             $idPropietario,
                             $datos['nombre'],
                             $datos['url'],
+                            $idRegion,
                         ]);
                         $idCreado = (int) $pdo->lastInsertId();
                         $mensaje = '✅ Fuente RSS añadida y activada correctamente';
@@ -77,10 +80,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             "Fuente RSS creada: ID {$idCreado}"
                         );
                     } else {
+                        $idRegion = (int) ($_POST['id_region'] ?? 0) ?: null;
+
                         $stmt = $pdo->prepare(
-                            'UPDATE fuentes_rss SET nombre = ?, url = ? WHERE id_fuente = ?'
+                            'UPDATE fuentes_rss SET nombre = ?, url = ?, id_region = ? WHERE id_fuente = ?'
                         );
-                        $stmt->execute([$datos['nombre'], $datos['url'], $idFuente]);
+                        $stmt->execute([$datos['nombre'], $datos['url'], $idRegion, $idFuente]);
 
                         if ($stmt->rowCount() === 0) {
                             $comprobar = $pdo->prepare(
@@ -204,13 +209,19 @@ $fuentes = $pdo->query("
         fr.*,
         u.nombre AS propietario_nombre,
         u.rol AS propietario_rol,
+        r.nombre AS region_nombre,
         COUNT(n.id_noticia) AS total_noticias
     FROM fuentes_rss fr
     INNER JOIN usuarios u ON u.id_usuario = fr.id_propietario
     LEFT JOIN noticias n ON n.id_fuente_rss = fr.id_fuente
+    LEFT JOIN regiones r ON r.id_region = fr.id_region
     GROUP BY fr.id_fuente
     ORDER BY fr.activa DESC, fr.nombre
 ")->fetchAll(PDO::FETCH_ASSOC);
+
+$regiones = $pdo->query(
+    "SELECT id_region, nombre FROM regiones WHERE activa = 1 ORDER BY nombre"
+)->fetchAll(PDO::FETCH_ASSOC);
 
 $titulo_pagina = 'Gestión RSS Externo';
 require_once __DIR__ . '/../partials/header.php';
@@ -285,6 +296,22 @@ require_once __DIR__ . '/../partials/header.php';
                     <small>La URL se comprobará antes de guardarla.</small>
                 </div>
 
+                <div class="campo">
+                    <label for="id_region">📍 Región:</label>
+                    <select id="id_region" name="id_region">
+                        <option value="">-- Sin región (internacional) --</option>
+                        <?php foreach ($regiones as $region): ?>
+                            <option
+                                value="<?php echo (int) $region['id_region']; ?>"
+                                <?php echo ((int) ($fuente_editar['id_region'] ?? 0)) === (int) $region['id_region'] ? 'selected' : ''; ?>
+                            >
+                                <?php echo htmlspecialchars((string) $region['nombre'], ENT_QUOTES, 'UTF-8'); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <small>Las noticias importadas de esta fuente se clasificarán automáticamente en esta región.</small>
+                </div>
+
                 <button type="submit" class="btn btn-primary">
                     <?php echo $fuente_editar ? '💾 Guardar cambios' : '➕ Añadir fuente'; ?>
                 </button>
@@ -320,6 +347,9 @@ require_once __DIR__ . '/../partials/header.php';
                             <div class="limite">
                                 <?php echo $activa ? '✅ Activa' : '⏸️ Inactiva'; ?>
                                 · 📰 <?php echo $totalNoticias; ?> noticias
+                                <?php if (!empty($fuente['region_nombre'])): ?>
+                                    · 📍 <?php echo htmlspecialchars((string) $fuente['region_nombre'], ENT_QUOTES, 'UTF-8'); ?>
+                                <?php endif; ?>
                             </div>
                             <div class="limite">
                                 👤 <?php echo htmlspecialchars(
@@ -388,7 +418,7 @@ require_once __DIR__ . '/../partials/header.php';
             <li>Solo las fuentes activas estarán disponibles para los periodistas.</li>
             <li>El periodista elegirá las noticias y su categoría al importarlas.</li>
             <li>Una noticia RSS ya seleccionada no podrá volver a importarse.</li>
-            <li>Al eliminar una fuente se eliminarán todas sus noticias asociadas.</li>
+            <li>Al eliminar una fuente se conservarán las noticias asociadas.</li>
         </ul>
     </div>
 </div>

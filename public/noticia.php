@@ -119,12 +119,16 @@ try {
         "SELECT
             n.*,
             u.nombre AS autor_nombre,
-            c.nombre_categoria
+            c.nombre_categoria,
+            r.nombre AS nombre_region,
+            r.slug AS slug_region
          FROM noticias n
          INNER JOIN usuarios u
              ON n.id_autor = u.id_usuario
          INNER JOIN categorias c
              ON n.id_categoria = c.id_categoria
+         LEFT JOIN regiones r
+             ON n.id_region = r.id_region
          WHERE n.id_noticia = ?
            AND n.estado = 'publicada'
            AND n.privada = ?
@@ -379,9 +383,12 @@ $mostrarGaleriaCompleta = $videoEsPrincipal ? $totalImagenes > 0 : $totalImagene
     <div class="new-meta-bar" style="display:flex;flex-wrap:wrap;gap:1rem;padding:0.75rem 0;margin:0.5rem 0;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;font-size:0.9rem;color:#6b7280;">
         <span>✍️ <?= htmlspecialchars($meta_autor); ?></span>
         <span>📂 <?= htmlspecialchars($meta_seccion); ?></span>
+        <?php if (!empty($noticia['nombre_region'])): ?>
+            <span>📍 <?= htmlspecialchars($noticia['nombre_region']); ?></span>
+        <?php endif; ?>
         <span>📅 <?= formatearFecha($noticia['fecha_publicacion'], 'd/m/Y H:i'); ?></span>
         <?php if ($nombre_ubi): ?>
-            <span>📍 <?= htmlspecialchars($nombre_ubi); ?></span>
+            <span>📌 <?= htmlspecialchars($nombre_ubi); ?></span>
         <?php endif; ?>
     </div>
 

@@ -17,16 +17,37 @@ if ($pagina < 1) $pagina = 1;
 $por_pagina = ITEMS_PER_PAGE;
 $offset = ($pagina - 1) * $por_pagina;
 
+// Filtros
+$filtro_categoria = isset($_GET['categoria']) ? (int)$_GET['categoria'] : 0;
+$filtro_region = isset($_GET['region']) ? (int)$_GET['region'] : 0;
+
 try {
     $pdo = db();
     
-    // Obtener total de noticias publicadas
-    $stmt_total = $pdo->query("SELECT COUNT(*) FROM noticias WHERE estado = 'publicada' AND privada = 0");
-    $total_noticias = $stmt_total->fetchColumn();
-    $total_paginas = ceil($total_noticias / $por_pagina);
+    // Condiciones de filtrado
+    $where_extra = '';
+    $params_filtro = [];
+    
+    if ($filtro_categoria > 0) {
+        $where_extra .= ' AND c.id_categoria = :filtro_categoria';
+        $params_filtro[':filtro_categoria'] = $filtro_categoria;
+    }
+    if ($filtro_region > 0) {
+        $where_extra .= ' AND n.id_region = :filtro_region';
+        $params_filtro[':filtro_region'] = $filtro_region;
+    }
     
     // Obtener condición según permisos
     $condicion_privacidad = getCondicionNoticias();
+    
+    // Obtener total de noticias publicadas
+    $sql_total = "SELECT COUNT(*) FROM noticias n 
+                  INNER JOIN categorias c ON n.id_categoria = c.id_categoria
+                  WHERE n.estado = 'publicada' AND n.privada = 0 {$where_extra}";
+    $stmt_total = $pdo->prepare($sql_total);
+    $stmt_total->execute($params_filtro);
+    $total_noticias = $stmt_total->fetchColumn();
+    $total_paginas = ceil($total_noticias / $por_pagina);
     
     // Obtener noticias de la página actual
     $stmt = $pdo->prepare("
@@ -35,6 +56,8 @@ try {
                u.avatar as autor_avatar,
                c.nombre_categoria,
                c.slug_categoria,
+               r.nombre AS nombre_region,
+               r.slug AS slug_region,
                f.nombre AS fuente_normal_nombre,
                fr.nombre AS fuente_rss_nombre,
                (
@@ -46,21 +69,29 @@ try {
         FROM noticias n
         JOIN usuarios u ON n.id_autor = u.id_usuario
         JOIN categorias c ON n.id_categoria = c.id_categoria
+        LEFT JOIN regiones r ON n.id_region = r.id_region
         LEFT JOIN fuentes f ON f.id_fuente = n.id_fuente
         LEFT JOIN fuentes_rss fr ON fr.id_fuente = n.id_fuente_rss
-        WHERE n.estado = 'publicada' AND $condicion_privacidad
+        WHERE n.estado = 'publicada' AND $condicion_privacidad {$where_extra}
         ORDER BY n.fecha_publicacion DESC, n.id_noticia DESC
         LIMIT :limit OFFSET :offset
     ");
     
     $stmt->bindValue(':limit', $por_pagina, PDO::PARAM_INT);
     $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    foreach ($params_filtro as $k => $v) {
+        $stmt->bindValue($k, $v, PDO::PARAM_INT);
+    }
     $stmt->execute();
     $noticias = $stmt->fetchAll();
     
-    // Obtener categorías para el menú lateral
-    $stmt_cats = $pdo->query("SELECT * FROM categorias WHERE activa = 1 ORDER BY orden, nombre_categoria LIMIT 5");
+    // Obtener categorías para filtros
+    $stmt_cats = $pdo->query("SELECT * FROM categorias WHERE activa = 1 ORDER BY orden, nombre_categoria");
     $categorias_destacadas = $stmt_cats->fetchAll();
+    
+    // Obtener regiones para filtros
+    $stmt_reg = $pdo->query("SELECT * FROM regiones WHERE activa = 1 ORDER BY nombre");
+    $regiones_disponibles = $stmt_reg->fetchAll();
     
 } catch (Exception $e) {
     $error = 'No se pudieron cargar las noticias.';
@@ -81,10 +112,42 @@ require_once __DIR__ . '/../partials/header.php';
 <h1>Listado de Noticias</h1>
     <?php if (isset($error)): ?>
 
-        <div class="home-alerta home-alerta-error"><?php echo $error; ?></div>
+        <div class="home-alerta home-alerta-error"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></div>
 
     <?php endif; ?>
 
+    <!-- FILTROS -->
+    <div class="filtros-container" style="display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0;padding:1rem;background:#f8fafc;border-radius:8px;align-items:center;">
+        <form method="GET" action="" style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;width:100%;">
+            <div style="flex:1;min-width:180px;">
+                <label style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:0.25rem;">📂 Categoría</label>
+                <select name="categoria" onchange="this.form.submit()" style="width:100%;padding:0.5rem;border:1px solid #d1d5db;border-radius:6px;">
+                    <option value="">Todas</option>
+                    <?php foreach ($categorias_destacadas as $cat): ?>
+                        <option value="<?php echo (int)$cat['id_categoria']; ?>" <?php echo $filtro_categoria == $cat['id_categoria'] ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($cat['nombre_categoria']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div style="flex:1;min-width:180px;">
+                <label style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:0.25rem;">📍 Región</label>
+                <select name="region" onchange="this.form.submit()" style="width:100%;padding:0.5rem;border:1px solid #d1d5db;border-radius:6px;">
+                    <option value="">Todas</option>
+                    <?php foreach ($regiones_disponibles as $reg): ?>
+                        <option value="<?php echo (int)$reg['id_region']; ?>" <?php echo $filtro_region == $reg['id_region'] ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($reg['nombre']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <?php if ($filtro_categoria > 0 || $filtro_region > 0): ?>
+                <div style="align-self:flex-end;">
+                    <a href="<?php echo route('listado_noticias'); ?>" style="display:inline-block;padding:0.5rem 1rem;background:#6b7280;color:#fff;border-radius:6px;text-decoration:none;font-size:0.85rem;">Limpiar filtros</a>
+                </div>
+            <?php endif; ?>
+        </form>
+    </div>
     
     <?php if (empty($noticias)): ?>
 
@@ -153,6 +216,12 @@ require_once __DIR__ . '/../partials/header.php';
 
                             </a>
                         </div>
+                        <?php if (!empty($noticia['nombre_region'])): ?>
+                        <div class="home-metadato-item">
+                            <span class="home-metadato-icono">📍</span>
+                            <span class="home-metadato-texto"><?php echo htmlspecialchars($noticia['nombre_region']); ?></span>
+                        </div>
+                        <?php endif; ?>
                         <div class="home-metadato-item">
                             <span class="home-metadato-icono">📅</span>
                             <span class="home-metadato-texto"><?php echo formatearFecha($noticia['fecha_publicacion'], 'd/m/Y'); ?></span>

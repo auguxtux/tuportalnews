@@ -60,7 +60,7 @@ $archivo_existe = file_exists($archivo);
         <?php if ($mensaje): ?>
 
             <div style="padding: 0.75rem; background: #f0fdf4; border-radius: 8px; margin-bottom: 1rem;">
-                <?php echo $mensaje; ?>
+                <?php echo htmlspecialchars($mensaje, ENT_QUOTES, 'UTF-8'); ?>
 
             </div>
         <?php endif; ?>

@@ -45,12 +45,27 @@ function versionarUrlRecurso(string $url, string $rutaLocal): string
 }
 
 function redireccionar($url) {
+    $url = (string) $url;
+
+    if ($url === '' || $url[0] === "\0") {
+        $url = '/';
+    }
+
+    if (str_starts_with($url, '//') || str_starts_with($url, 'http://') || str_starts_with($url, 'https://')) {
+        $parsed = parse_url($url);
+        $host = strtolower($parsed['host'] ?? '');
+        $allowedHost = strtolower(parse_url(SITE_URL, PHP_URL_HOST) ?? '');
+        if ($host !== $allowedHost) {
+            $url = '/';
+        }
+    }
+
     if (!headers_sent()) {
         header("Location: $url");
         exit;
     }
     echo '<script>window.location.href=' . json_encode(
-        (string) $url,
+        $url,
         JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
     ) . ';</script>';
     exit;

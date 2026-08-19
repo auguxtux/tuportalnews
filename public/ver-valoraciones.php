@@ -347,7 +347,7 @@ if (isset($_SESSION['usuario_id'])) {
             <?php if ($mensaje_voto && !$puedeVotar): ?>
 
                 <div class="public-ver-valoraciones-mensaje-voto public-ver-valoraciones-mensaje-voto-warning">
-                    ⚠️ <?php echo $mensaje_voto; ?>
+                    ⚠️ <?php echo htmlspecialchars($mensaje_voto, ENT_QUOTES, 'UTF-8'); ?>
 
                 </div>
             <?php endif; ?>

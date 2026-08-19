@@ -55,12 +55,16 @@ function obtenerNoticiasSlider(
             u.nombre AS autor_nombre,
             u.avatar AS autor_avatar,
             c.nombre_categoria,
-            c.slug_categoria
+            c.slug_categoria,
+            r.nombre AS nombre_region,
+            r.slug AS slug_region
         FROM noticias n
         INNER JOIN usuarios u
             ON n.id_autor = u.id_usuario
         INNER JOIN categorias c
             ON n.id_categoria = c.id_categoria
+        LEFT JOIN regiones r
+            ON n.id_region = r.id_region
         WHERE n.estado = 'publicada'
             {$condicionPrivadas}
             AND (
@@ -94,12 +98,16 @@ function obtenerUltimasNoticias(
             n.*,
             u.nombre AS autor_nombre,
             c.nombre_categoria,
-            c.slug_categoria
+            c.slug_categoria,
+            r.nombre AS nombre_region,
+            r.slug AS slug_region
         FROM noticias n
         INNER JOIN usuarios u
             ON n.id_autor = u.id_usuario
         INNER JOIN categorias c
             ON n.id_categoria = c.id_categoria
+        LEFT JOIN regiones r
+            ON n.id_region = r.id_region
         WHERE n.estado = 'publicada'
             {$condicionPrivadas}
         ORDER BY n.fecha_publicacion DESC
@@ -129,12 +137,16 @@ function obtenerNoticiasPopulares(
             n.*,
             u.nombre AS autor_nombre,
             c.nombre_categoria,
-            c.slug_categoria
+            c.slug_categoria,
+            r.nombre AS nombre_region,
+            r.slug AS slug_region
         FROM noticias n
         INNER JOIN usuarios u
             ON n.id_autor = u.id_usuario
         INNER JOIN categorias c
             ON n.id_categoria = c.id_categoria
+        LEFT JOIN regiones r
+            ON n.id_region = r.id_region
         WHERE n.estado = 'publicada'
             {$condicionPrivadas}
         ORDER BY n.visitas DESC
@@ -172,12 +184,16 @@ function obtenerNoticiasPorCategorias(
             n.*,
             u.nombre AS autor_nombre,
             c.nombre_categoria,
-            c.slug_categoria
+            c.slug_categoria,
+            r.nombre AS nombre_region,
+            r.slug AS slug_region
         FROM noticias n
         INNER JOIN usuarios u
             ON n.id_autor = u.id_usuario
         INNER JOIN categorias c
             ON n.id_categoria = c.id_categoria
+        LEFT JOIN regiones r
+            ON n.id_region = r.id_region
         WHERE c.nombre_categoria = :categoria
             AND n.estado = 'publicada'
             {$condicionPrivadas}
@@ -223,12 +239,16 @@ function obtenerNoticiasDestacadasListado(
             n.*,
             u.nombre AS autor_nombre,
             c.nombre_categoria,
-            c.slug_categoria
+            c.slug_categoria,
+            r.nombre AS nombre_region,
+            r.slug AS slug_region
         FROM noticias n
         INNER JOIN usuarios u
             ON n.id_autor = u.id_usuario
         INNER JOIN categorias c
             ON n.id_categoria = c.id_categoria
+        LEFT JOIN regiones r
+            ON n.id_region = r.id_region
         WHERE n.estado = 'publicada'
             {$condicionPrivadas}
             AND n.imagen_principal IS NOT NULL
@@ -259,12 +279,16 @@ function obtenerNoticiaDestacadaPrincipal(
             u.nombre AS autor_nombre,
             u.avatar AS autor_avatar,
             c.nombre_categoria,
-            c.slug_categoria
+            c.slug_categoria,
+            r.nombre AS nombre_region,
+            r.slug AS slug_region
         FROM noticias n
         INNER JOIN usuarios u
             ON n.id_autor = u.id_usuario
         INNER JOIN categorias c
             ON n.id_categoria = c.id_categoria
+        LEFT JOIN regiones r
+            ON n.id_region = r.id_region
         WHERE n.destacada = 1
             AND n.estado = 'publicada'
             {$condicionPrivadas}
@@ -318,12 +342,16 @@ function obtenerNoticiasPublicadasPaginadas(
             u.avatar AS autor_avatar,
             c.nombre_categoria,
             c.slug_categoria,
+            r.nombre AS nombre_region,
+            r.slug AS slug_region,
             COALESCE(co.total_comentarios, 0) AS total_comentarios
         FROM noticias n
         INNER JOIN usuarios u
             ON n.id_autor = u.id_usuario
         INNER JOIN categorias c
             ON n.id_categoria = c.id_categoria
+        LEFT JOIN regiones r
+            ON n.id_region = r.id_region
         LEFT JOIN (
             SELECT
                 id_noticia,

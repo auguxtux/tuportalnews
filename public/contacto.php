@@ -36,7 +36,7 @@ require_once __DIR__ . '/../partials/header.php';
             <ul class="public-contacto-error-list">
                 <?php foreach ($errores as $error): ?>
 
-                    <li><?php echo $error; ?></li>
+                    <li><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></li>
 
                 <?php endforeach; ?>
 

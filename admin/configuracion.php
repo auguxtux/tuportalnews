@@ -282,7 +282,7 @@ $almacenamiento_keys = ['limite_admin_mb', 'limite_periodista_mb', 'limite_usuar
     
     <?php if ($mensaje_flash): ?>
 
-        <div class="alert alert-<?php echo $mensaje_flash['tipo']; ?>"><?php echo $mensaje_flash['mensaje']; ?></div>
+        <div class="alert alert-<?php echo $mensaje_flash['tipo']; ?>"><?php echo htmlspecialchars($mensaje_flash['mensaje'], ENT_QUOTES, 'UTF-8'); ?></div>
 
     <?php endif; ?>
 

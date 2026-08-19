@@ -177,8 +177,13 @@ require_once __DIR__ . '/../partials/header.php';
                     onerror="this.onerror=null;this.src='<?php echo htmlspecialchars(base_url('assets/img/default-image.jpg'), ENT_QUOTES, 'UTF-8'); ?>';"
                 <?php endif; ?>
             >
-            <div class="hero-slide-overlay">
-                <div class="hero-categoria"><?php echo htmlspecialchars($slide['nombre_categoria']); ?></div>
+                <div class="hero-slide-overlay">
+                <div class="hero-tags">
+                    <span class="hero-categoria"><?php echo htmlspecialchars($slide['nombre_categoria']); ?></span>
+                    <?php if (!empty($slide['nombre_region'])): ?>
+                        <span class="hero-region"><?php echo htmlspecialchars($slide['nombre_region']); ?></span>
+                    <?php endif; ?>
+                </div>
                 <h2 class="hero-slide-titulo"><a href="<?php echo route('noticia', ['id' => $slide['id_noticia']]); ?>"><?php echo htmlspecialchars($slide['titulo']); ?></a></h2>
                 <?php if ($slide['subtitulo']): ?>
                 <p class="hero-slide-subtitulo"><?php echo htmlspecialchars($slide['subtitulo']); ?></p>
@@ -247,7 +252,12 @@ require_once __DIR__ . '/../partials/header.php';
             </a>
         </div>
         <div class="destacada-info">
-            <span class="destacada-categoria"><?php echo htmlspecialchars($noticia_destacada['nombre_categoria']); ?></span>
+            <div class="destacada-tags">
+                <span class="destacada-categoria"><?php echo htmlspecialchars($noticia_destacada['nombre_categoria']); ?></span>
+                <?php if (!empty($noticia_destacada['nombre_region'])): ?>
+                    <span class="destacada-region"><?php echo htmlspecialchars($noticia_destacada['nombre_region']); ?></span>
+                <?php endif; ?>
+            </div>
             <h2 class="destacada-titulo">
                 <a href="<?php echo route('noticia', ['id' => $noticia_destacada['id_noticia']]); ?>">
                     <?php echo htmlspecialchars($noticia_destacada['titulo']); ?>
@@ -381,8 +391,12 @@ require_once __DIR__ . '/../partials/header.php';
                 </div>
                 <?php endif; ?>
                 <div class="listado-contenido">
-                    <span class="listado-categoria"><?php echo htmlspecialchars($noticia['nombre_categoria']); ?></span>
-                    
+                    <div class="listado-tags">
+                        <span class="listado-categoria"><?php echo htmlspecialchars($noticia['nombre_categoria']); ?></span>
+                        <?php if (!empty($noticia['nombre_region'])): ?>
+                            <span class="listado-region"><?php echo htmlspecialchars($noticia['nombre_region']); ?></span>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
             <?php endforeach; ?>
@@ -432,7 +446,12 @@ require_once __DIR__ . '/../partials/header.php';
                         </a>
                     </div>
                     <div class="ultima-contenido news-card__body">
-                        <span class="ultima-categoria"><?php echo htmlspecialchars($noticia['nombre_categoria']); ?></span>
+                        <div class="ultima-tags">
+                            <span class="ultima-categoria"><?php echo htmlspecialchars($noticia['nombre_categoria']); ?></span>
+                            <?php if (!empty($noticia['nombre_region'])): ?>
+                                <span class="ultima-region"><?php echo htmlspecialchars($noticia['nombre_region']); ?></span>
+                            <?php endif; ?>
+                        </div>
                         <div class="ultima-meta news-card__meta news-card__meta--standard news-card__meta--inline">
                             <span>👤 <a href="<?php echo route('periodistas', ['id' => (int) $noticia['id_autor']]); ?>"><?php echo htmlspecialchars($noticia['autor_nombre']); ?></a></span>
                             <span>👁️ <?php echo number_format($noticia['visitas']); ?></span>

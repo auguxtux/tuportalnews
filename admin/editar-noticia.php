@@ -26,9 +26,10 @@ $pdo = db();
 
 // Obtener noticia
 $stmt = $pdo->prepare("
-    SELECT n.*, c.nombre_categoria
+    SELECT n.*, c.nombre_categoria, r.nombre AS nombre_region
     FROM noticias n
     JOIN categorias c ON n.id_categoria = c.id_categoria
+    LEFT JOIN regiones r ON n.id_region = r.id_region
     WHERE n.id_noticia = :id
 ");
 $stmt->execute([':id' => $id_noticia]);
@@ -43,6 +44,7 @@ if (!$noticia) {
 $categorias = $pdo->query("SELECT * FROM categorias WHERE activa = 1 ORDER BY nombre_categoria")->fetchAll();
 $fuentes = $pdo->query("SELECT id_fuente, nombre FROM fuentes WHERE activa = 1 ORDER BY nombre")->fetchAll();
 $provincias = $pdo->query("SELECT id_provincia, nombre FROM provincias ORDER BY nombre")->fetchAll();
+$regiones = $pdo->query("SELECT id_region, nombre FROM regiones WHERE activa = 1 ORDER BY nombre")->fetchAll();
 
 $errores = [];
 $datos = $noticia;
@@ -68,7 +70,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
         'tipo_ubicacion' => $_POST['tipo_ubicacion'] ?? 'otras',
         'id_provincia' => (int)($_POST['id_provincia'] ?? 0),
         'lugar_internacional' => limpiarDatos($_POST['lugar_internacional'] ?? ''),
-        'otras_ubicacion' => limpiarDatos($_POST['otras_ubicacion'] ?? '')
+        'otras_ubicacion' => limpiarDatos($_POST['otras_ubicacion'] ?? ''),
+        'id_region' => (int)($_POST['id_region'] ?? 0) ?: null,
     ];
     
     if (empty($datos['titulo'])) $errores[] = 'El título es obligatorio';
@@ -152,6 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
                     imagen_principal = :imagen,
                     id_categoria = :id_categoria,
                     id_fuente = :id_fuente,
+                    id_region = :id_region,
                     estado = :estado,
                     tipo_ubicacion = :tipo_ubicacion,
                     id_provincia = :id_provincia,
@@ -170,6 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
                 ':imagen' => $imagen,
                 ':id_categoria' => $datos['id_categoria'],
                 ':id_fuente' => $datos['id_fuente'],
+                ':id_region' => $datos['id_region'],
                 ':estado' => $datos['estado'],
                 ':tipo_ubicacion' => $datos['tipo_ubicacion'],
                 ':id_provincia' => $datos['tipo_ubicacion'] === 'espana' ? $datos['id_provincia'] : null,
@@ -305,6 +310,21 @@ require_once __DIR__ . '/../partials/header.php';
                             </option>
                         <?php endforeach; ?>
 
+                    </select>
+                </div>
+
+                <div class="admin-editar-noticia-campo">
+                    <label for="id_region">📍 Región</label>
+                    <select id="id_region" name="id_region">
+                        <option value="">Sin región</option>
+                        <?php foreach ($regiones as $region): ?>
+                            <option
+                                value="<?php echo (int) $region['id_region']; ?>"
+                                <?php echo ($datos['id_region'] ?? 0) == $region['id_region'] ? 'selected' : ''; ?>
+                            >
+                                <?php echo htmlspecialchars($region['nombre'], ENT_QUOTES, 'UTF-8'); ?>
+                            </option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
 

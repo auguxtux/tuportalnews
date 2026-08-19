@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $fuenteImportar = null;
                 if ($errores === []) {
                     $stmt = $pdo->prepare(
-                        'SELECT id_fuente, nombre, url FROM fuentes_rss '
+                        'SELECT id_fuente, nombre, url, id_region FROM fuentes_rss '
                         . 'WHERE id_fuente = ? AND activa = 1'
                     );
                     $stmt->execute([$idFuente]);
@@ -120,6 +120,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $duplicadas = 0;
                         $pdo->beginTransaction();
 
+                        $idRegionFuente = !empty($fuenteImportar['id_region'])
+                            ? (int) $fuenteImportar['id_region']
+                            : null;
+
                         foreach ($itemsImportar as $hash => $item) {
                             $stmt = $pdo->prepare(
                                 'SELECT id_noticia FROM noticias '
@@ -134,7 +138,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $slugBase = generarSlugSeguro((string) $item['titulo']);
                             $slug = $slugBase;
                             $contador = 1;
-                            while (true) {
+                            $maxColisiones = 100;
+                            while ($contador <= $maxColisiones) {
                                 $stmt = $pdo->prepare(
                                     'SELECT id_noticia FROM noticias WHERE slug = ? LIMIT 1'
                                 );
@@ -146,16 +151,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 $contador++;
                             }
 
+                            // Auto-detectar tema por cada noticia individual
+                            $idCategoriaAuto = detectarTemaRss(
+                                (string) $item['titulo'],
+                                (string) $item['extracto'],
+                                (string) ($item['contenido'] ?? ''),
+                                $idCategoria,
+                                $pdo
+                            );
+                            $idCategoriaFinal = $idCategoriaAuto > 0 ? $idCategoriaAuto : $idCategoria;
+
                             $stmt = $pdo->prepare("
                                 INSERT INTO noticias (
                                     titulo, slug, contenido, fuente,
                                     id_fuente_rss, rss_item_hash, imagen_externa,
-                                    id_autor, id_categoria, privada,
+                                    id_autor, id_categoria, id_region, privada,
                                     permitir_comentarios, tipo_ubicacion, id_provincia,
                                     lugar_internacional, otras_ubicacion,
                                     estado, fecha_publicacion
                                 ) VALUES (
-                                    ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 1,
+                                    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 1,
                                     ?, ?, ?, ?, 'publicada', ?
                                 )
                             ");
@@ -170,7 +185,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     $hash,
                                     $item['imagen'],
                                     $idPropietario,
-                                    $idCategoria,
+                                    $idCategoriaFinal,
+                                    $idRegionFuente,
                                     $tipoUbicacion,
                                     $tipoUbicacion === 'espana' ? $idProvincia : null,
                                     $tipoUbicacion === 'internacional' ? $lugarInternacional : null,
@@ -233,15 +249,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if ($stmt->fetchColumn()) {
                         $errores[] = 'Esta fuente RSS ya está configurada';
                     } elseif ($accion === 'crear') {
+                        $idRegionNueva = (int) ($_POST['id_region'] ?? 0) ?: null;
+
                         $stmt = $pdo->prepare(
                             'INSERT INTO fuentes_rss '
-                            . '(id_propietario, nombre, url, activa) '
-                            . 'VALUES (?, ?, ?, 1)'
+                            . '(id_propietario, nombre, url, id_region, activa) '
+                            . 'VALUES (?, ?, ?, ?, 1)'
                         );
                         $stmt->execute([
                             $idPropietario,
                             $datos['nombre'],
                             $datos['url'],
+                            $idRegionNueva,
                         ]);
                         $idCreado = (int) $pdo->lastInsertId();
                         $mensaje = '✅ Fuente RSS añadida y activada correctamente';
@@ -252,14 +271,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             "Fuente RSS creada: ID {$idCreado}"
                         );
                     } else {
+                        $idRegionEditar = (int) ($_POST['id_region'] ?? 0) ?: null;
+
                         $stmt = $pdo->prepare(
                             'UPDATE fuentes_rss '
-                            . 'SET nombre = ?, url = ? '
+                            . 'SET nombre = ?, url = ?, id_region = ? '
                             . 'WHERE id_fuente = ? AND id_propietario = ?'
                         );
                         $stmt->execute([
                             $datos['nombre'],
                             $datos['url'],
+                            $idRegionEditar,
                             $idFuente,
                             $idPropietario,
                         ]);
@@ -398,7 +420,7 @@ $stmt->execute([$idPropietario]);
 $fuentesPropias = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $stmt = $pdo->prepare("
-    SELECT fr.id_fuente, fr.nombre, fr.url, u.nombre AS propietario_nombre
+    SELECT fr.id_fuente, fr.nombre, fr.url, fr.id_region, u.nombre AS propietario_nombre
     FROM fuentes_rss fr
     INNER JOIN usuarios u ON u.id_usuario = fr.id_propietario
     WHERE fr.activa = 1 AND fr.id_propietario != ?
@@ -408,7 +430,7 @@ $stmt->execute([$idPropietario]);
 $fuentesDisponibles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $fuentesSeleccionables = $pdo->query("
-    SELECT fr.id_fuente, fr.nombre, u.nombre AS propietario_nombre
+    SELECT fr.id_fuente, fr.nombre, fr.id_region, u.nombre AS propietario_nombre
     FROM fuentes_rss fr
     INNER JOIN usuarios u ON u.id_usuario = fr.id_propietario
     WHERE fr.activa = 1
@@ -428,6 +450,12 @@ $provincias = $pdo->query("
     ORDER BY nombre
 ")->fetchAll(PDO::FETCH_ASSOC);
 
+$regiones = $pdo->query("
+    SELECT id_region, nombre
+    FROM regiones WHERE activa = 1
+    ORDER BY nombre
+")->fetchAll(PDO::FETCH_ASSOC);
+
 $idFuenteVista = (int) ($_GET['fuente'] ?? $_POST['id_fuente'] ?? 0);
 $fuenteVista = null;
 $itemsVista = [];
@@ -444,22 +472,27 @@ if ($idFuenteVista > 0) {
     if ($fuenteVista === null) {
         $errores[] = 'La fuente seleccionada no está disponible';
     } else {
-        $feedVista = obtenerFeed((string) $fuenteVista['url'], 5);
-        $itemsVista = obtenerItemsSeleccionablesRss($feedVista, 50);
-
-        if ($itemsVista === []) {
-            $errores[] = 'No se encontraron noticias multimedia disponibles en esta fuente';
+        $idUsuario = (int) ($_SESSION['usuario_id'] ?? 0);
+        if ($idUsuario > 0 && !verificarRateLimitRss("preview_{$idUsuario}", RSS_RATE_MAX_PREVIEWS)) {
+            $errores[] = 'Has realizado demasiadas peticiones recientemente. Espera un minuto.';
         } else {
-            $hashes = array_keys($itemsVista);
-            $marcas = implode(',', array_fill(0, count($hashes), '?'));
-            $stmt = $pdo->prepare(
-                "SELECT rss_item_hash FROM noticias WHERE rss_item_hash IN ({$marcas})"
-            );
-            $stmt->execute($hashes);
-            $hashesImportados = array_fill_keys(
-                $stmt->fetchAll(PDO::FETCH_COLUMN),
-                true
-            );
+            $feedVista = obtenerFeed((string) $fuenteVista['url'], 5);
+            $itemsVista = obtenerItemsSeleccionablesRss($feedVista, 50);
+
+            if ($itemsVista === []) {
+                $errores[] = 'No se encontraron noticias multimedia disponibles en esta fuente';
+            } else {
+                $hashes = array_keys($itemsVista);
+                $marcas = implode(',', array_fill(0, count($hashes), '?'));
+                $stmt = $pdo->prepare(
+                    "SELECT rss_item_hash FROM noticias WHERE rss_item_hash IN ({$marcas})"
+                );
+                $stmt->execute($hashes);
+                $hashesImportados = array_fill_keys(
+                    $stmt->fetchAll(PDO::FETCH_COLUMN),
+                    true
+                );
+            }
         }
     }
 }
@@ -598,6 +631,22 @@ require_once __DIR__ . '/../partials/header.php';
                     <small>Debe contener noticias con imágenes o vídeos.</small>
                 </div>
 
+                <div class="campo">
+                    <label for="id_region">📍 Región:</label>
+                    <select id="id_region" name="id_region">
+                        <option value="">-- Sin región (internacional) --</option>
+                        <?php foreach ($regiones as $region): ?>
+                            <option
+                                value="<?php echo (int) $region['id_region']; ?>"
+                                <?php echo ((int) ($fuenteEditar['id_region'] ?? 0)) === (int) $region['id_region'] ? 'selected' : ''; ?>
+                            >
+                                <?php echo htmlspecialchars((string) $region['nombre'], ENT_QUOTES, 'UTF-8'); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <small>Las noticias importadas se clasificarán automáticamente en esta región.</small>
+                </div>
+
                 <button type="submit" class="btn-importar">
                     <?php echo $fuenteEditar ? '💾 Guardar cambios' : '➕ Añadir fuente'; ?>
                 </button>
@@ -630,6 +679,18 @@ require_once __DIR__ . '/../partials/header.php';
                             <small style="display:block;">
                                 <?php echo $activa ? '✅ Activa' : '⏸️ Inactiva'; ?>
                                 · 📰 <?php echo (int) $fuente['total_noticias']; ?> noticias
+                                <?php if (!empty($fuente['id_region'])): ?>
+                                    · 📍 <?php
+                                        $regionNombre = '';
+                                        foreach ($regiones as $r) {
+                                            if ((int) $r['id_region'] === (int) $fuente['id_region']) {
+                                                $regionNombre = $r['nombre'];
+                                                break;
+                                            }
+                                        }
+                                        echo htmlspecialchars($regionNombre, ENT_QUOTES, 'UTF-8');
+                                    ?>
+                                <?php endif; ?>
                             </small>
 
                             <div style="margin-top:0.5rem;">
@@ -882,6 +943,23 @@ require_once __DIR__ . '/../partials/header.php';
                                 <span>📅 <?php echo htmlspecialchars($item['fecha'], ENT_QUOTES, 'UTF-8'); ?></span>
                                 <span><?php echo $item['video'] !== null ? '🎥 Vídeo' : '🖼️ Imagen'; ?></span>
                                 <span>📡 <a href="<?php echo htmlspecialchars(route('buscar', ['fuente' => 'rss:' . (int) $fuenteVista['id_fuente']]), ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars((string) $fuenteVista['nombre'], ENT_QUOTES, 'UTF-8'); ?></a></span>
+                                <?php
+                                $temaDetectado = detectarTemaRss(
+                                    (string) $item['titulo'],
+                                    (string) $item['extracto'],
+                                    (string) ($item['contenido'] ?? ''),
+                                    null,
+                                    $pdo
+                                );
+                                if ($temaDetectado > 0) {
+                                    $stmtTema = $pdo->prepare('SELECT nombre_categoria FROM categorias WHERE id_categoria = ?');
+                                    $stmtTema->execute([$temaDetectado]);
+                                    $nombreTema = $stmtTema->fetchColumn() ?: '';
+                                    if ($nombreTema !== ''): ?>
+                                        <span class="rss-tema-tag">🏷️ <?php echo htmlspecialchars($nombreTema, ENT_QUOTES, 'UTF-8'); ?></span>
+                                    <?php endif;
+                                }
+                                ?>
                                 <span><?php echo $yaImportada ? '⛔ Ya importada' : '✅ Disponible'; ?></span>
                             </div>
 

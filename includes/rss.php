@@ -17,15 +17,66 @@ require_once __DIR__ . '/helpers/rss.php';
 use SimplePie\SimplePie;
 
 // ============================================
+// RATE LIMITING (archivos temporales)
+// ============================================
+
+define('RSS_RATE_DIR', sys_get_temp_dir() . '/rss_rate_limit');
+define('RSS_RATE_MAX_VALIDACIONES', 5);    // máx validaciones de fuente
+define('RSS_RATE_MAX_PREVIEWS', 10);       // máx previsualizaciones
+define('RSS_RATE_VENTANA', 60);            // ventana de 60 segundos
+
+function verificarRateLimitRss(string $clave, int $maximo, int $ventanaSegundos = RSS_RATE_VENTANA): bool
+{
+    if (!is_dir(RSS_RATE_DIR)) {
+        @mkdir(RSS_RATE_DIR, 0700, true);
+    }
+
+    $archivo = RSS_RATE_DIR . '/rss_' . md5($clave) . '.json';
+    $ahora = time();
+
+    $fp = @fopen($archivo, 'c');
+    if ($fp === false) {
+        return true;
+    }
+
+    flock($fp, LOCK_EX);
+
+    $contenido = @stream_get_contents($fp);
+    $datos = json_decode($contenido, true);
+
+    if (is_array($datos) && isset($datos['intentos'])) {
+        $datos['intentos'] = array_values(array_filter(
+            $datos['intentos'],
+            fn($t) => ($ahora - $t) < $ventanaSegundos
+        ));
+    } else {
+        $datos = ['intentos' => []];
+    }
+
+    if (count($datos['intentos']) >= $maximo) {
+        flock($fp, LOCK_UN);
+        fclose($fp);
+        return false;
+    }
+
+    $datos['intentos'][] = $ahora;
+
+    ftruncate($fp, 0);
+    rewind($fp);
+    fwrite($fp, json_encode($datos));
+    fflush($fp);
+    flock($fp, LOCK_UN);
+    fclose($fp);
+
+    return true;
+}
+
+// ============================================
 // CONSTANTES Y CONFIGURACIÓN
 // ============================================
 
 define('RSS_CACHE_DIR', __DIR__ . '/feeds/');
 define('RSS_EXTRACTO_LONGITUD', 1000); // Caracteres del extracto
-
-if (!is_dir(RSS_CACHE_DIR)) {
-    mkdir(RSS_CACHE_DIR, 0755, true);
-}
 
 // ============================================
 // FUNCIONES DE UTILIDAD (NULL SAFE)
@@ -83,6 +134,10 @@ function obtenerFeed($urls, $cache_minutos = 60) {
             throw new Exception("URL del feed vacía");
         }
 
+        if (!is_dir(RSS_CACHE_DIR)) {
+            @mkdir(RSS_CACHE_DIR, 0750, true);
+        }
+
         $contenido = descargarContenidoRSS($urls);
         if ($contenido === false) {
             throw new Exception("No se pudo descargar el feed de forma segura");
@@ -94,6 +149,7 @@ function obtenerFeed($urls, $cache_minutos = 60) {
         $feed->set_cache_duration($cache_minutos * 60);
         $feed->set_item_limit(50);
         $feed->enable_order_by_date(true);
+        $feed->set_favicon_handler(false);
         $feed->init();
         
         if ($feed->error()) {
@@ -402,6 +458,16 @@ function contarItemsRssConMultimedia($feed, int $limite = 50): int {
  */
 function validarConfiguracionFuenteRss(string $nombre, string $url): array {
     $errores = [];
+
+    $idUsuario = (int) ($_SESSION['usuario_id'] ?? 0);
+    if ($idUsuario > 0 && !verificarRateLimitRss("validar_{$idUsuario}", RSS_RATE_MAX_VALIDACIONES)) {
+        $errores[] = 'Has realizado demasiadas validaciones recientemente. Espera un minuto.';
+        return [
+            'datos' => null,
+            'errores' => $errores,
+        ];
+    }
+
     $nombre = trim(strip_tags($nombre));
     $url = trim($url);
     $longitudNombre = function_exists('mb_strlen')
@@ -662,6 +728,29 @@ function obtenerExtracto($item, $longitud = RSS_EXTRACTO_LONGITUD) {
  * Genera el contenido HTML con extracto + botón externo
  * CORREGIDA - Asegura que siempre haya contenido visible
  */
+/**
+ * Extrae el nombre de dominio principal de una URL.
+ * Ej: https://eldiario.opennemas.com/... → eldiario
+ */
+function extraerDominioFuente(string $url): string
+{
+    $host = parse_url($url, PHP_URL_HOST) ?? '';
+    // Quitar subdominios comunes
+    $host = preg_replace('/^(www|feeds|rss)\./i', '', $host);
+    $partes = explode('.', $host);
+    // Para CDN tipo e00-elmundo.uecdn.es, extraer el nombre de marca
+    $primero = $partes[0] ?? '';
+    if (preg_match('/^e00-([a-z]+)/i', $primero, $m)) {
+        return strtolower($m[1]);
+    }
+    // Para uecdn.es u otros CDN, usar el segundo nivel
+    $cdn = ['uecdn', 'cdn', 'static', 'media', 'img'];
+    if (in_array(strtolower($primero), $cdn) && isset($partes[1])) {
+        return strtolower($partes[1]);
+    }
+    return strtolower($primero);
+}
+
 function generarContenidoConBoton($item, $extracto, ?string $video = null) {
     $link = $item->get_permalink();
     $titulo = htmlspecialchars($item->get_title() ?? 'Noticia');
@@ -725,19 +814,19 @@ function generarContenidoConBoton($item, $extracto, ?string $video = null) {
         </div>
         ' . $htmlVideo . '
         <div class="rss-boton-externo" style="margin: 25px 0; text-align: center;">
-            <a href="' . htmlspecialchars($link) . '" 
+            <a href="' . htmlspecialchars($link, ENT_QUOTES, 'UTF-8') . '" 
                target="_blank" 
                rel="noopener noreferrer nofollow"
                class="btn-rss-externo"
                style="display: inline-block; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.3s ease;">
-                📖 Leer noticia completa en ' . htmlspecialchars($nombre_fuente) . '
+                📖 Leer noticia completa en ' . htmlspecialchars($nombre_fuente, ENT_QUOTES, 'UTF-8') . '
             </a>
             <p style="font-size: 12px; color: #6b7280; margin-top: 10px;">
                 🔗 Serás redirigido al sitio original
             </p>
         </div>
         <div class="rss-fuente" style="font-size: 11px; color: #9ca3af; text-align: right; border-top: 1px solid #e5e7eb; padding-top: 10px; margin-top: 10px;">
-            📎 Fuente original: <a href="' . htmlspecialchars($link) . '" target="_blank" rel="noopener noreferrer" style="color: #6b7280; text-decoration: none;">' . htmlspecialchars($link) . '</a>
+            📎 Fuente original: <a href="' . htmlspecialchars($link, ENT_QUOTES, 'UTF-8') . '" target="_blank" rel="noopener noreferrer" style="color: #6b7280; text-decoration: none;">' . htmlspecialchars(extraerDominioFuente($link)) . '</a>
         </div>
     </div>';
     
@@ -761,219 +850,4 @@ function obtenerFechaItem($item) {
         return date('Y-m-d H:i:s');
     }
     return $fecha;
-}
-
-// ============================================
-// FUNCIÓN PRINCIPAL DE IMPORTACIÓN
-// ============================================
-
-/**
- * Importar noticias desde un feed
- * SOLO importa noticias que tengan imagen
- * 
- * @param string $url URL del feed RSS
- * @param int $id_categoria ID de categoría destino
- * @param int $id_autor ID del autor (usuario)
- * @param int $limite Número máximo de noticias a importar
- * @return array Resultado de la importación
- */
-function importarFeedNoticias($url, $id_categoria, $id_autor, $limite = 10) {
-    // Validar parámetros
-    if (empty($url)) {
-        return ['importadas' => 0, 'saltadas' => 0, 'errores' => ['URL del feed vacía']];
-    }
-    
-    if ($id_categoria <= 0) {
-        return ['importadas' => 0, 'saltadas' => 0, 'errores' => ['Categoría inválida']];
-    }
-    
-    if ($id_autor <= 0) {
-        return ['importadas' => 0, 'saltadas' => 0, 'errores' => ['Autor inválido']];
-    }
-    
-    $resultado = [
-        'importadas' => 0, 
-        'saltadas_sin_imagen' => 0,
-        'duplicadas' => 0,
-        'errores' => []
-    ];
-    
-    // Obtener el feed
-    $feed = obtenerFeed($url, 10);
-    
-    if (!$feed) {
-        $resultado['errores'][] = 'No se pudo cargar el feed RSS';
-        return $resultado;
-    }
-    
-    // Recorrer más items para compensar los que no tengan imagen
-    $items = $feed->get_items(0, $limite * 5);
-    
-    if (empty($items)) {
-        $resultado['errores'][] = 'No se encontraron items en el feed';
-        return $resultado;
-    }
-    
-    $pdo = db();
-    $importadas = 0;
-    
-    foreach ($items as $item) {
-        if ($importadas >= $limite) break;
-        
-        // ============================================
-        // 1. VERIFICAR IMAGEN (OBLIGATORIA)
-        // ============================================
-        $imagen_externa = extraerImagenItem($item);
-        
-        if (!$imagen_externa) {
-            $resultado['saltadas_sin_imagen']++;
-            continue; // Saltar esta noticia, buscar otra con imagen
-        }
-        
-        // ============================================
-        // 2. EXTRAER DATOS BÁSICOS
-        // ============================================
-        $titulo = obtenerTituloItem($item);
-        $link = $item->get_permalink();
-        $fecha = obtenerFechaItem($item);
-        
-        // Validar título (obligatorio)
-        if (empty($titulo)) {
-            $resultado['saltadas_sin_imagen']++;
-            continue;
-        }
-        
-        // Validar enlace
-        if (empty($link)) {
-            $resultado['saltadas_sin_imagen']++;
-            continue;
-        }
-        
-        // ============================================
-        // 3. GENERAR EXTRACTO + BOTÓN EXTERNO
-        // ============================================
-        $extracto = obtenerExtracto($item);
-        $contenido = generarContenidoConBoton($item, $extracto);
-        
-        // DEBUG: Verificar qué se está generando (puedes comentar después)
-        error_log('RSS: extracto preparado para importación');
-        error_log('RSS: contenido preparado para importación');
-        
-        // ============================================
-        // 4. VERIFICAR DUPLICADOS (por URL)
-        // ============================================
-        $stmt = $pdo->prepare("SELECT id_noticia FROM noticias WHERE fuente = ? LIMIT 1");
-        $stmt->execute([$link]);
-        
-        if ($stmt->fetch()) {
-            $resultado['duplicadas']++;
-            continue;
-        }
-        
-        // ============================================
-        // 5. GENERAR SLUG ÚNICO
-        // ============================================
-        $slug = generarSlugSeguro($titulo);
-        $slug_original = $slug;
-        $contador = 1;
-        
-        while (true) {
-            $stmt = $pdo->prepare("SELECT id_noticia FROM noticias WHERE slug = ?");
-            $stmt->execute([$slug]);
-            if (!$stmt->fetch()) break;
-            $slug = $slug_original . '-' . $contador;
-            $contador++;
-        }
-        
-        // ============================================
-        // 6. INSERTAR NOTICIA
-        // ============================================
-        $stmt = $pdo->prepare("
-            INSERT INTO noticias (
-                titulo, slug, contenido, fuente, imagen_externa,
-                id_autor, id_categoria, privada, permitir_comentarios,
-                estado, fecha_publicacion
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, 0, 1, 'publicada', ?)
-        ");
-        
-        if ($stmt->execute([
-            $titulo, 
-            $slug, 
-            $contenido, 
-            extraerDominioFuente($link), 
-            $imagen_externa,
-            $id_autor, 
-            $id_categoria,
-            $fecha
-        ])) {
-            $importadas++;
-            $resultado['importadas']++;
-            error_log('RSS: noticia importada (ID: ' . $pdo->lastInsertId() . ')');
-        } else {
-            $errorInfo = $stmt->errorInfo();
-            $resultado['errores'][] = "Error al insertar '{$titulo}': " . ($errorInfo[2] ?? 'Error desconocido');
-            error_log('RSS: no se pudo insertar una noticia importada');
-        }
-    }
-    
-    // Mensajes informativos
-    if ($importadas == 0 && $resultado['saltadas_sin_imagen'] > 0) {
-        $resultado['errores'][] = "No se importaron noticias. Se encontraron {$resultado['saltadas_sin_imagen']} sin imagen.";
-    }
-
-    return $resultado;
-}
-
-/**
- * Función para probar un feed sin importar (debug)
- */
-function testFeed($url) {
-    $resultado = [
-        'success' => false,
-        'titulo' => '',
-        'descripcion' => '',
-        'total_items' => 0,
-        'items_con_imagen' => 0,
-        'items_con_contenido' => 0,
-        'primeras_imagenes' => [],
-        'errores' => []
-    ];
-    
-    $feed = obtenerFeed($url, 5);
-    
-    if (!$feed) {
-        $resultado['errores'][] = 'No se pudo cargar el feed';
-        return $resultado;
-    }
-    
-    $resultado['success'] = true;
-    $resultado['titulo'] = strip_tags_safe($feed->get_title());
-    $resultado['descripcion'] = strip_tags_safe($feed->get_description());
-    
-    $items = $feed->get_items(0, 20);
-    $resultado['total_items'] = count($items);
-    
-    foreach ($items as $index => $item) {
-        // Verificar imagen
-        $imagen = extraerImagenItem($item);
-        if ($imagen) {
-            $resultado['items_con_imagen']++;
-            if (count($resultado['primeras_imagenes']) < 3) {
-                $resultado['primeras_imagenes'][] = [
-                    'titulo' => substr(obtenerTituloItem($item), 0, 50),
-                    'imagen' => $imagen
-                ];
-            }
-        }
-        
-        // Verificar contenido
-        $descripcion = $item->get_description();
-        $contenido = $item->get_content();
-        if ((!empty($descripcion) && strlen(strip_tags_safe($descripcion)) > 50) ||
-            (!empty($contenido) && strlen(strip_tags_safe($contenido)) > 50)) {
-            $resultado['items_con_contenido']++;
-        }
-    }
-    
-    return $resultado;
 }

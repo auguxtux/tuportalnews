@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/conexion.php';
 require_once __DIR__ . '/funciones.php';
+require_once __DIR__ . '/helpers/login-attempts.php';
 
 final class Auth
 {
@@ -79,6 +80,11 @@ final class Auth
             return false;
         }
 
+        if (estaBloqueado($email)) {
+            $this->errores[] = 'Demasiados intentos fallidos. Espera unos minutos e inténtalo de nuevo.';
+            return false;
+        }
+
         try {
             $sql = "
                 SELECT
@@ -116,11 +122,13 @@ final class Auth
             );
 
             if (!$usuario) {
+                registrarIntentoFallido($email);
                 $this->errores[] = 'Email o contraseña incorrectos.';
                 return false;
             }
 
             if (!$passwordValido) {
+                registrarIntentoFallido($email);
                 $this->errores[] = 'Email o contraseña incorrectos.';
                 return false;
             }
@@ -156,6 +164,7 @@ final class Auth
                 }
             }
 
+            limpiarIntentosFallidos($email);
             $this->iniciarSesion($usuario);
 
             return true;
@@ -679,14 +688,6 @@ final class Auth
                 ':email' => $email,
             ]);
 
-            if ($stmt->fetch()) {
-                $this->errores[] =
-                    'Ya existe una cuenta registrada con ese correo. '
-                    . 'Inicia sesión o recupera tu contraseña.';
-
-                return false;
-            }
-
             $estado = $rol === 'periodista'
                 ? 'pendiente'
                 : 'activo';
@@ -741,12 +742,10 @@ final class Auth
         } catch (PDOException $e) {
             registrarErrorInterno('AUTH.REGISTER', $e);
 
-            /*
-             * También cubre una posible carrera si existe un índice
-             * UNIQUE sobre usuarios.email.
-             */
             if ((string) $e->getCode() === '23000') {
-                return true;
+                $this->errores[] =
+                    'No se pudo completar el registro.';
+                return false;
             } else {
                 $this->errores[] =
                     'No se pudo completar el registro.';

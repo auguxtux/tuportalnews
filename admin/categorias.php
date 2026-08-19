@@ -102,7 +102,7 @@ require_once __DIR__ . '/../partials/header.php';
 
 <?php if (isset($error)): ?>
 
-    <div class="admin-categorias-alerta admin-categorias-alerta-error"><?php echo $error; ?></div>
+    <div class="admin-categorias-alerta admin-categorias-alerta-error"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></div>
 
 <?php endif; ?>
 

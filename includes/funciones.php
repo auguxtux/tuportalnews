@@ -21,6 +21,7 @@ $helpers = [
     'url.php',
     'login-attempts.php',
     'reportes.php',
+    'clasificacion.php',
 ];
 
 foreach ($helpers as $helper) {
@@ -368,8 +369,12 @@ function generarTokenCSRF() {
  * Verificar token CSRF
  */
 function verificarTokenCSRF($token) {
-    return !empty($_SESSION['csrf_token']) && !empty($token) && 
+    $valido = !empty($_SESSION['csrf_token']) && !empty($token) && 
            hash_equals($_SESSION['csrf_token'], $token);
+    if ($valido) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $valido;
 }
 
 function limpiarTokenCSRF() {

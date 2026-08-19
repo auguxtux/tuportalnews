@@ -1193,4 +1193,77 @@
         left: 9%;
         top: 20px;
     }
+}
+
+/* =============================================
+   TAGS DE REGIÓN Y TEMA (clasificación dual)
+   ============================================= */
+
+/* Hero slider tags */
+.hero-tags {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+}
+.hero-region {
+    display: inline-block;
+    background: #10b981;
+    color: #fff;
+    padding: 0.3rem 0.8rem;
+    border-radius: 2rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.hero-categoria {
+    display: none;
+}
+
+/* Destacada tags */
+.destacada-tags {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+}
+.destacada-region {
+    display: inline-block;
+    background: #d1fae5;
+    color: #065f46;
+    font-size: 0.8rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+/* Listado tags */
+.listado-tags {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.listado-region {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: #059669;
+    font-weight: 600;
+}
+
+/* Últimas noticias tags */
+.ultima-tags {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.ultima-region {
+    font-size: 0.75rem;
+    color: #059669;
+    text-transform: uppercase;
+    font-weight: 600;
 }    

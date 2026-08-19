@@ -63,6 +63,7 @@ try {
     $categorias = $pdo->query("SELECT * FROM categorias WHERE activa = 1 ORDER BY nombre_categoria")->fetchAll();
     $provincias = $pdo->query("SELECT * FROM provincias ORDER BY nombre")->fetchAll();
     $fuentes = $pdo->query("SELECT id_fuente, nombre FROM fuentes WHERE activa = 1 ORDER BY nombre")->fetchAll();
+    $regiones = $pdo->query("SELECT id_region, nombre FROM regiones WHERE activa = 1 ORDER BY nombre")->fetchAll();
 
     $errores = [];
     $datos = $noticia;
@@ -109,7 +110,8 @@ try {
             'tipo_ubicacion' => $_POST['tipo_ubicacion'] ?? 'espana',
             'id_provincia' => (int)($_POST['id_provincia'] ?? 0),
             'lugar_internacional' => limpiarDatos($_POST['lugar_internacional'] ?? ''),
-            'otras_ubicacion' => limpiarDatos($_POST['otras_ubicacion'] ?? '')
+            'otras_ubicacion' => limpiarDatos($_POST['otras_ubicacion'] ?? ''),
+            'id_region' => (int)($_POST['id_region'] ?? 0) ?: null,
         ];
         $medio_principal = ($_POST['medio_principal'] ?? 'imagen') === 'video' ? 'video' : 'imagen';
 
@@ -415,7 +417,7 @@ try {
                         imagen_principal = ?, imagen_externa = ?,
                         imagen_2 = ?, imagen_3 = ?, imagen_4 = ?, imagen_5 = ?, imagen_6 = ?,
                         textos_imagenes = ?, video_nombre = ?, video_externo = ?, video_embed = ?, video_tipo = ?,
-                        id_categoria = ?, id_fuente = ?, id_fuente_rss = ?, rss_item_hash = ?, estado = ?,
+                        id_categoria = ?, id_region = ?, id_fuente = ?, id_fuente_rss = ?, rss_item_hash = ?, estado = ?,
                         tipo_ubicacion = ?, id_provincia = ?, lugar_internacional = ?, otras_ubicacion = ?,
                         fecha_actualizacion = NOW()
                         WHERE id_noticia = ?";
@@ -427,7 +429,7 @@ try {
                     $imagen_principal ?? null, $imagen_externa ?? null,
                     $imagen_2 ?? null, $imagen_3 ?? null, $imagen_4 ?? null, $imagen_5 ?? null, $imagen_6 ?? null,
                     $textos_json, $video_nombre ?? null, $video_externo ?? null, $video_embed ?? null, $video_tipo_db ?? 'local',
-                    $datos['id_categoria'], $datos['id_fuente'] ?? null,
+                    $datos['id_categoria'], $datos['id_region'], $datos['id_fuente'] ?? null,
                     $rssSeleccionado['fuente']['id_fuente'] ?? ($noticia['id_fuente_rss'] ?? null),
                     $rssSeleccionado !== null ? $rssItemHash : ($noticia['rss_item_hash'] ?? null),
                     $datos['estado'],
@@ -479,7 +481,7 @@ require_once __DIR__ . '/../partials/header.php';
 
 <?php if (isset($error)): ?>
 
-    <div class="editar-noticia-alerta editar-noticia-alerta-error"><?php echo $error; ?></div>
+    <div class="editar-noticia-alerta editar-noticia-alerta-error"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></div>
 
 <?php endif; ?>
 
@@ -582,6 +584,21 @@ require_once __DIR__ . '/../partials/header.php';
                         </option>
                     <?php endforeach; ?>
 
+                </select>
+            </div>
+            
+            <div class="editar-noticia-campo-form">
+                <label>📍 Región</label>
+                <select name="id_region">
+                    <option value="">Sin región</option>
+                    <?php foreach ($regiones as $region): ?>
+                        <option
+                            value="<?php echo (int) $region['id_region']; ?>"
+                            <?php echo ($datos['id_region'] ?? 0) == $region['id_region'] ? 'selected' : ''; ?>
+                        >
+                            <?php echo htmlspecialchars($region['nombre'], ENT_QUOTES, 'UTF-8'); ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             

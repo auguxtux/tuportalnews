@@ -72,13 +72,13 @@ require_once __DIR__ . '/../partials/standalone-header.php';
     
     <?php if ($mensaje): ?>
 
-        <div class="mensaje-success"><?php echo $mensaje; ?></div>
+        <div class="mensaje-success"><?php echo htmlspecialchars($mensaje, ENT_QUOTES, 'UTF-8'); ?></div>
 
         <a href="<?php echo route('login'); ?>" class="btn-volver">← Ir al inicio de sesión</a>
 
     <?php elseif ($error && !$token_valido): ?>
 
-        <div class="mensaje-error"><?php echo $error; ?></div>
+        <div class="mensaje-error"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></div>
 
         <a href="<?php echo route('recuperar_password'); ?>" class="btn-volver">← Solicitar nuevo enlace</a>
 
@@ -91,7 +91,7 @@ require_once __DIR__ . '/../partials/standalone-header.php';
         
         <?php if ($error): ?>
 
-            <div class="mensaje-error"><?php echo $error; ?></div>
+            <div class="mensaje-error"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></div>
 
         <?php endif; ?>
 
@@ -113,7 +113,7 @@ require_once __DIR__ . '/../partials/standalone-header.php';
 
     <?php else: ?>
 
-        <div class="mensaje-error"><?php echo $error ?: 'Token no válido o ausente.'; ?></div>
+        <div class="mensaje-error"><?php echo htmlspecialchars($error ?: 'Token no válido o ausente.', ENT_QUOTES, 'UTF-8'); ?></div>
 
         <a href="<?php echo route('recuperar_password'); ?>" class="btn-volver">← Solicitar nuevo enlace</a>
 

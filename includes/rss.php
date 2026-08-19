@@ -728,29 +728,6 @@ function obtenerExtracto($item, $longitud = RSS_EXTRACTO_LONGITUD) {
  * Genera el contenido HTML con extracto + botón externo
  * CORREGIDA - Asegura que siempre haya contenido visible
  */
-/**
- * Extrae el nombre de dominio principal de una URL.
- * Ej: https://eldiario.opennemas.com/... → eldiario
- */
-function extraerDominioFuente(string $url): string
-{
-    $host = parse_url($url, PHP_URL_HOST) ?? '';
-    // Quitar subdominios comunes
-    $host = preg_replace('/^(www|feeds|rss)\./i', '', $host);
-    $partes = explode('.', $host);
-    // Para CDN tipo e00-elmundo.uecdn.es, extraer el nombre de marca
-    $primero = $partes[0] ?? '';
-    if (preg_match('/^e00-([a-z]+)/i', $primero, $m)) {
-        return strtolower($m[1]);
-    }
-    // Para uecdn.es u otros CDN, usar el segundo nivel
-    $cdn = ['uecdn', 'cdn', 'static', 'media', 'img'];
-    if (in_array(strtolower($primero), $cdn) && isset($partes[1])) {
-        return strtolower($partes[1]);
-    }
-    return strtolower($primero);
-}
-
 function generarContenidoConBoton($item, $extracto, ?string $video = null) {
     $link = $item->get_permalink();
     $titulo = htmlspecialchars($item->get_title() ?? 'Noticia');

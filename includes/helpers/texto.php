@@ -41,7 +41,6 @@ function extraerDominioFuente(string $url): string {
     $url = trim($url);
     if ($url === '') return $url;
 
-    // Si no parece URL, devolver tal cual (nombre de fuente manual)
     if (preg_match('/^https?:\/\//i', $url) === 0) {
         return $url;
     }
@@ -49,11 +48,19 @@ function extraerDominioFuente(string $url): string {
     $host = parse_url($url, PHP_URL_HOST);
     if (!$host) return $url;
 
-    // Quitar www.
-    $host = preg_replace('/^www\./i', '', $host);
+    $host = preg_replace('/^(www|feeds|rss)\./i', '', $host);
+    $partes = explode('.', $host);
+    $primero = $partes[0] ?? '';
 
-    // Quitar extensión (.com, .es, .org, etc.)
+    if (preg_match('/^e00-([a-z]+)/i', $primero, $m)) {
+        return strtolower($m[1]);
+    }
+
+    $cdn = ['uecdn', 'cdn', 'static', 'media', 'img'];
+    if (in_array(strtolower($primero), $cdn) && isset($partes[1])) {
+        return strtolower($partes[1]);
+    }
+
     $host = preg_replace('/\.[a-z]{2,}$/', '', $host);
-
     return strtolower(trim($host));
 }

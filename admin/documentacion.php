@@ -45,10 +45,12 @@ Permisos::requerirAdmin();
     </div>
 
     <div class="highlight">
-        <strong>Versión 4.3:</strong> arquitectura PHP procedimental modular,
+        <strong>Versión 5.0:</strong> arquitectura PHP procedimental modular,
         rutas centralizadas, separación completa de contenido público y
         privado, colaciones UTF-8 unificadas, pruebas repetibles, backups con
-        retención y documentación de instalación, verificación y despliegue.
+        retención, clasificación dual de noticias (región + tema), importación
+        RSS con detección automática y documentación de instalación,
+        verificación y despliegue.
     </div>
 
     <!-- ============================================================ -->
@@ -97,6 +99,9 @@ Permisos::requerirAdmin();
                     <li><i class="fas fa-check-circle"></i> Configuración del sitio (registro, comentarios, etc)</li>
                     <li><i class="fas fa-check-circle"></i> Monitor de ataques y bloqueo de IPs</li>
                     <li><i class="fas fa-chart-simple"></i> Estadísticas globales y logs del sistema</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Clasificación regional de noticias (19 comunidades autónomas)</li>
+                    <li><i class="fas fa-tags"></i> Clasificación temática automática (14 categorías)</li>
+                    <li><i class="fas fa-rss"></i> Gestión de fuentes RSS con región asignada y feeds regionales RTVE</li>
                 </ul>
             </div>
             <div class="card">
@@ -109,6 +114,9 @@ Permisos::requerirAdmin();
                     <li><i class="fas fa-tag"></i> Asignar categorías, fuentes y ubicaciones</li>
                     <li><i class="fas fa-lock"></i> <strong>Modo privado</strong> (si tiene permiso especial)</li>
                     <li><i class="fas fa-chart-line"></i> Ver estadísticas de sus noticias</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Asignar región (comunidad autónoma) a cada noticia</li>
+                    <li><i class="fas fa-robot"></i> Clasificación temática automática al importar RSS</li>
+                    <li><i class="fas fa-rss"></i> Importar noticias RSS con región de la fuente y etiquetas visuales</li>
                 </ul>
             </div>
             <div class="card">
@@ -157,6 +165,9 @@ Permisos::requerirAdmin();
                     <li><i class="fas fa-video"></i> Soporte vídeos locales (MP4, WEBM) y externos (YouTube/Vimeo mediante iframe)</li>
                     <li><i class="fas fa-rocket"></i> Catálogo NASA con búsqueda, 24 temas, caché y multimedia externa HTTPS</li>
                     <li><i class="fas fa-chart-line"></i> Minificación automática CSS/JS (modo desarrollo/producción)</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Clasificación dual de noticias: región (19 comunidades) y tema (14 categorías)</li>
+                    <li><i class="fas fa-rss"></i> Importador RSS con prevención de duplicados, región automática y etiquetas visuales</li>
+                    <li><i class="fas fa-shield-alt"></i> Rate limiting en login, rotación CSRF, validación de URLs internas</li>
                 </ul>
             </div>
             <div>
@@ -189,11 +200,14 @@ Permisos::requerirAdmin();
             <div>
                 <h3>🛡️ Protecciones activas</h3>
                 <ul class="role-list">
-                    <li><i class="fas fa-ban"></i> Bloqueo por fuerza bruta (5 intentos → 15 min bloqueo)</li>
+                    <li><i class="fas fa-ban"></i> Bloqueo por fuerza bruta (5 intentos → 15 min bloqueo, conectado al login)</li>
                     <li><i class="fas fa-ip"></i> IPs bloqueadas permanentemente desde panel /ataques</li>
-                    <li><i class="fas fa-csrf"></i> Tokens CSRF en formularios críticos</li>
-                    <li><i class="fas fa-user-lock"></i> Contraseñas hasheadas (password_hash)</li>
+                    <li><i class="fas fa-csrf"></i> Tokens CSRF con rotación automática tras cada uso</li>
+                    <li><i class="fas fa-user-lock"></i> Contraseñas hasheadas (password_hash + rehash automático)</li>
                     <li><i class="fas fa-file-alt"></i> Logs detallados de accesos e intentos fallidos</li>
+                    <li><i class="fas fa-shield-alt"></i> Escape contextual de salidas (htmlspecialchars en ~45 outputs)</li>
+                    <li><i class="fas fa-link"></i> Validación de URLs internas en redireccionar()</li>
+                    <li><i class="fas fa-lock"></i> Protección contra enumeración de emails en registro</li>
                 </ul>
             </div>
             <div>
@@ -237,6 +251,7 @@ Permisos::requerirAdmin();
                     <li><i class="fas fa-heading"></i> Título, subtítulo, contenido enriquecido</li>
                     <li><i class="fas fa-image"></i> Imagen principal + hasta 5 imágenes de galería con texto alternativo</li>
                     <li><i class="fas fa-tag"></i> Categorías, fuente, ubicación geográfica (provincia/internacional)</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Región (comunidad autónoma) y clasificación temática automática</li>
                     <li><i class="fas fa-chart-simple"></i> Visitas, valoraciones (1-3 estrellas), "me gusta"</li>
                     <li><i class="fas fa-share-alt"></i> Compartir en redes sociales + copia de enlace</li>
                     <li><i class="fas fa-clock"></i> Estados: borrador / publicada / pendiente / archivada</li>
@@ -305,6 +320,8 @@ Permisos::requerirAdmin();
 │       ├── <span class="file">url.php</span>                    <span class="comment">→ base_url(), redireccionar(), current_url()</span>
 │       ├── <span class="file">csrf.php</span>                   <span class="comment">→ Tokens CSRF</span>
 │       └── <span class="file">login-attempts.php</span>          <span class="comment">→ Control de intentos fallidos</span>
+│       ├── <span class="file">clasificacion.php</span>           <span class="comment">→ detectarTemaRss(), diccionarios de temas</span>
+│       ├── <span class="file">noticias.php</span>                <span class="comment">→ Consultas de noticias con JOIN a regiones</span>
 │
 ├── 📁 <span class="folder">public/</span>                     <span class="comment">→ Vistas públicas (acceso sin login)</span>
 │   ├── <span class="file">portada.php</span>                  <span class="comment">→ Página principal (últimas noticias)</span>
@@ -323,6 +340,9 @@ Permisos::requerirAdmin();
 │   ├── <span class="file">privacidad.php</span>               <span class="comment">→ Política de privacidad</span>
 │   ├── <span class="file">ver-valoraciones.php</span>          <span class="comment">→ Estadísticas de valoración</span>
 │   └── <span class="file">ver-relacionadas.php</span>          <span class="comment">→ Noticias relacionadas</span>
+│   ├── <span class="file">listado-noticias.php</span>        <span class="comment">→ Listado filtrable por región y categoría</span>
+│   ├── <span class="file">buscar-comentarios.php</span>      <span class="comment">→ Búsqueda de comentarios</span>
+│   ├── <span class="file">tiempo.php</span>                  <span class="comment">→ Predicción meteorológica (AEMET/Open-Meteo)</span>
 │
 ├── 📁 <span class="folder">admin/</span>                      <span class="comment">→ Panel de administración (solo admin)</span>
 │   ├── <span class="file">dashboard.php</span>                <span class="comment">→ Estadísticas generales</span>
@@ -337,6 +357,8 @@ Permisos::requerirAdmin();
 │   ├── <span class="file">noticias-privadas.php</span>        <span class="comment">→ Gestión de noticias privadas</span>
 │   ├── <span class="file">noticias-relacionadas.php</span>    <span class="comment">→ Relaciones entre noticias</span>
 │   └── <span class="file">editar-noticia.php</span>           <span class="comment">→ Editar noticia (admin)</span>
+│   ├── <span class="file">gestion-fuentes.php</span>        <span class="comment">→ Gestión de fuentes RSS manuales</span>
+│   ├── <span class="file">rss-config.php</span>              <span class="comment">→ Configuración de feeds RSS con región</span>
 │
 ├── 📁 <span class="folder">periodista/</span>                 <span class="comment">→ Panel de periodistas</span>
 │   ├── <span class="file">dashboard.php</span>                <span class="comment">→ Panel personal de periodista</span>
@@ -344,6 +366,7 @@ Permisos::requerirAdmin();
 │   ├── <span class="file">nueva-noticia.php</span>            <span class="comment">→ Crear noticia (con editor TinyMCE)</span>
 │   ├── <span class="file">editar-noticia.php</span>           <span class="comment">→ Editar su noticia</span>
 │   ├── <span class="file">eliminar-noticia.php</span>         <span class="comment">→ Eliminar su noticia</span>
+│   ├── <span class="file">importar-rss.php</span>            <span class="comment">→ Importar noticias RSS con región y tema</span>
 │   └── <span class="file">perfil.php</span>                   <span class="comment">→ Perfil del periodista</span>
 │
 ├── 📁 <span class="folder">privado/</span>                    <span class="comment">→ Área privada (periodistas con permiso especial)</span>
@@ -640,6 +663,8 @@ Permisos::requerirAdmin();
 │       ├── <span class="file">url.php</span>                    <span class="comment-full">→ base_url(), redireccionar(), current_url()</span>
 │       ├── <span class="file">csrf.php</span>                   <span class="comment-full">→ Tokens CSRF</span>
 │       └── <span class="file">login-attempts.php</span>          <span class="comment-full">→ Control de intentos fallidos</span>
+│       ├── <span class="file">clasificacion.php</span>           <span class="comment-full">→ detectarTemaRss(), diccionarios de temas</span>
+│       ├── <span class="file">noticias.php</span>                <span class="comment-full">→ Consultas de noticias con JOIN a regiones</span>
 │
 ├── 📁 <span class="folder">public/</span>                     <span class="comment-full">→ Vistas públicas (acceso sin login)</span>
 │   ├── <span class="file">portada.php</span>                  <span class="comment-full">→ Página principal (últimas noticias)</span>
@@ -658,6 +683,9 @@ Permisos::requerirAdmin();
 │   ├── <span class="file">privacidad.php</span>               <span class="comment-full">→ Política de privacidad</span>
 │   ├── <span class="file">ver-valoraciones.php</span>          <span class="comment-full">→ Estadísticas de valoración</span>
 │   └── <span class="file">ver-relacionadas.php</span>          <span class="comment-full">→ Noticias relacionadas</span>
+│   ├── <span class="file">listado-noticias.php</span>        <span class="comment-full">→ Listado filtrable por región y categoría</span>
+│   ├── <span class="file">buscar-comentarios.php</span>      <span class="comment-full">→ Búsqueda de comentarios</span>
+│   ├── <span class="file">tiempo.php</span>                  <span class="comment-full">→ Predicción meteorológica (AEMET/Open-Meteo)</span>
 │
 ├── 📁 <span class="folder">admin/</span>                      <span class="comment-full">→ Panel de administración (solo admin)</span>
 │   ├── <span class="file">dashboard.php</span>                <span class="comment-full">→ Estadísticas generales</span>
@@ -672,6 +700,8 @@ Permisos::requerirAdmin();
 │   ├── <span class="file">noticias-privadas.php</span>        <span class="comment-full">→ Gestión de noticias privadas</span>
 │   ├── <span class="file">noticias-relacionadas.php</span>    <span class="comment-full">→ Relaciones entre noticias</span>
 │   └── <span class="file">editar-noticia.php</span>           <span class="comment-full">→ Editar noticia (admin)</span>
+│   ├── <span class="file">gestion-fuentes.php</span>        <span class="comment-full">→ Gestión de fuentes RSS manuales</span>
+│   ├── <span class="file">rss-config.php</span>              <span class="comment-full">→ Configuración de feeds RSS con región</span>
 │
 ├── 📁 <span class="folder">periodista/</span>                 <span class="comment-full">→ Panel de periodistas</span>
 │   ├── <span class="file">dashboard.php</span>                <span class="comment-full">→ Panel personal de periodista</span>
@@ -679,6 +709,7 @@ Permisos::requerirAdmin();
 │   ├── <span class="file">nueva-noticia.php</span>            <span class="comment-full">→ Crear noticia (con editor TinyMCE)</span>
 │   ├── <span class="file">editar-noticia.php</span>           <span class="comment-full">→ Editar su noticia</span>
 │   ├── <span class="file">eliminar-noticia.php</span>         <span class="comment-full">→ Eliminar su noticia</span>
+│   ├── <span class="file">importar-rss.php</span>            <span class="comment-full">→ Importar noticias RSS con región y tema</span>
 │   └── <span class="file">perfil.php</span>                   <span class="comment-full">→ Perfil del periodista</span>
 │
 ├── 📁 <span class="folder">privado/</span>                    <span class="comment-full">→ Área privada (periodistas con permiso especial)</span>
@@ -915,7 +946,7 @@ Permisos::requerirAdmin();
                 <strong>limpiarDatos()</strong>
                 <span class="funcion-archivo">seguridad.php (helpers)</span>
             </div>
-            <p class="funcion-desc">Limpia datos de entrada contra XSS.</p>
+            <p class="funcion-desc">Limpia y normaliza datos de entrada (trim + validación de tipo).</p>
             <code class="funcion-ejemplo">$limpio = limpiarDatos($_POST['nombre']);</code>
         </div>
         
@@ -977,6 +1008,16 @@ Permisos::requerirAdmin();
             </div>
             <p class="funcion-desc">Genera slugs para URLs amigables.</p>
             <code class="funcion-ejemplo">$slug = generarSlug("Mi título"); // "mi-titulo"</code>
+        </div>
+        
+        <div class="funcion-card">
+            <div class="funcion-header">
+                <i class="fas fa-map-marker-alt"></i>
+                <strong>detectarTemaRss()</strong>
+                <span class="funcion-archivo">clasificacion.php (helpers)</span>
+            </div>
+            <p class="funcion-desc">Detecta automáticamente el tema de una noticia RSS por palabras clave.</p>
+            <code class="funcion-ejemplo">$tema = detectarTemaRss($titulo, $extracto);</code>
         </div>
         
         <div class="funcion-card">
@@ -1066,7 +1107,7 @@ Permisos::requerirAdmin();
         <div class="db-summary">
             <div class="summary-card-db">
                 <i class="fas fa-table"></i>
-                <div class="summary-number">12</div>
+                <div class="summary-number">14</div>
                 <div class="summary-label">Tablas</div>
             </div>
             <div class="summary-card-db">
@@ -1246,7 +1287,7 @@ Permisos::requerirAdmin();
             <div class="db-section-header">
                 <i class="fas fa-table-list"></i>
                 <h3>Tablas principales del sistema</h3>
-                <span class="db-badge">12 tablas</span>
+                <span class="db-badge">14 tablas</span>
             </div>
 
             <div class="tables-grid">
@@ -1289,6 +1330,8 @@ Permisos::requerirAdmin();
                         <div class="detail-field">🔒 privada - 0=pública, 1=privada</div>
                         <div class="detail-field fk">👤 id_autor - FK → usuarios</div>
                         <div class="detail-field fk">📁 id_categoria - FK → categorias</div>
+                        <div class="detail-field fk">📍 id_region - FK → regiones</div>
+                        <div class="detail-field">🏷️ tema_detectado - Categoría temática automática</div>
                     </div>
                 </div>
 
@@ -1352,6 +1395,36 @@ Permisos::requerirAdmin();
                         <div class="detail-field">🔧 clave - Nombre del parámetro</div>
                         <div class="detail-field">📝 valor - Valor del parámetro</div>
                         <div class="detail-field">📋 tipo - texto | numero | booleano</div>
+                    </div>
+                </div>
+
+                <div class="table-card-db" onclick="toggleTableDetail(this)">
+                    <div class="table-card-header">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <strong>regiones</strong>
+                        <span class="table-badge">Geografía</span>
+                        <i class="fas fa-chevron-down table-toggle"></i>
+                    </div>
+                    <div class="table-card-detail">
+                        <div class="detail-field"><span class="pk">🔑 id_region</span> - Identificador único</div>
+                        <div class="detail-field">📍 nombre - Nombre de la comunidad autónoma</div>
+                        <div class="detail-field">🔗 slug - URL amigable</div>
+                    </div>
+                </div>
+
+                <div class="table-card-db" onclick="toggleTableDetail(this)">
+                    <div class="table-card-header">
+                        <i class="fas fa-rss"></i>
+                        <strong>fuentes_rss</strong>
+                        <span class="table-badge">RSS</span>
+                        <i class="fas fa-chevron-down table-toggle"></i>
+                    </div>
+                    <div class="table-card-detail">
+                        <div class="detail-field"><span class="pk">🔑 id_fuente</span> - Identificador único</div>
+                        <div class="detail-field">📡 nombre - Nombre de la fuente</div>
+                        <div class="detail-field">🔗 url_feed - URL del feed RSS</div>
+                        <div class="detail-field">⚡ activa - 1=activa, 0=inactiva</div>
+                        <div class="detail-field fk">📍 id_region - FK → regiones (región de origen)</div>
                     </div>
                 </div>
             </div>

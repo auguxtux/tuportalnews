@@ -58,6 +58,8 @@ $perfilVisible = match (true) {
                         <li>💬 Modera comentarios, reportes y mensajes de contacto.</li>
                         <li>🚩 Confirma reportes válidos para mostrar públicamente solo su número y motivo.</li>
                         <li>📡 Activa, desactiva y supervisa las fuentes RSS compartidas.</li>
+                        <li>📍 Asigna una región (comunidad autónoma) a cada fuente RSS para clasificación automática.</li>
+                        <li>🏷️ Revisa la clasificación temática automática de las noticias importadas.</li>
                         <li>🚀 Consulta NASA y usa su multimedia oficial en noticias públicas o privadas.</li>
                     </ul>
                 </div>
@@ -69,6 +71,8 @@ $perfilVisible = match (true) {
                         <li>💾 Crea, descarga y restaura backups; se conservan los 5 últimos.</li>
                         <li>🟢 Consulta usuarios conectados y filtra su actividad por rol.</li>
                         <li>🚨 Revisa ataques, sesiones, conexiones, errores y diagnóstico.</li>
+                        <li>🔐 Login protegido contra fuerza bruta con bloqueo automático por IP.</li>
+                        <li>🛡️ Escape de salida en todos los formularios para prevenir XSS.</li>
                     </ul>
                 </div>
                 <div class="instr-bloque">
@@ -87,6 +91,7 @@ $perfilVisible = match (true) {
                         <li>👁️ Busca y consulta noticias privadas de todos los Colaboradores.</li>
                         <li>➕ Crea, edita y elimina únicamente tus noticias privadas.</li>
                         <li>💬 Comenta, valora, relaciona y reporta contenido privado.</li>
+                        <li>📍 Asigna región y tema a tus noticias RSS importadas.</li>
                     </ul>
                 </div>
                 <div class="instr-bloque">
@@ -97,6 +102,7 @@ $perfilVisible = match (true) {
                         <li>📍 Al importar varias noticias RSS, asigna una ubicación común y edita después las excepciones.</li>
                         <li>🖼️ Imágenes, vídeos y contenido del editor se validan al guardar.</li>
                         <li>🚀 Selecciona multimedia NASA y decide si la imagen o el vídeo aparece primero.</li>
+                        <li>🏷️ El tema se detecta automáticamente al importar; revisa y ajusta si es necesario.</li>
                     </ul>
                 </div>
                 <div class="instr-bloque">
@@ -126,6 +132,8 @@ $perfilVisible = match (true) {
                         <li>🧭 Asigna título, categoría, fuente, ubicación y contenido.</li>
                         <li>🖼️ La imagen principal es obligatoria y se optimiza automáticamente.</li>
                         <li>🚀 Añade imágenes o vídeos NASA sin consumir tu espacio y conserva su atribución.</li>
+                        <li>📍 Selecciona la región (comunidad autónoma) de la noticia.</li>
+                        <li>🏷️ El tema se asigna automáticamente según el contenido.</li>
                         <li>🎬 Puedes mostrar primero el vídeo; la imagen seguirá siendo la portada de las tarjetas.</li>
                     </ul>
                 </div>
@@ -136,6 +144,8 @@ $perfilVisible = match (true) {
                         <li>🌐 Usa también las fuentes activas compartidas por otros Articulistas.</li>
                         <li>📥 Selecciona manualmente cada noticia y su categoría; no se importan duplicados.</li>
                         <li>📍 Asigna una ubicación común al lote importado y ajusta cada noticia posteriormente si lo necesita.</li>
+                        <li>📍 Cada fuente RSS tiene una región asignada; las noticias heredan esa región automáticamente.</li>
+                        <li>🏷️ El sistema detecta el tema de cada noticia por palabras clave del título y extracto.</li>
                     </ul>
                 </div>
                 <div class="instr-bloque">
@@ -173,6 +183,8 @@ $perfilVisible = match (true) {
                         <li>🔗 Consulta noticias relacionadas, galerías y valoraciones.</li>
                         <li>🌦️ Utiliza la predicción meteorológica y tu ubicación si la autorizas.</li>
                         <li>🚀 Explora imágenes, vídeos, proyectos y misiones en el catálogo NASA.</li>
+                        <li>📍 Filtra noticias por región (comunidad autónoma) y categoría.</li>
+                        <li>🏷️ Las noticias muestran etiquetas visuales de región y tema.</li>
                     </ul>
                 </div>
                 <div class="instr-bloque">

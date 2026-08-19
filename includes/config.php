@@ -61,6 +61,10 @@ foreach ($requiredEnv as $envName) {
     define($envName, (string) $env[$envName]);
 }
 
+if (array_key_exists('AEMET_API_KEY', $env)) {
+    define('AEMET_API_KEY', (string) $env['AEMET_API_KEY']);
+}
+
 define('MAX_FILE_SIZE', 5 * 1024 * 1024);
 define('MAX_VIDEO_SIZE', 50 * 1024 * 1024);
 define('ALLOWED_EXTENSIONS', ['jpg', 'jpeg', 'png', 'gif', 'webp']);

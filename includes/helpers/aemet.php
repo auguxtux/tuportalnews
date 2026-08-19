@@ -16,23 +16,21 @@ declare(strict_types=1);
 
 function cargarConfiguracionAemet(): array
 {
+    $apiKey = trim((string) (defined('AEMET_API_KEY') ? AEMET_API_KEY : ''));
+
     $ruta = dirname(__DIR__) . '/aemet-config.php';
-
-    if (!is_file($ruta) || !is_readable($ruta)) {
-        throw new RuntimeException(
-            'No existe o no se puede leer includes/aemet-config.php.'
-        );
-    }
-
-    $config = require $ruta;
-
+    $config = is_file($ruta) ? (require $ruta) : [];
     if (!is_array($config)) {
-        throw new RuntimeException('La configuración de AEMET no es válida.');
+        $config = [];
     }
 
-    $apiKey = trim((string) ($config['api_key'] ?? ''));
+    if ($apiKey !== '' && $apiKey !== 'PEGA_AQUI_TU_API_KEY') {
+        $config['api_key'] = $apiKey;
+    }
 
-    if ($apiKey === '' || $apiKey === 'PEGA_AQUI_TU_API_KEY') {
+    $finalKey = trim((string) ($config['api_key'] ?? ''));
+
+    if ($finalKey === '' || $finalKey === 'PEGA_AQUI_TU_API_KEY') {
         throw new RuntimeException('La API Key de AEMET no está configurada.');
     }
 

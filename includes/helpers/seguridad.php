@@ -15,7 +15,7 @@ function limpiarDatos($dato) {
         return '';
     }
 
-    return htmlspecialchars(trim((string) $dato), ENT_QUOTES, 'UTF-8');
+    return trim((string) $dato);
 }
 
 /**

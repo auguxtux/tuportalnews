@@ -485,13 +485,21 @@ require_once __DIR__ . '/../partials/header.php';
         <div class="section-header"><h2 class="section-titulo">🔥 Más populares</h2></div>
         <div class="popular-lista">
             <?php foreach ($noticias_populares as $index => $popular): ?>
+            <?php
+            $popularImg = '';
+            if (!empty($popular['imagen_principal'])) {
+                $popularImg = base_url('uploads/noticias/' . $popular['imagen_principal']);
+            } elseif (!empty($popular['imagen_externa'])) {
+                $popularImg = $popular['imagen_externa'];
+            }
+            ?>
             <div class="popular-item">
                 <div class="popular-posicion"><?php echo $index + 1; ?></div>
                 
-                <?php if ($popular['imagen_principal']): ?>
+                <?php if ($popularImg): ?>
                 <div class="popular-imagen">
                     <a href="<?php echo route('noticia', ['id' => $popular['id_noticia']]); ?>">
-                        <img src="<?php echo base_url('uploads/noticias/' . $popular['imagen_principal']); ?>" 
+                        <img src="<?php echo htmlspecialchars($popularImg, ENT_QUOTES, 'UTF-8'); ?>" 
                              alt="<?php echo htmlspecialchars($popular['titulo']); ?>" 
                              loading="lazy"
                              decoding="async">

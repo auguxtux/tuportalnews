@@ -8,7 +8,7 @@
     background: var(--news-card-surface);
     border: 1px solid #dbe3ef;
     border-top: 4px solid var(--news-card-accent);
-    border-radius: 0.65rem;
+    border-radius: 4px;
     box-shadow: 0 3px 12px rgba(15, 23, 42, 0.07);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -29,7 +29,7 @@
 }
 
 .news-card--compact {
-    gap: 0.5rem;
+    gap: 9px;
     padding: 0.5rem;
 }
 

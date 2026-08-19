@@ -998,9 +998,13 @@
         padding: 0.5rem 0.75rem;
     }
     
-    .ultima-card {
-        flex-direction: column;
-    }
+.ultima-card.news-card--compact {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 9px !important;
+  padding: 0.5rem !important;
+  border-radius: 4px !important;
+}
 
     .ultima-titulo a {
         display: -webkit-box;

@@ -139,7 +139,7 @@ require_once __DIR__ . '/../partials/header.php';
                     </div>
                   
                     <!-- 5. METADATOS (Periodista, Categoría, Fecha) -->
-                    <div class="home-tarjeta-metadatos news-card__meta news-card__meta--standard">
+                    <div class="home-tarjeta-metadatos news-card__meta">
                         <div class="home-metadato-item">
                             <span class="home-metadato-icono">✍️</span>
                             <a href="<?php echo route('periodistas', ['id' => (int) $noticia['id_autor']]); ?>" class="home-metadato-enlace"><?php echo htmlspecialchars($noticia['autor_nombre']); ?></a>

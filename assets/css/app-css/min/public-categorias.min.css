@@ -117,11 +117,6 @@
     border-radius: 4px;
 }
 
-/* Variante aislada: los cambios de categorías no afectan a otras tarjetas. */
-.news-card.news-card--category .news-card__media {
-    height: 180px;
-}
-
 /* IMAGEN */
 .public-categorias-card-imagen {
     height: 180px;
@@ -427,15 +422,4 @@
 
 .grupo-icono {
     margin-right: 0.5rem;
-}
-
-.news-card.news-card--category .public-categorias-card-meta {
-    flex-flow: row wrap;
-    justify-content: center;
-    gap: 0.5rem 1rem;
-}
-
-.news-card.news-card--category .public-categorias-card-meta > * {
-    flex: 0 1 auto;
-    width: auto;
 }

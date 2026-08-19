@@ -608,7 +608,7 @@ require_once __DIR__ . '/../partials/header.php';
 
 
                     <div class="resultado-contenido news-card__body">
-                        <div class="resultado-meta news-card__meta news-card__meta--standard">
+                        <div class="resultado-meta news-card__meta news-card__meta--standard news-card__meta--inline">
                             <span class="meta-item">
                                 👤 <a href="<?php echo eResultadosBusqueda(route('periodistas', ['id' => (int) ($noticia['id_autor'] ?? 0)])); ?>"><?php echo eResultadosBusqueda($noticia['autor_nombre'] ?? 'Autor'); ?></a>
 

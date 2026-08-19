@@ -118,11 +118,6 @@
     padding: 10px;
 }
 
-/* Variante aislada: los cambios de fuentes no afectan a otras tarjetas. */
-.news-card.news-card--source .news-card__media {
-    height: 180px;
-}
-
 .tarjeta-imagen {
     margin-bottom: 0.75rem;
     border-radius: 4px;
@@ -471,15 +466,4 @@
     .tarjeta-fuente-nombre {
         font-size: 0.9rem;
     }
-}
-
-.news-card.news-card--source .tarjeta-metadatos {
-    flex-flow: row wrap;
-    justify-content: center;
-    gap: 0.5rem 1rem;
-}
-
-.news-card.news-card--source .tarjeta-metadatos > * {
-    flex: 0 1 auto;
-    width: auto;
 }

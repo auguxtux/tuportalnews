@@ -3,64 +3,25 @@
 
 /* BARRA DE ACCIONES */
 
-.admin-categorias-pagina {
-    width: min(100% - 1rem, 1100px);
-    margin: 0 auto;
-}
-
-.admin-categorias-cabecera {
-    padding: 1.25rem;
-    border: 1px solid #bfdbfe;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #eff6ff, #fff 70%);
-    text-align: center;
-}
-
-.admin-categorias-cabecera p { margin: .45rem 0 0; color: #64748b; }
-
 .titulo-categorias {
-    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-size: 1.1rem;
     text-align: center;
     text-transform: uppercase;
-    background: none;
-    padding: 0;
-    margin: 0;
-    color: #172554;
+    background: #c1c1c1;
+    padding: 4px;
+    margin-bottom: 1rem;
 }
 .admin-categorias-barra-acciones {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    margin: 1rem 0;
-    padding: .8rem 1rem;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    background: #fff;
+    display: block;
 }
-.admin-categorias-barra-acciones small { display: block; margin-top: .2rem; color: #64748b; }
-
-.admin-taxonomia-nav { display: grid; grid-template-columns: repeat(2, 1fr); gap: .6rem; margin: 1rem 0; }
-.admin-taxonomia-nav a { padding: .65rem; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; color: #334155; font-weight: 700; text-align: center; text-decoration: none; }
-.admin-taxonomia-nav a.activo, .admin-taxonomia-nav a:hover { border-color: #2563eb; background: #eff6ff; color: #1d4ed8; }
 
 /* CONTENEDOR PRINCIPAL */
 
 .admin-categorias-contenedor {
     width: 100%;
-    padding: 0;
+    padding: 1rem;
     box-sizing: border-box;
 }
-
-.admin-categorias-tabla-responsive { overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 9px; background: #fff; }
-.admin-categorias-tabla { width: 100%; border-collapse: collapse; font-size: .84rem; }
-.admin-categorias-tabla th { padding: .65rem .7rem; background: #f8fafc; color: #334155; text-align: left; white-space: nowrap; border-bottom: 2px solid #e2e8f0; }
-.admin-categorias-tabla td { padding: .6rem .7rem; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
-.admin-categorias-tabla tbody tr:hover { background: #f8fafc; }
-.admin-categorias-tabla code { padding: .15rem .35rem; border-radius: 4px; background: #f1f5f9; color: #475569; }
-.admin-categorias-inactiva { opacity: .58; }
-.admin-categorias-descripcion { min-width: 180px; max-width: 280px; color: #64748b; }
-.admin-categorias-centrar { text-align: center; }
 
 /* GRID DE TARJETAS */
 
@@ -216,8 +177,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    justify-content: flex-start;
-    min-width: 132px;
+    justify-content: center;
 }
 
 .admin-categorias-btn {
@@ -244,8 +204,8 @@
 
 /* Variantes de botones */
 .admin-categorias-btn-nueva {
-    background: #2563eb;
-    color: #fff;
+    background: #c1c1c1;
+    color: #616266;
     display: inline-flex;
     width: auto;
     font-size: 0.9rem;
@@ -319,8 +279,6 @@
 
 
 @media (max-width: 640px) {
-    .admin-categorias-barra-acciones { align-items: stretch; flex-direction: column; }
-    .admin-categorias-btn-nueva { width: 100%; }
     .admin-categorias-grid {
         grid-template-columns: 1fr;
         gap: 1rem;

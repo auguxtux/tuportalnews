@@ -800,6 +800,10 @@ body:has(.pobreza-modal[open]) {
 }
 
 @media (max-width: 480px) {
+    .pobreza-cabecera h1 {
+
+    font-size: 1.25rem;
+    }
     .pobreza-navegacion {
         grid-template-columns: 1fr;
     }
@@ -843,8 +847,12 @@ body:has(.pobreza-modal[open]) {
     }
 
     .pobreza-contexto-regional {
-        padding: .65rem;
-    }
+    padding: 0 0 0 20%;
+    padding-left: 20%;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 20%;
+  }
 
     .pobreza-grafica-contenedor {
         margin-inline: -.35rem;

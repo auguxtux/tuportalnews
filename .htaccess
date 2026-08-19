@@ -94,7 +94,7 @@ RewriteRule ^(.*)$ index.php [QSA,L]
     Header always set Strict-Transport-Security "max-age=15768000; includeSubDomains"
     
     # Content Security Policy (CSP)
-    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tiny.cloud https://*.tinymce.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; img-src 'self' data: https:; font-src 'self' data: https://cdnjs.cloudflare.com; connect-src 'self'; frame-src 'self' https://www.youtube.com https://player.vimeo.com https://www.google.com; media-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self';"
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tiny.cloud https://*.tinymce.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; img-src 'self' data: https:; font-src 'self' data: https://cdnjs.cloudflare.com; connect-src 'self' https://*.epdata.es; frame-src 'self' https://www.youtube.com https://player.vimeo.com https://www.google.com https://embed.epdata.es https://*.epdata.es; media-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self';"
     
     # Ocultar información del servidor
     Header unset X-Powered-By

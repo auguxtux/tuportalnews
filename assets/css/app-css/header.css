@@ -60,14 +60,13 @@ body {
 }
 
 .header-cabecera-superior {
-    padding: 4px;
-    background: linear-gradient(270deg, #fff8d4 0%, #eef5ff 100%);
-    color: white;
-    display: flex;
-    border-bottom: 2px inset #fff;
-    margin-bottom: 2px;
+  padding: 7px;
+  background: linear-gradient(270deg, #d4ffe3 0%, #bfd9ff 100%);
+  color: white;
+  display: flex;
+  border-bottom: 2px groove #fffefe;
+  margin-bottom: 2px;
 }
-
 /* ---------- BARRA DE NAVEGACIÓN PRINCIPAL ---------- */
 .header-navbar {
     display: flex;
@@ -165,10 +164,9 @@ body {
 }
 
 .header-app-title a {
-    color: #8a1b1b;
-    text-shadow: 1px 1px 0px white;
-    opacity: 0.9;
-    text-decoration: none;
+  color: #ff8484;
+  text-shadow: 1px 1px 0px #393838;
+  letter-spacing: 2px;
 }
 
 .header-app-title a:hover {

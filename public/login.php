@@ -71,7 +71,7 @@ require_once __DIR__ . '/../partials/standalone-header.php';
     <div class="public-login-card">
         
         <div class="public-login-header">
-            <h1 class="public-login-titulo">🔐 Iniciar Sesión en portalNews</h1>
+            <h1 class="public-login-titulo">🔐 Iniciar Sesión en <strong>TuPortalNews</strong></h1>
             <p class="public-login-desc">Accede a tu cuenta para continuar</p>
         </div>
         <?php if ($mensaje_registro): ?>

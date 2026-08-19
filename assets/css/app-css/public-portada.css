@@ -343,7 +343,7 @@
 
 .ultima-meta {
     gap: 0.5rem;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     flex-direction: row;
     justify-content: space-around;
 }
@@ -1000,6 +1000,25 @@
     
     .ultima-card {
         flex-direction: column;
+    }
+
+    .ultima-titulo a {
+        display: -webkit-box;
+        position: relative;
+        max-height: 2.8em;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+    }
+
+    .ultima-titulo a.ultima-titulo-largo::after {
+        content: "....";
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        padding-left: 0.15em;
+        background: var(--news-card-surface, #fff);
     }
     
     .ultima-imagen {

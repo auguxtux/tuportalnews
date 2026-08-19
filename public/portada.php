@@ -404,11 +404,14 @@ require_once __DIR__ . '/../partials/header.php';
             </div>
             <div class="ultimas-grid">
                 <?php foreach ($ultimas_noticias as $noticia): ?>
+                <?php
+                $tituloUltima = (string) ($noticia['titulo'] ?? '');
+                $tituloUltimaLargo = function_exists('mb_strlen')
+                    ? mb_strlen($tituloUltima, 'UTF-8') > 55
+                    : strlen($tituloUltima) > 55;
+                ?>
                                 <article class="ultima-card news-card news-card--compact news-card--public<?php echo !empty($noticia['id_fuente_rss']) ? ' news-card--external' : ''; ?>">
-                    <h3 class="ultima-titulo news-card__title"><a href="<?php echo route('noticia', ['id' => $noticia['id_noticia']]); ?>"><?php echo htmlspecialchars($noticia['titulo']); ?></a></h3>
-                    <?php if ($noticia['subtitulo']): ?>
-                    <div class="ultima-subtitulo news-card__subtitle"><?php echo htmlspecialchars($noticia['subtitulo']); ?></div>
-                    <?php endif; ?>
+                    <h3 class="ultima-titulo news-card__title"><a<?php echo $tituloUltimaLargo ? ' class="ultima-titulo-largo"' : ''; ?> href="<?php echo route('noticia', ['id' => $noticia['id_noticia']]); ?>"><?php echo htmlspecialchars($tituloUltima); ?></a></h3>
                     <div class="ultima-imagen news-card__media">
                         <a href="<?php echo route('noticia', ['id' => $noticia['id_noticia']]); ?>">
                             <?php
@@ -430,7 +433,7 @@ require_once __DIR__ . '/../partials/header.php';
                     </div>
                     <div class="ultima-contenido news-card__body">
                         <span class="ultima-categoria"><?php echo htmlspecialchars($noticia['nombre_categoria']); ?></span>
-                        <div class="ultima-meta news-card__meta news-card__meta--standard"><span>👤 <a href="<?php echo route('periodistas', ['id' => (int) $noticia['id_autor']]); ?>"><?php echo htmlspecialchars($noticia['autor_nombre']); ?></a></span><span>👁️ <?php echo number_format($noticia['visitas']); ?></span></div>
+                        <div class="ultima-meta news-card__meta news-card__meta--standard news-card__meta--inline"><span>👤 <a href="<?php echo route('periodistas', ['id' => (int) $noticia['id_autor']]); ?>"><?php echo htmlspecialchars($noticia['autor_nombre']); ?></a></span><span>👁️ <?php echo number_format($noticia['visitas']); ?></span></div>
                     </div>
                 </article>
                 <?php endforeach; ?>

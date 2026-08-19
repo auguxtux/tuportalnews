@@ -371,13 +371,13 @@ $urlResultados = route('buscar');
                 <button
                     type="submit"
                     class="public-buscador-btn public-buscador-btn-buscar"
-                >🔍 Buscar noticias</button>
+                >🔍 Buscar</button>
 
                 <button
                     type="button"
                     id="btnLimpiarFiltros"
                     class="public-buscador-btn public-buscador-btn-limpiar"
-                >🧹 Limpiar filtros</button>
+                >🧹 Limpiar</button>
             </div>
         </form>
     </div>

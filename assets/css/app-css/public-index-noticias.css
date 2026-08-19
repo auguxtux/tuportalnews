@@ -54,6 +54,7 @@
   color:#4b5563;
   display:-webkit-box;
   -webkit-box-orient:vertical;
+  -webkit-line-clamp:3;
   overflow:hidden
 }
 .home-tarjeta-metadatos {

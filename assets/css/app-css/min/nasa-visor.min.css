@@ -52,40 +52,42 @@ body.nasa-visor-abierto {
 .nasa-visor-cabecera {
     position: relative;
     display: flex;
+    min-height: 70px;
     align-items: center;
     justify-content: center;
-    background: #000;
+    padding: 1rem 7rem 1rem 1.5rem;
+    border-bottom: 1px solid #d8e2ef;
+    background: #f7faff;
 }
 
 .nasa-visor-cabecera h2 {
     margin: 0;
-    color: #fff;
-    font-size: 1.1rem;
+    color: #17365d;
+    font-size: clamp(1.15rem, 2.5vw, 1.65rem);
     line-height: 1.3;
     text-align: center;
-    text-transform: uppercase;
 }
 
 .nasa-visor-cerrar {
     position: absolute;
     z-index: 2;
-    top: 90%;
+    top: 50%;
     right: .7rem;
     transform: translateY(-50%);
     padding: .55rem .75rem;
     border: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.9);
-    color: #000;
+    border-radius: 8px;
+    background: rgba(5, 20, 42, .9);
+    color: #fff;
     font-weight: 700;
     cursor: pointer;
-    border: 1px outset white;
 }
 
 .nasa-visor-medio {
     display: grid;
     min-height: 360px;
     place-items: center;
+    padding: 1rem;
     background: #06152b;
     color: #fff;
 }
@@ -94,18 +96,18 @@ body.nasa-visor-abierto {
 .nasa-visor-medio video {
     display: block;
     width: 100%;
+    max-height: min(65vh, 720px);
     object-fit: contain;
 }
 
 .nasa-visor-informacion {
     padding: 1.25rem 1.5rem 1.5rem;
-    background: black;
-    color: white;
 }
 
 .nasa-visor-descripcion {
     max-width: 900px;
     margin: 0 auto;
+    color: #4b5d70;
     line-height: 1.6;
     text-align: left;
 }

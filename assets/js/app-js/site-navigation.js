@@ -18,7 +18,7 @@
                 referrerMismoOrigen = false;
             }
 
-            btnVolver.style.display = referrerMismoOrigen ? 'flex' : 'none';
+            btnVolver.style.display = 'flex';
             btnVolver.addEventListener('click', function () {
                 if (referrerMismoOrigen) {
                     window.history.back();

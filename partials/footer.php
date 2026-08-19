@@ -22,7 +22,7 @@
                 <div class="footer-columna">
                     <h3 class="footer-titulo">📰 Explora</h3>
                     <ul class="footer-lista">
-
+                        
                         <li><a href="<?php echo route('buscar_avanzado'); ?>">🔎 Busca News</a></li>
                         <li><a href="<?php echo route('tiempo'); ?>">🌤️ El tiempo</a></li>
                         <li><a href="<?php echo route('pobreza'); ?>">📊 Pobreza Data</a></li>

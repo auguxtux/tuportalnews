@@ -319,23 +319,7 @@ $esta_logueado = isset($_SESSION['usuario_id']);
         <li class="separador"></li>
         <li class="menu-seccion"><span>🌐 Portal público</span></li>
 
-        <li class="<?php echo is_active('tiempo'); ?>">
-
-            <a href="<?php echo route('tiempo'); ?>">🌤️&nbsp;&nbsp;  El Tiempo</a>
-
-        </li>
-
-        <li class="<?php echo is_active('pobreza'); ?>">
-
-            <a href="<?php echo route('pobreza'); ?>">📊&nbsp;&nbsp; Pobreza en España</a>
-
-        </li>
-
-        <li class="<?php echo is_active('nasa'); ?>">
-
-            <a href="<?php echo route('nasa'); ?>">🚀&nbsp;&nbsp; NASA Multimedia</a>
-
-        </li>
+        
 
         <li class="<?php echo is_active('listado_noticias'); ?>">
 
@@ -385,6 +369,53 @@ $esta_logueado = isset($_SESSION['usuario_id']);
         <li class="<?php echo is_active('buscar-comentarios'); ?>">
 
             <a href="<?php echo route('buscar-comentarios'); ?>">🔍&nbsp;&nbsp; Buscar Comentarios</a>
+
+        </li>
+        <li class="<?php echo is_active('tiempo'); ?>">
+
+            <a href="<?php echo route('tiempo'); ?>">🌤️&nbsp;&nbsp;  El Tiempo</a>
+
+        </li>
+
+        <li class="<?php echo is_active('pobreza'); ?>">
+
+            <a href="<?php echo route('pobreza'); ?>">📊&nbsp;&nbsp; Pobreza Global</a>
+
+        </li>
+
+        <li class="<?php echo is_active('estd-paro'); ?>">
+
+            <a href="<?php echo route('estd-paro'); ?>">📉&nbsp;&nbsp; Paro en España</a>
+
+        </li>
+
+        <li class="<?php echo is_active('estd-cambio-climatico'); ?>">
+
+            <a href="<?php echo route('estd-cambio-climatico'); ?>">🌍&nbsp;&nbsp; Cambio climático</a>
+
+        </li>
+
+        <li class="<?php echo is_active('estd-vivienda'); ?>">
+
+            <a href="<?php echo route('estd-vivienda'); ?>">🏠&nbsp;&nbsp; Vivienda</a>
+
+        </li>
+
+        <li class="<?php echo is_active('estd-poblacion'); ?>">
+
+            <a href="<?php echo route('estd-poblacion'); ?>">👥&nbsp;&nbsp; Población</a>
+
+        </li>
+
+        <li class="<?php echo is_active('estd-violencia-genero'); ?>">
+
+            <a href="<?php echo route('estd-violencia-genero'); ?>">⚖️&nbsp;&nbsp; Violencia de género</a>
+
+        </li>
+
+        <li class="<?php echo is_active('nasa'); ?>">
+
+            <a href="<?php echo route('nasa'); ?>">🚀&nbsp;&nbsp; NASA Multimedia</a>
 
         </li>
         <li class="<?php echo is_active('contacto'); ?>">

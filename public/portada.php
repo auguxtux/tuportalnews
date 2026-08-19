@@ -420,22 +420,57 @@ require_once __DIR__ . '/../partials/header.php';
                 <?php foreach ($ultimas_noticias as $noticia): ?>
                 <?php
                 $tituloUltima = (string) ($noticia['titulo'] ?? '');
+                $tituloUltimaLargo = function_exists('mb_strlen')
+                    ? mb_strlen($tituloUltima, 'UTF-8') > 55
+                    : strlen($tituloUltima) > 55;
                 ?>
-                                <article class="ultima-card">
-                    <h3 class="ultima-titulo"><a href="<?php echo route('noticia', ['id' => $noticia['id_noticia']]); ?>"><?php echo htmlspecialchars($tituloUltima); ?></a></h3>
-                    <div class="ultima-imagen">
+                                <article class="ultima-card news-card news-card--compact news-card--public<?php echo !empty($noticia['id_fuente_rss']) ? ' news-card--external' : ''; ?>">
+                    <h3 class="ultima-titulo news-card__title"><a<?php echo $tituloUltimaLargo ? ' class="ultima-titulo-largo"' : ''; ?> href="<?php echo route('noticia', ['id' => $noticia['id_noticia']]); ?>"><?php echo htmlspecialchars($tituloUltima); ?></a></h3>
+                    <div class="ultima-imagen news-card__media">
                         <a href="<?php echo route('noticia', ['id' => $noticia['id_noticia']]); ?>">
                             <?php
+                            // Intentar imagen_principal (local)
                             if (!empty($noticia['imagen_principal'])) {
                                 echo '<img src="' . base_url('uploads/noticias/' . $noticia['imagen_principal']) . '" alt="' . htmlspecialchars($noticia['titulo']) . '" loading="lazy" decoding="async">';
-                            } elseif (!empty($noticia['imagen_externa'])) {
-                                echo '<img src="' . htmlspecialchars($noticia['imagen_externa']) . '" alt="' . htmlspecialchars($noticia['titulo']) . '" loading="lazy" decoding="async
+                            }
+                            // Si no, intentar imagen_externa (RSS)
+                            elseif (!empty($noticia['imagen_externa'])) {
+                                echo '<img src="' . htmlspecialchars($noticia['imagen_externa']) . '" alt="' . htmlspecialchars($noticia['titulo']) . '" loading="lazy" decoding="async"
       onerror="this.onerror=null;this.src=\'' . htmlspecialchars(base_url('assets/img/default-image.jpg'), ENT_QUOTES, 'UTF-8') . '\';">';
-                            } else {
+                            }
+                            // Si no hay ninguna imagen, usar imagen por defecto
+                            else {
                                 echo '<img src="' . base_url('assets/img/default-image.jpg') . '" alt="" loading="lazy" decoding="async">';
                             }
                             ?>
                         </a>
+                    </div>
+                    <div class="ultima-contenido news-card__body">
+                        <div class="ultima-tags">
+                            <span class="ultima-categoria"><?php echo htmlspecialchars($noticia['nombre_categoria']); ?></span>
+                            <?php if (!empty($noticia['nombre_region'])): ?>
+                                <span class="ultima-region"><?php echo htmlspecialchars($noticia['nombre_region']); ?></span>
+                            <?php endif; ?>
+                        </div>
+                        <div class="ultima-meta news-card__meta news-card__meta--standard news-card__meta--inline">
+                            <span>👤 <a href="<?php echo route('periodistas', ['id' => (int) $noticia['id_autor']]); ?>"><?php echo htmlspecialchars($noticia['autor_nombre']); ?></a></span>
+                            <span>👁️ <?php echo number_format($noticia['visitas']); ?></span>
+                            <?php
+                            $nombre_ubi = '';
+                            if ($noticia['tipo_ubicacion'] == 'espana' && $noticia['id_provincia']) {
+                                $stmt_ub = $pdo->prepare("SELECT p.nombre as provincia, c.nombre as comunidad FROM provincias p JOIN comunidades c ON p.id_comunidad = c.id_comunidad WHERE p.id_provincia = ?");
+                                $stmt_ub->execute([$noticia['id_provincia']]);
+                                $ubi = $stmt_ub->fetch();
+                                if ($ubi) $nombre_ubi = $ubi['provincia'];
+                            } elseif ($noticia['tipo_ubicacion'] == 'internacional' && !empty($noticia['lugar_internacional'])) {
+                                $nombre_ubi = $noticia['lugar_internacional'];
+                            } elseif ($noticia['tipo_ubicacion'] == 'otras' && !empty($noticia['otras_ubicacion'])) {
+                                $nombre_ubi = $noticia['otras_ubicacion'];
+                            }
+                            if ($nombre_ubi): ?>
+                                <span>📍 <?php echo htmlspecialchars($nombre_ubi); ?></span>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </article>
                 <?php endforeach; ?>
@@ -450,21 +485,13 @@ require_once __DIR__ . '/../partials/header.php';
         <div class="section-header"><h2 class="section-titulo">🔥 Más populares</h2></div>
         <div class="popular-lista">
             <?php foreach ($noticias_populares as $index => $popular): ?>
-            <?php
-            $popularImg = '';
-            if (!empty($popular['imagen_principal'])) {
-                $popularImg = base_url('uploads/noticias/' . $popular['imagen_principal']);
-            } elseif (!empty($popular['imagen_externa'])) {
-                $popularImg = $popular['imagen_externa'];
-            }
-            ?>
             <div class="popular-item">
                 <div class="popular-posicion"><?php echo $index + 1; ?></div>
                 
-                <?php if ($popularImg): ?>
+                <?php if ($popular['imagen_principal']): ?>
                 <div class="popular-imagen">
                     <a href="<?php echo route('noticia', ['id' => $popular['id_noticia']]); ?>">
-                        <img src="<?php echo htmlspecialchars($popularImg, ENT_QUOTES, 'UTF-8'); ?>" 
+                        <img src="<?php echo base_url('uploads/noticias/' . $popular['imagen_principal']); ?>" 
                              alt="<?php echo htmlspecialchars($popular['titulo']); ?>" 
                              loading="lazy"
                              decoding="async">
@@ -474,6 +501,9 @@ require_once __DIR__ . '/../partials/header.php';
                 
                 <div class="popular-contenido">
                     <a href="<?php echo route('noticia', ['id' => $popular['id_noticia']]); ?>" class="popular-titulo"><?php echo htmlspecialchars($popular['titulo']); ?></a>
+                    <?php if ($popular['subtitulo']): ?>
+                    <div class="popular-subtitulo" style="font-size: 0.7rem; color: #666; margin: 4px 0;"><?php echo htmlspecialchars($popular['subtitulo']); ?></div>
+                    <?php endif; ?>
                     <div class="popular-meta"><span>👁️ <?php echo number_format($popular['visitas']); ?> visitas</span></div>
                 </div>
             </div>

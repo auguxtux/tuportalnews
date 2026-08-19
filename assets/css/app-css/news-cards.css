@@ -1,4 +1,6 @@
-/* Sistema visual compartido para tarjetas de noticias. */
+/* =============================================
+   BASE COMPARTIDA — Solo propiedades visuales
+   ============================================= */
 .news-card {
     --news-card-accent: #2563eb;
     --news-card-surface: #ffffff;
@@ -18,21 +20,65 @@
     box-shadow: 0 20px 30px -12px rgba(15, 23, 42, 0.18);
 }
 
+.news-card:focus-within {
+    outline: 3px solid rgba(37, 99, 235, 0.25);
+    outline-offset: 2px;
+}
+
+/* =============================================
+   MODIFICADORES DE LAYOUT — Por tipo de card
+   ============================================= */
+
+/* Columna: tarjetas verticales (listado, categoría, fuente, etc.) */
 .news-card--vertical {
     display: flex;
     flex-direction: column;
 }
 
+/* Fila: tarjetas horizontales compactas (portada, dashboard, rss) */
 .news-card--compact {
     display: flex;
     flex-direction: row;
-}
-
-.news-card--compact {
     gap: 9px;
     padding: 0.5rem;
 }
 
+/* =============================================
+   COLORES POR ESTADO/FUENTE
+   ============================================= */
+.news-card--public {
+    --news-card-accent: #2563eb;
+}
+
+.news-card--external {
+    --news-card-accent: #0f766e;
+    --news-card-surface: #f8fffd;
+}
+
+.news-card--private {
+    --news-card-accent: #7c3aed;
+    --news-card-surface: #fcfaff;
+}
+
+.news-card--draft {
+    --news-card-accent: #64748b;
+}
+
+.news-card--pending {
+    --news-card-accent: #d97706;
+    --news-card-surface: #fffbeb;
+}
+
+.news-card--archived {
+    --news-card-accent: #475569;
+    --news-card-surface: #f8fafc;
+}
+
+/* =============================================
+   COMPONENTES INTERNOS
+   ============================================= */
+
+/* Imagen */
 .news-card__media {
     overflow: hidden;
     background: #f3f4f6;
@@ -67,6 +113,7 @@
     transform: scale(1.05);
 }
 
+/* Contenido */
 .news-card__body {
     flex: 1;
     min-width: 0;
@@ -93,6 +140,7 @@
     font-weight: 400;
 }
 
+/* Metadatos */
 .news-card__meta {
     display: flex;
     flex-wrap: wrap;
@@ -101,7 +149,6 @@
     color: #6b7280;
 }
 
-/* Metadatos normalizados para las tarjetas compatibles. */
 .news-card .news-card__meta--standard {
     display: flex;
     flex-flow: row wrap;
@@ -129,7 +176,6 @@
     overflow-wrap: anywhere;
 }
 
-/* Los resultados de búsqueda mantienen sus metadatos en línea. */
 .news-card .news-card__meta--standard.news-card__meta--inline > * {
     flex: 0 1 auto;
     width: auto;
@@ -150,6 +196,7 @@
     outline-offset: 2px;
 }
 
+/* Acciones */
 .news-card__actions {
     text-align: center;
 }
@@ -162,44 +209,10 @@
     transition: transform 0.2s ease, color 0.2s ease, background 0.2s ease;
 }
 
-.news-card--public {
-    --news-card-accent: #2563eb;
-}
-
-.news-card--external {
-    --news-card-accent: #0f766e;
-    --news-card-surface: #f8fffd;
-}
-
-.news-card--private {
-    --news-card-accent: #7c3aed;
-    --news-card-surface: #fcfaff;
-}
-
-.news-card--draft {
-    --news-card-accent: #64748b;
-}
-
-.news-card--pending {
-    --news-card-accent: #d97706;
-    --news-card-surface: #fffbeb;
-}
-
-.news-card--archived {
-    --news-card-accent: #475569;
-    --news-card-surface: #f8fafc;
-}
-
-.news-card:focus-within {
-    outline: 3px solid rgba(37, 99, 235, 0.25);
-    outline-offset: 2px;
-}
-
+/* =============================================
+   RESPONSIVE
+   ============================================= */
 @media (max-width: 480px) {
-    .news-card {
-        border-radius: 0.5rem;
-    }
-
     .news-card .news-card__meta--standard {
         flex-direction: column;
         align-items: stretch;
@@ -221,5 +234,4 @@
         flex-basis: auto;
         width: auto;
     }
-
 }

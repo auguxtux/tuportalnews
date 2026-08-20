@@ -253,7 +253,11 @@ require_once __DIR__ . '/../partials/header.php';
                 <p class="destacada-subtitulo"><?php echo htmlspecialchars($noticia_destacada['subtitulo']); ?></p>
             <?php endif; ?>
             <p class="destacada-extracto">
-                <?php echo htmlspecialchars(substr(strip_tags($noticia_destacada['contenido']), 0, 200)); ?>...
+                <?php echo htmlspecialchars(
+                    obtenerPrimerParrafo((string) $noticia_destacada['contenido'], 200),
+                    ENT_QUOTES,
+                    'UTF-8'
+                ); ?>
             </p>
             <div class="destacada-meta">
                 <span>✍️ <?php echo htmlspecialchars($noticia_destacada['autor_nombre']); ?></span>

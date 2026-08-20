@@ -369,12 +369,10 @@ function generarTokenCSRF() {
  * Verificar token CSRF
  */
 function verificarTokenCSRF($token) {
-    $valido = !empty($_SESSION['csrf_token']) && !empty($token) && 
-           hash_equals($_SESSION['csrf_token'], $token);
-    if ($valido) {
-        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-    }
-    return $valido;
+    return !empty($_SESSION['csrf_token'])
+        && is_string($token)
+        && $token !== ''
+        && hash_equals($_SESSION['csrf_token'], $token);
 }
 
 function limpiarTokenCSRF() {

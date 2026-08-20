@@ -45,7 +45,7 @@ Permisos::requerirAdmin();
     </div>
 
     <div class="highlight">
-        <strong>Versión 1.1.0:</strong> arquitectura PHP procedimental modular,
+        <strong>Versión 1.1.1:</strong> arquitectura PHP procedimental modular,
         rutas centralizadas, separación completa de contenido público y
         privado, colaciones UTF-8 unificadas, pruebas repetibles, backups con
         retención, clasificación dual de noticias (región + tema), importación

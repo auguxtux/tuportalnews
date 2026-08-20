@@ -1,6 +1,6 @@
 # Documentación técnica
 
-Esta documentación describe TuPortalNews 1.1.0, evolución de la primera
+Esta documentación describe TuPortalNews 1.1.1, evolución de la primera
 versión estable del nuevo historial limpio.
 
 - `INSTALLATION.md`: requisitos, configuración local y permisos.
@@ -12,7 +12,7 @@ versión estable del nuevo historial limpio.
 Los datos reales, credenciales, uploads, logs, cachés y backups no forman
 parte del repositorio.
 
-## Base estable de 1.1.0
+## Base estable de 1.1.1
 
 - tarjetas de noticias unificadas con variantes independientes por página,
   estructura vertical u horizontal explícita y densidad compacta independiente;

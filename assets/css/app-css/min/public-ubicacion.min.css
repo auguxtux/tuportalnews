@@ -172,6 +172,11 @@
     border-radius: 4px;
 }
 
+/* Variante aislada: los cambios de ubicación no afectan a otras tarjetas. */
+.news-card.news-card--location .news-card__media {
+    height: 200px;
+}
+
 .tarjeta-imagen {
     width: 100%;
     height: 200px;
@@ -222,6 +227,17 @@
     background: #e1e1e1;
     justify-content: space-around;
     align-items: center !important;
+}
+
+.grid-noticias .news-card--location .tarjeta-metadatos {
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 0.5rem 1rem;
+}
+
+.grid-noticias .news-card--location .tarjeta-metadatos > * {
+    flex: 0 1 auto;
+    width: auto;
 }
 
 .metadato-autor {

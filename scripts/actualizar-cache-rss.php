@@ -13,6 +13,7 @@ if (PHP_SAPI !== 'cli') {
 define('SKIP_SESSION_START', true);
 
 require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/conexion.php';
 require_once __DIR__ . '/../includes/helpers/rss.php';
 
 $directorioCache = ROOT_PATH
@@ -22,14 +23,13 @@ $directorioCache = ROOT_PATH
     . DIRECTORY_SEPARATOR
     . 'rss';
 
-$fuentes = [
-    'Fuerteventura Digital' => 'https://www.fuerteventuradigital.com/rss/',
-    'Radio Sintonía' => 'https://radiosintonia.com/feed/',
-];
+$fuentes = obtenerFuentesRssExternas(db());
 
 $fallos = 0;
 
-foreach ($fuentes as $nombre => $url) {
+foreach ($fuentes as $fuente) {
+    $nombre = $fuente['nombre'];
+    $url = $fuente['url'];
     $contenido = obtenerContenidoRSSConCache(
         $url,
         $directorioCache,

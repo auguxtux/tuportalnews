@@ -35,6 +35,17 @@ aplicarse las migraciones de `video_tipo` y `medio_principal`.
 Aplicar las migraciones pendientes una a una y ejecutar su verificación.
 No copiar la base de datos de desarrollo a producción.
 
+Para los bloques RSS externos aplicar:
+
+- `20260820_seleccionar_fuentes_rss_externas.sql`: añade la bandera
+  `mostrar_externas` a `fuentes_rss`, inicialmente desactivada. Después del
+  despliegue el Admin elige los medios visibles y ejecuta una vez
+  `scripts/actualizar-cache-rss.php` para preparar sus cachés.
+
+El cron de `scripts/actualizar-cache-rss.php` debe ejecutarse cada 15 minutos.
+La portada y `/public/rss-feed` solo leen `storage/cache/rss/` y nunca esperan
+a los proveedores durante una visita pública.
+
 Para 1.0.0 revisar y aplicar, si todavía están pendientes:
 
 - `20260813_eliminar_fecha_nacimiento_usuarios.sql`: elimina la columna que
@@ -49,6 +60,8 @@ Para 1.0.0 revisar y aplicar, si todavía están pendientes:
 
 - comprobar portada, login, categorías, fuentes, noticias por lugares, noticia,
   tiempo y catálogo NASA;
+- comprobar que cada fuente activa marcada como externa muestra cuatro enlaces
+  en una pestaña nueva y que desmarcarla retira su bloque;
 - comprobar que las tarjetas y metadatos coinciden con desarrollo y regenerar
   las copias CSS antes de activar el modo de producción;
 - comprobar permisos de administrador, articulista y colaborador;

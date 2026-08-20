@@ -110,6 +110,18 @@ h1 {
   text-align: center;
   margin-bottom: 4px;
 }
+
+.news-card .ultimas-tarjeta-meta.news-card__meta--standard {
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.news-card .ultimas-tarjeta-meta.news-card__meta--standard > * {
+  flex: 1 1 0;
+  justify-content: center;
+  width: auto;
+  text-align: center;
+}
 /* Botón de leer más */
 .ultimas-btn {
   padding: 7px 0;
@@ -163,7 +175,7 @@ h1 {
 @media (min-width: 901px) and (max-width: 1024px) {
     .ultimas-lista-noticias {
         grid-template-columns: repeat(3, 1fr);
-        gap: 1.25rem;
+        gap: 9px;
     }
     
     .ultimas-pagina-noticias {

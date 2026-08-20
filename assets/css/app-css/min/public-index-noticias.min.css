@@ -54,6 +54,7 @@
   color:#4b5563;
   display:-webkit-box;
   -webkit-box-orient:vertical;
+  -webkit-line-clamp:3;
   overflow:hidden
 }
 .home-tarjeta-metadatos {
@@ -63,6 +64,17 @@
   border-bottom: 1px solid #f0f0f0;
   background: #eefff2;
   justify-content: space-around;
+}
+
+.news-card .home-tarjeta-metadatos.news-card__meta--standard {
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.news-card .home-tarjeta-metadatos.news-card__meta--standard > * {
+  flex: 0 1 auto;
+  width: auto;
 }
 
 .home-metadato-item {

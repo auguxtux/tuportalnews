@@ -58,6 +58,8 @@ $perfilVisible = match (true) {
                         <li>💬 Modera comentarios, reportes y mensajes de contacto.</li>
                         <li>🚩 Confirma reportes válidos para mostrar públicamente solo su número y motivo.</li>
                         <li>📡 Activa, desactiva y supervisa las fuentes RSS compartidas.</li>
+                        <li>🌐 Marca «Mostrar en bloques externos» para elegir los medios visibles en portada; sus entradas no se importan.</li>
+                        <li>🔄 Al guardar una URL externa se prepara su caché inmediatamente y el cron la renueva cada 15 minutos.</li>
                         <li>📍 Asigna una región (comunidad autónoma) a cada fuente RSS para clasificación automática.</li>
                         <li>🏷️ Revisa la clasificación temática automática de las noticias importadas.</li>
                         <li>🚀 Consulta NASA y usa su multimedia oficial en noticias públicas o privadas.</li>
@@ -99,6 +101,7 @@ $perfilVisible = match (true) {
                     <ul>
                         <li>✍️ Conservas todas las funciones públicas de un Articulista.</li>
                         <li>📡 Administra tus fuentes RSS y usa las fuentes activas compartidas.</li>
+                        <li>🌐 Los bloques RSS de portada son enlaces externos y no afectan al control de noticias importadas.</li>
                         <li>📍 Al importar varias noticias RSS, asigna una ubicación común y edita después las excepciones.</li>
                         <li>🖼️ Imágenes, vídeos y contenido del editor se validan al guardar.</li>
                         <li>🚀 Selecciona multimedia NASA y decide si la imagen o el vídeo aparece primero.</li>
@@ -143,6 +146,7 @@ $perfilVisible = match (true) {
                         <li>➕ Añade y administra tus fuentes.</li>
                         <li>🌐 Usa también las fuentes activas compartidas por otros Articulistas.</li>
                         <li>📥 Selecciona manualmente cada noticia y su categoría; no se importan duplicados.</li>
+                        <li>🌐 Los enlaces de medios externos de portada son independientes: no reservan ni importan noticias.</li>
                         <li>📍 Asigna una ubicación común al lote importado y ajusta cada noticia posteriormente si lo necesita.</li>
                         <li>📍 Cada fuente RSS tiene una región asignada; las noticias heredan esa región automáticamente.</li>
                         <li>🏷️ El sistema detecta el tema de cada noticia por palabras clave del título y extracto.</li>
@@ -181,6 +185,7 @@ $perfilVisible = match (true) {
                         <li>📰 Busca por texto, categoría, fuente, ubicación y fecha.</li>
                         <li>📍 En “Noticias por lugares” puedes consultar provincias, destinos internacionales y otras ubicaciones.</li>
                         <li>🔗 Consulta noticias relacionadas, galerías y valoraciones.</li>
+                        <li>🌐 Las noticias de medios externos abren el artículo original en una pestaña nueva.</li>
                         <li>🌦️ Utiliza la predicción meteorológica y tu ubicación si la autorizas.</li>
                         <li>🚀 Explora imágenes, vídeos, proyectos y misiones en el catálogo NASA.</li>
                         <li>📍 Filtra noticias por región (comunidad autónoma) y categoría.</li>

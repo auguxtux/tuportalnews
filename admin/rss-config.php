@@ -33,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $errores = array_merge($errores, $validacion['errores']);
                 $datos = $validacion['datos'];
                 $idFuente = (int) ($_POST['id_fuente'] ?? 0);
+                $mostrarExternas = isset($_POST['mostrar_externas']) ? 1 : 0;
 
                 if ($accion === 'editar' && $idFuente <= 0) {
                     $errores[] = 'La fuente indicada no es válida';
@@ -62,17 +63,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         $stmt = $pdo->prepare(
                             'INSERT INTO fuentes_rss '
-                            . '(id_propietario, nombre, url, id_region, activa) '
-                            . 'VALUES (?, ?, ?, ?, 1)'
+                            . '(id_propietario, nombre, url, id_region, activa, mostrar_externas) '
+                            . 'VALUES (?, ?, ?, ?, 1, ?)'
                         );
                         $stmt->execute([
                             $idPropietario,
                             $datos['nombre'],
                             $datos['url'],
                             $idRegion,
+                            $mostrarExternas,
                         ]);
                         $idCreado = (int) $pdo->lastInsertId();
                         $mensaje = '✅ Fuente RSS añadida y activada correctamente';
+                        if ($mostrarExternas === 1) {
+                            $mensaje .= actualizarCacheRssExterna($datos['url'])
+                                ? ' y su caché externa está preparada'
+                                : '. La caché externa se reintentará automáticamente';
+                        }
                         registrarLog(
                             'admin_rss_agregar',
                             null,
@@ -83,9 +90,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $idRegion = (int) ($_POST['id_region'] ?? 0) ?: null;
 
                         $stmt = $pdo->prepare(
-                            'UPDATE fuentes_rss SET nombre = ?, url = ?, id_region = ? WHERE id_fuente = ?'
+                            'UPDATE fuentes_rss '
+                            . 'SET nombre = ?, url = ?, id_region = ?, mostrar_externas = ? '
+                            . 'WHERE id_fuente = ?'
                         );
-                        $stmt->execute([$datos['nombre'], $datos['url'], $idRegion, $idFuente]);
+                        $stmt->execute([
+                            $datos['nombre'],
+                            $datos['url'],
+                            $idRegion,
+                            $mostrarExternas,
+                            $idFuente,
+                        ]);
 
                         if ($stmt->rowCount() === 0) {
                             $comprobar = $pdo->prepare(
@@ -99,6 +114,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         if ($errores === []) {
                             $mensaje = '✅ Fuente RSS actualizada correctamente';
+                            if ($mostrarExternas === 1) {
+                                $mensaje .= actualizarCacheRssExterna($datos['url'])
+                                    ? ' y su caché externa está preparada'
+                                    : '. La caché externa se reintentará automáticamente';
+                            }
                             registrarLog(
                                 'admin_rss_editar',
                                 null,
@@ -312,6 +332,19 @@ require_once __DIR__ . '/../partials/header.php';
                     <small>Las noticias importadas de esta fuente se clasificarán automáticamente en esta región.</small>
                 </div>
 
+                <div class="campo">
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="mostrar_externas"
+                            value="1"
+                            <?php echo !empty($fuente_editar['mostrar_externas']) ? 'checked' : ''; ?>
+                        >
+                        📰 Mostrar este medio en los bloques de noticias externas
+                    </label>
+                    <small>Solo muestra enlaces al medio original; no importa las noticias en TuPortalNews.</small>
+                </div>
+
                 <button type="submit" class="btn btn-primary">
                     <?php echo $fuente_editar ? '💾 Guardar cambios' : '➕ Añadir fuente'; ?>
                 </button>
@@ -347,6 +380,9 @@ require_once __DIR__ . '/../partials/header.php';
                             <div class="limite">
                                 <?php echo $activa ? '✅ Activa' : '⏸️ Inactiva'; ?>
                                 · 📰 <?php echo $totalNoticias; ?> noticias
+                                <?php if (!empty($fuente['mostrar_externas'])): ?>
+                                    · 🌐 Visible en bloques externos
+                                <?php endif; ?>
                                 <?php if (!empty($fuente['region_nombre'])): ?>
                                     · 📍 <?php echo htmlspecialchars((string) $fuente['region_nombre'], ENT_QUOTES, 'UTF-8'); ?>
                                 <?php endif; ?>
@@ -419,6 +455,7 @@ require_once __DIR__ . '/../partials/header.php';
             <li>El periodista elegirá las noticias y su categoría al importarlas.</li>
             <li>Una noticia RSS ya seleccionada no podrá volver a importarse.</li>
             <li>Al eliminar una fuente se conservarán las noticias asociadas.</li>
+            <li>«Mostrar en bloques externos» solo publica enlaces RSS y no importa noticias.</li>
         </ul>
     </div>
 </div>

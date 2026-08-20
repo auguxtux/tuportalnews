@@ -243,7 +243,7 @@ require_once __DIR__ . '/../partials/header.php';
                 <div class="panel-usuario-lista-noticias-recientes">
                     <?php foreach ($ultimas_noticias as $noticia): ?>
 
-                        <div class="panel-usuario-item-noticia news-card news-card--compact news-card--public">
+                        <div class="panel-usuario-item-noticia news-card news-card--horizontal news-card--compact news-card--public">
                             <a href="<?php echo route('noticia', ['id' => $noticia['id_noticia']]); ?>">
 
                                 <?php echo htmlspecialchars($noticia['titulo']); ?>

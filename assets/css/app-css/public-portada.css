@@ -304,13 +304,8 @@
 
 .ultimas-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 4px;
-}
-
-.ultima-card {
-    flex-direction: column;
-    border-radius: 4px;
 }
 
 .ultima-card:hover {
@@ -758,12 +753,11 @@
 }
 
 .rss-item-img {
-    flex-shrink: 0;
-    width: 80px;
-    height: 80px;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #f0f0f0;
+  flex-shrink: 0;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f0f0f0;
 }
 
 .rss-item-img img {
@@ -937,6 +931,10 @@
 }
 
 @media (max-width: 768px) {
+    .ultimas-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .tema-header h3 {
         font-size: 0.95rem;
         gap:4px;
@@ -998,11 +996,6 @@
         padding: 0.5rem 0.75rem;
     }
     
-.ultima-card {
-  flex-direction: column !important;
-  border-radius: 4px !important;
-}
-
     .ultima-titulo a {
         display: -webkit-box;
         position: relative;
@@ -1256,11 +1249,21 @@
 }
 
 /* Últimas noticias tags */
+.ultima-contenido {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
 .ultima-tags {
     display: flex;
+    justify-content: flex-end;
     gap: 0.5rem;
     align-items: center;
     flex-wrap: wrap;
+    width: 100%;
+    margin-top: auto;
+    text-align: right;
 }
 .ultima-region {
     font-size: 0.75rem;

@@ -45,12 +45,12 @@ Permisos::requerirAdmin();
     </div>
 
     <div class="highlight">
-        <strong>Versión 5.0:</strong> arquitectura PHP procedimental modular,
+        <strong>Versión 1.1.0:</strong> arquitectura PHP procedimental modular,
         rutas centralizadas, separación completa de contenido público y
         privado, colaciones UTF-8 unificadas, pruebas repetibles, backups con
         retención, clasificación dual de noticias (región + tema), importación
-        RSS con detección automática y documentación de instalación,
-        verificación y despliegue.
+        RSS con detección automática, bloques externos administrables y
+        documentación de instalación, verificación y despliegue.
     </div>
 
     <!-- ============================================================ -->
@@ -102,6 +102,7 @@ Permisos::requerirAdmin();
                     <li><i class="fas fa-map-marker-alt"></i> Clasificación regional de noticias (19 comunidades autónomas)</li>
                     <li><i class="fas fa-tags"></i> Clasificación temática automática (14 categorías)</li>
                     <li><i class="fas fa-rss"></i> Gestión de fuentes RSS con región asignada y feeds regionales RTVE</li>
+                    <li><i class="fas fa-globe"></i> Selección de medios RSS externos visibles en portada, sin importarlos</li>
                 </ul>
             </div>
             <div class="card">
@@ -167,6 +168,7 @@ Permisos::requerirAdmin();
                     <li><i class="fas fa-chart-line"></i> Minificación automática CSS/JS (modo desarrollo/producción)</li>
                     <li><i class="fas fa-map-marker-alt"></i> Clasificación dual de noticias: región (19 comunidades) y tema (14 categorías)</li>
                     <li><i class="fas fa-rss"></i> Importador RSS con prevención de duplicados, región automática y etiquetas visuales</li>
+                    <li><i class="fas fa-sync-alt"></i> Caché de medios externos renovada cada 15 minutos y al editar su URL</li>
                     <li><i class="fas fa-shield-alt"></i> Rate limiting en login, rotación CSRF, validación de URLs internas</li>
                 </ul>
             </div>
@@ -1422,8 +1424,9 @@ Permisos::requerirAdmin();
                     <div class="table-card-detail">
                         <div class="detail-field"><span class="pk">🔑 id_fuente</span> - Identificador único</div>
                         <div class="detail-field">📡 nombre - Nombre de la fuente</div>
-                        <div class="detail-field">🔗 url_feed - URL del feed RSS</div>
+                        <div class="detail-field">🔗 url - URL del feed RSS</div>
                         <div class="detail-field">⚡ activa - 1=activa, 0=inactiva</div>
+                        <div class="detail-field">🌐 mostrar_externas - 1=visible en bloques externos</div>
                         <div class="detail-field fk">📍 id_region - FK → regiones (región de origen)</div>
                     </div>
                 </div>

@@ -61,6 +61,7 @@ function extraerDominioFuente(string $url): string {
         return strtolower($partes[1]);
     }
 
-    $host = preg_replace('/\.[a-z]{2,}$/', '', $host);
-    return strtolower(trim($host));
+    // En hosts de agregadores (p. ej. eldiario.opennemas.com), la marca
+    // sigue siendo el primer segmento, igual que en un dominio directo.
+    return strtolower($primero);
 }

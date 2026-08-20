@@ -76,7 +76,7 @@ require_once __DIR__ . '/../partials/header.php';
         <div class="panel-usuario-card">
             <div class="panel-usuario-lista-noticias-recientes">
                 <?php foreach ($favoritas as $noticia): ?>
-                    <div class="panel-usuario-item-noticia news-card news-card--compact news-card--public">
+                    <div class="panel-usuario-item-noticia news-card news-card--horizontal news-card--compact news-card--public">
                         <a href="<?php echo htmlspecialchars(route('noticia', ['id' => (int) $noticia['id_noticia']]), ENT_QUOTES, 'UTF-8'); ?>">
                             <?php echo htmlspecialchars((string) $noticia['titulo'], ENT_QUOTES, 'UTF-8'); ?>
                         </a>

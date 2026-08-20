@@ -29,16 +29,22 @@
    MODIFICADORES DE LAYOUT — Por tipo de card
    ============================================= */
 
-/* Columna: tarjetas verticales (listado, categoría, fuente, etc.) */
-.news-card--vertical {
+/* Estructura compartida: el eje se elige con un modificador explícito. */
+.news-card--vertical,
+.news-card--horizontal {
     display: flex;
+}
+
+.news-card--vertical {
     flex-direction: column;
 }
 
-/* Fila: tarjetas horizontales compactas (portada, dashboard, rss) */
-.news-card--compact {
-    display: flex;
+.news-card--horizontal {
     flex-direction: row;
+}
+
+/* Densidad compacta, independiente de la dirección de la tarjeta. */
+.news-card--compact {
     gap: 9px;
     padding: 0.5rem;
 }

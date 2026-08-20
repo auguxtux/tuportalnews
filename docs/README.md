@@ -1,7 +1,7 @@
 # Documentación técnica
 
-Esta documentación describe TuPortalNews 1.0.0, primera versión estable del
-nuevo historial limpio.
+Esta documentación describe TuPortalNews 1.1.0, evolución de la primera
+versión estable del nuevo historial limpio.
 
 - `INSTALLATION.md`: requisitos, configuración local y permisos.
 - `FEATURES_BY_ROLE.md`: funciones disponibles para cada perfil.
@@ -12,10 +12,16 @@ nuevo historial limpio.
 Los datos reales, credenciales, uploads, logs, cachés y backups no forman
 parte del repositorio.
 
-## Base estable de 1.0.0
+## Base estable de 1.1.0
 
 - tarjetas de noticias unificadas con variantes independientes por página,
-  imágenes proporcionales y metadatos responsive enlazables;
+  estructura vertical u horizontal explícita y densidad compacta independiente;
+- portada con seis últimas noticias en tres columnas de escritorio y dos en
+  pantallas pequeñas, sin metadatos secundarios en esas tarjetas;
+- bloques de medios externos administrables, separados de las noticias
+  importadas, con enlaces al sitio original e imágenes obtenidas del RSS;
+- caché RSS actualizada cada 15 minutos y preparada inmediatamente al crear o
+  cambiar una fuente seleccionada para los bloques externos;
 - página pública “Noticias por lugares” para provincias, ubicaciones
   internacionales y otros lugares;
 - categoría, fuente, ubicación e imagen principal obligatorias en el flujo

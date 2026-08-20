@@ -619,6 +619,63 @@ function cargarFeedRSS(
 }
 
 /**
+ * Devuelve los medios activos elegidos para los bloques RSS externos.
+ * Los elementos de sus feeds no se importan ni se cruzan con noticias.
+ *
+ * @return array<int, array{
+ *     nombre: string,
+ *     url: string,
+ *     color: string,
+ *     icono: string,
+ *     limite: int
+ * }>
+ */
+function obtenerFuentesRssExternas(PDO $pdo): array
+{
+    $stmt = $pdo->query(
+        'SELECT nombre, url FROM fuentes_rss '
+        . 'WHERE activa = 1 AND mostrar_externas = 1 '
+        . 'ORDER BY nombre ASC'
+    );
+
+    $colores = ['#2563eb', '#0f766e', '#b45309', '#7c3aed', '#be123c'];
+    $fuentes = [];
+
+    foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $indice => $fuente) {
+        $fuentes[] = [
+            'nombre' => (string) $fuente['nombre'],
+            'url' => (string) $fuente['url'],
+            'color' => $colores[$indice % count($colores)],
+            'icono' => '📰',
+            'limite' => 4,
+        ];
+    }
+
+    return $fuentes;
+}
+
+/**
+ * Prepara inmediatamente la caché de un medio elegido para bloques externos.
+ */
+function actualizarCacheRssExterna(string $url): bool
+{
+    $directorioCache = dirname(__DIR__, 2)
+        . DIRECTORY_SEPARATOR
+        . 'storage'
+        . DIRECTORY_SEPARATOR
+        . 'cache'
+        . DIRECTORY_SEPARATOR
+        . 'rss';
+
+    return obtenerContenidoRSSConCache(
+        $url,
+        $directorioCache,
+        0,
+        true
+    ) !== false;
+}
+
+/**
  * Procesa una fuente RSS usando caché.
  *
  * @return array{
@@ -638,12 +695,14 @@ function procesarFeedRSS(
     string $url,
     int $limite,
     string $directorioCache,
-    int $duracionCache = 900
+    int $duracionCache = 900,
+    bool $permitirDescarga = true
 ): array {
     $contenido = obtenerContenidoRSSConCache(
         $url,
         $directorioCache,
-        $duracionCache
+        $duracionCache,
+        $permitirDescarga
     );
 
     if ($contenido === false) {
@@ -703,7 +762,8 @@ function procesarFeedRSS(
 function cargarFeedsRSS(
     array $feeds,
     string $directorioCache,
-    int $duracionCache = 900
+    int $duracionCache = 900,
+    bool $permitirDescarga = true
 ): array {
     $resultados = [];
 
@@ -727,7 +787,8 @@ function cargarFeedsRSS(
                 $url,
                 $limite,
                 $directorioCache,
-                $duracionCache
+                $duracionCache,
+                $permitirDescarga
             ),
         ];
     }

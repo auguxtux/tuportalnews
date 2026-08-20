@@ -331,3 +331,172 @@
 		grid-template-columns: 1fr;
 	}
 }
+
+/* Interfaz administrativa clara y responsive */
+.config-container {
+  width: min(100% - 1rem, 1180px);
+  color: #1e293b;
+}
+
+.config-cabecera {
+  padding: clamp(1.25rem, 4vw, 2rem);
+  border: 1px solid #bfdbfe;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #eff6ff, #fff 65%);
+  text-align: center;
+}
+
+.config-titulo {
+  margin: 0;
+  color: #172554;
+  font-size: clamp(1.45rem, 3vw, 2.1rem);
+  text-transform: none;
+}
+
+.config-cabecera p {
+  max-width: 760px;
+  margin: .55rem auto 0;
+  color: #475569;
+  line-height: 1.55;
+}
+
+.config-navegacion {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .7rem;
+  margin: 1rem 0;
+}
+
+.config-navegacion a {
+  min-height: 44px;
+  padding: .7rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  background: #fff;
+  color: #1e3a8a;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+}
+
+.config-navegacion a:hover { border-color: #60a5fa; background: #eff6ff; }
+
+.config-section {
+  scroll-margin-top: 1rem;
+  border: 1px solid #dbe3ec;
+  border-radius: 14px;
+  box-shadow: 0 8px 26px rgba(15, 23, 42, .07);
+}
+
+.config-section-header {
+  justify-content: flex-start;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+.config-section-header h2 {
+  color: #172554;
+  font-size: 1.1rem;
+  text-transform: none;
+}
+
+.config-section-body { padding: clamp(1rem, 3vw, 1.35rem); }
+.config-grid-2 { gap: 1rem; align-items: start; }
+.config-section#config-general > .config-section-body > .config-grid-2 { grid-template-columns: minmax(240px, 320px) minmax(0, 1fr); }
+
+.mantenimiento-box,
+.config-general-box {
+  padding: 1rem;
+  border: 1px solid #dbe3ec;
+  border-radius: 11px;
+  background: #fff;
+}
+
+.mantenimiento-box { position: sticky; top: 1rem; }
+.config-container h3 { margin: 0 0 .35rem; color: #172554; text-align: left; }
+
+.config-explicacion,
+.config-section-descripcion {
+  margin: .25rem 0 1rem;
+  color: #64748b;
+  font-size: .88rem;
+  line-height: 1.5;
+}
+
+.campo-form {
+  gap: .3rem;
+  margin: 0 0 .7rem;
+  padding: .8rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+  background: #f8fafc;
+}
+
+.campo-form label { color: #334155; font-weight: 650; }
+.campo-form input[type="text"],
+.campo-form input[type="number"],
+.campo-form textarea,
+.campo-form select {
+  width: 100%;
+  min-height: 43px;
+  padding: .55rem .7rem;
+  border: 1px solid #94a3b8;
+  border-radius: 7px;
+  background: #fff;
+  color: #0f172a;
+  font: inherit;
+}
+
+.campo-form small { color: #64748b; line-height: 1.4; }
+.checkbox-label { min-height: 40px; padding: .4rem .55rem; border-radius: 7px; background: #fff; }
+.checkbox-label input { width: 19px; height: 19px; accent-color: #2563eb; }
+
+.btn {
+  min-height: 42px;
+  padding: .6rem 1rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:hover { filter: brightness(.92); }
+.btn-warning { width: auto; margin: .75rem 0 0; }
+
+.config-acciones-principales {
+  position: sticky;
+  z-index: 20;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  padding: .8rem;
+  border: 1px solid #dbe3ec;
+  border-radius: 10px;
+  background: rgba(255,255,255,.96);
+  box-shadow: 0 -5px 18px rgba(15,23,42,.08);
+  backdrop-filter: blur(5px);
+}
+
+.destacada-actual { padding: .8rem; border: 1px solid #a7f3d0; border-radius: 8px; background: #ecfdf5; }
+.minify-stat-card { min-width: 180px; padding: 1rem; border: 1px solid #dbe3ec; border-radius: 9px; background: #f8fafc; }
+.minify-buttons { justify-content: flex-start; }
+
+.alert { padding: .8rem 1rem; border-radius: 8px; }
+.modal-mantenimiento, .modal-overlay { padding: 1rem; backdrop-filter: blur(2px); }
+.modal-mantenimiento-content, .modal-container { margin: auto; }
+
+.config-container :focus-visible {
+  outline: 3px solid rgba(37, 99, 235, .28);
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .config-section#config-general > .config-section-body > .config-grid-2 { grid-template-columns: 1fr; }
+  .config-navegacion { grid-template-columns: 1fr; }
+  .mantenimiento-box { position: static; }
+  .config-acciones-principales { position: static; }
+  .minify-buttons { flex-direction: column; }
+  .minify-buttons .btn { width: 100%; margin: 0; }
+  .modal-mantenimiento-footer { flex-direction: column-reverse; }
+  .modal-mantenimiento-footer .btn { width: 100%; }
+}

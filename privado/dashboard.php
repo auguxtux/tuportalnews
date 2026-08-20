@@ -578,7 +578,7 @@ require_once __DIR__ . '/../partials/header.php';
                             default => '',
                         };
                         ?>
-                        <article class="panel-privado-noticia-item news-card news-card--compact news-card--private<?= $claseEstadoTarjeta; ?>">
+                        <article class="panel-privado-noticia-item news-card news-card--horizontal news-card--compact news-card--private<?= $claseEstadoTarjeta; ?>">
 
                             <h3 class="panel-privado-noticia-titulo news-card__title">
                                 <a

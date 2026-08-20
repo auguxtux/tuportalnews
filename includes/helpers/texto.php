@@ -13,7 +13,18 @@ function truncarTexto($texto, $longitud = 100, $final = '...') {
 }
 
 function obtenerPrimerParrafo($contenido, $limite = 300) {
-    $texto = html_entity_decode($contenido, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $texto = (string) $contenido;
+    for ($i = 0; $i < 3; $i++) {
+        $decodificado = html_entity_decode(
+            $texto,
+            ENT_QUOTES | ENT_HTML5,
+            'UTF-8'
+        );
+        if ($decodificado === $texto) {
+            break;
+        }
+        $texto = $decodificado;
+    }
     $texto = strip_tags($texto);
     $texto = preg_replace('/\s+/', ' ', $texto);
     $texto = trim($texto);

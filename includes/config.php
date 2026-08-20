@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 
 define('SITE_NAME', 'TuPortalNews');
-define('SITE_VERSION', '1.1.2');
+define('SITE_VERSION', '1.1.3');
 define('ROOT_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 define('INCLUDES_PATH', ROOT_PATH . 'includes' . DIRECTORY_SEPARATOR);
 define('UPLOADS_PATH', ROOT_PATH . 'uploads' . DIRECTORY_SEPARATOR);

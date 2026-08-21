@@ -16,6 +16,33 @@ require_once __DIR__ . '/../includes/permisos.php';
 require_once __DIR__ . '/../includes/helpers/rss.php';
 require_once __DIR__ . '/../includes/helpers/noticias.php';
 
+$colorTextoContraste = static function (string $hex): string {
+    $hex = ltrim(trim($hex), '#');
+    if (preg_match('/^[a-f0-9]{6}$/i', $hex) !== 1) {
+        return '#000000';
+    }
+
+    $componentes = [
+        hexdec(substr($hex, 0, 2)) / 255,
+        hexdec(substr($hex, 2, 2)) / 255,
+        hexdec(substr($hex, 4, 2)) / 255,
+    ];
+    $lineales = array_map(
+        static fn (float $valor): float => $valor <= 0.04045
+            ? $valor / 12.92
+            : (($valor + 0.055) / 1.055) ** 2.4,
+        $componentes
+    );
+    $luminancia = 0.2126 * $lineales[0]
+        + 0.7152 * $lineales[1]
+        + 0.0722 * $lineales[2];
+
+    $contrasteOscuro = ($luminancia + 0.05) / 0.05;
+    $contrasteClaro = 1.05 / ($luminancia + 0.05);
+
+    return $contrasteClaro >= $contrasteOscuro ? '#ffffff' : '#000000';
+};
+
 // --------------------------------------------------------------
 // 3. LÓGICA DE NOTICIAS LOCALES
 // --------------------------------------------------------------
@@ -151,11 +178,20 @@ require_once __DIR__ . '/../partials/header.php';
         $imagenSlide = !empty($slide['imagen_principal'])
             ? base_url('uploads/noticias/' . ltrim((string) $slide['imagen_principal'], '/'))
             : (string) ($slide['imagen_externa'] ?? '');
+        $imagenSlideOptimizada = !empty($slide['imagen_principal'])
+            ? obtenerImagenLocalOptimizadaRss(basename((string) $slide['imagen_principal']))
+            : obtenerImagenExternaOptimizadaRss($imagenSlide);
         ?>
         <div class="hero-slide <?php echo $index === 0 ? 'active' : ''; ?>">
             <img
-                src="<?php echo htmlspecialchars($imagenSlide, ENT_QUOTES, 'UTF-8'); ?>"
+                src="<?php echo htmlspecialchars($imagenSlideOptimizada['src'], ENT_QUOTES, 'UTF-8'); ?>"
+                <?php if ($imagenSlideOptimizada['srcset'] !== ''): ?>
+                srcset="<?php echo htmlspecialchars($imagenSlideOptimizada['srcset'], ENT_QUOTES, 'UTF-8'); ?>"
+                sizes="100vw"
+                <?php endif; ?>
                 alt="<?php echo htmlspecialchars((string) $slide['titulo'], ENT_QUOTES, 'UTF-8'); ?>"
+                width="1200"
+                height="675"
                 loading="<?php echo $index === 0 ? 'eager' : 'lazy'; ?>"
                 fetchpriority="<?php echo $index === 0 ? 'high' : 'low'; ?>"
                 decoding="async"
@@ -178,7 +214,7 @@ require_once __DIR__ . '/../partials/header.php';
                     <span>✍️ <?php echo htmlspecialchars($slide['autor_nombre']); ?></span>
                     <span>📅 <?php echo formatearFecha($slide['fecha_publicacion']); ?></span>
                 </div>
-                <a href="<?php echo route('noticia', ['id' => $slide['id_noticia']]); ?>" class="hero-btn">Leer noticia completa →</a>
+                <a href="<?php echo route('noticia', ['id' => $slide['id_noticia']]); ?>" class="hero-btn" aria-label="Leer noticia completa: <?php echo htmlspecialchars((string) $slide['titulo'], ENT_QUOTES, 'UTF-8'); ?>">Leer noticia completa →</a>
             </div>
         </div>
         <?php endforeach; ?>
@@ -217,6 +253,14 @@ require_once __DIR__ . '/../partials/header.php';
         <a href="<?php echo route('buscar_avanzado'); ?>" class="buscador-btn-avanzado">🔎 Búsqueda avanzada</a>
     </div>
     <?php if (!empty($noticia_destacada) && is_array($noticia_destacada)): ?>
+    <?php
+    $imagenDestacadaOptimizada = !empty($noticia_destacada['imagen_externa'])
+        ? obtenerImagenExternaOptimizadaRss((string) $noticia_destacada['imagen_externa'])
+        : ['src' => '', 'srcset' => ''];
+    $imagenDestacadaLocal = !empty($noticia_destacada['imagen_principal'])
+        ? obtenerImagenLocalOptimizadaRss(basename((string) $noticia_destacada['imagen_principal']))
+        : ['src' => '', 'srcset' => ''];
+    ?>
     <div class="destacada-principal">
     <div class="destacada-badge">
         <span>⭐ NOTICIA DESTACADA</span>
@@ -225,12 +269,16 @@ require_once __DIR__ . '/../partials/header.php';
         <div class="destacada-imagen">
             <a href="<?php echo route('noticia', ['id' => $noticia_destacada['id_noticia']]); ?>">
                 <?php if ($noticia_destacada['imagen_principal']): ?>
-                    <img src="<?php echo base_url('uploads/noticias/' . $noticia_destacada['imagen_principal']); ?>" 
+                    <img src="<?php echo htmlspecialchars($imagenDestacadaLocal['src'], ENT_QUOTES, 'UTF-8'); ?>"
+                         <?php if ($imagenDestacadaLocal['srcset'] !== ''): ?>srcset="<?php echo htmlspecialchars($imagenDestacadaLocal['srcset'], ENT_QUOTES, 'UTF-8'); ?>" sizes="(min-width: 768px) 50vw, 100vw"<?php endif; ?>
                          alt="<?php echo htmlspecialchars($noticia_destacada['titulo']); ?>"
+                         width="640" height="360"
                          loading="lazy" decoding="async">
                 <?php elseif ($noticia_destacada['imagen_externa']): ?>
-                    <img src="<?php echo htmlspecialchars($noticia_destacada['imagen_externa']); ?>" 
+                    <img src="<?php echo htmlspecialchars($imagenDestacadaOptimizada['src'], ENT_QUOTES, 'UTF-8'); ?>"
+                         <?php if ($imagenDestacadaOptimizada['srcset'] !== ''): ?>srcset="<?php echo htmlspecialchars($imagenDestacadaOptimizada['srcset'], ENT_QUOTES, 'UTF-8'); ?>" sizes="(min-width: 768px) 50vw, 100vw"<?php endif; ?>
                          alt="<?php echo htmlspecialchars($noticia_destacada['titulo']); ?>"
+                         width="640" height="360"
                          loading="lazy" decoding="async">
                 <?php else: ?>
                     <div class="destacada-sin-imagen">📷 Sin imagen</div>
@@ -286,9 +334,15 @@ require_once __DIR__ . '/../partials/header.php';
                 $color = $data['color'];
                 $icono = $data['icono'];
                 if (!$noticia) continue;
+                $imagenTemaOptimizada = !empty($noticia['imagen_externa'])
+                    ? obtenerImagenExternaOptimizadaRss((string) $noticia['imagen_externa'])
+                    : ['src' => '', 'srcset' => ''];
+                $imagenTemaLocal = !empty($noticia['imagen_principal'])
+                    ? obtenerImagenLocalOptimizadaRss(basename((string) $noticia['imagen_principal']))
+                    : ['src' => '', 'srcset' => ''];
             ?>
             <div class="tema-card">
-                <div class="tema-header" style="background-color: <?php echo $color; ?>;">
+                <div class="tema-header" style="background-color: <?php echo $color; ?>; color: <?php echo $colorTextoContraste((string) $color); ?>;">
                     <h3><span><?php echo $icono; ?></span> <?php echo htmlspecialchars($nombre_cat); ?></h3>
                 </div>
                                 <div class="tema-noticia">
@@ -296,9 +350,13 @@ require_once __DIR__ . '/../partials/header.php';
                         <a href="<?php echo route('noticia', ['id' => $noticia['id_noticia']]); ?>">
                             <?php
                             if (!empty($noticia['imagen_principal'])) {
-                                echo '<img src="' . base_url('uploads/noticias/' . $noticia['imagen_principal']) . '" alt="' . htmlspecialchars($noticia['titulo']) . '" loading="lazy" decoding="async">';
+                                echo '<img src="' . htmlspecialchars($imagenTemaLocal['src'], ENT_QUOTES, 'UTF-8') . '"'
+                                    . ($imagenTemaLocal['srcset'] !== '' ? ' srcset="' . htmlspecialchars($imagenTemaLocal['srcset'], ENT_QUOTES, 'UTF-8') . '" sizes="(min-width: 900px) 25vw, 100vw"' : '')
+                                    . ' alt="' . htmlspecialchars($noticia['titulo']) . '" width="480" height="270" loading="lazy" decoding="async">';
                             } elseif (!empty($noticia['imagen_externa'])) {
-                                echo '<img src="' . htmlspecialchars($noticia['imagen_externa']) . '" alt="' . htmlspecialchars($noticia['titulo']) . '" loading="lazy" decoding="async"
+                                echo '<img src="' . htmlspecialchars($imagenTemaOptimizada['src'], ENT_QUOTES, 'UTF-8') . '"'
+                                    . ($imagenTemaOptimizada['srcset'] !== '' ? ' srcset="' . htmlspecialchars($imagenTemaOptimizada['srcset'], ENT_QUOTES, 'UTF-8') . '" sizes="(min-width: 900px) 25vw, 100vw"' : '')
+                                    . ' alt="' . htmlspecialchars($noticia['titulo']) . '" width="480" height="270" loading="lazy" decoding="async"
       onerror="this.onerror=null;this.src=\'' . htmlspecialchars(base_url('assets/img/default-image.jpg'), ENT_QUOTES, 'UTF-8') . '\';">';
                             } else {
                                 echo '<div class="sin-imagen">📷 Sin imagen</div>';
@@ -337,7 +395,7 @@ require_once __DIR__ . '/../partials/header.php';
                         <li>
                             <a href="<?php echo htmlspecialchars($item['link'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noopener" class="rss-item-link">
                                 <?php if ($item['imagen']): ?>
-                                <div class="rss-item-img"><img src="<?php echo htmlspecialchars($item['imagen']); ?>" alt="" loading="lazy" decoding="async"></div>
+                                <div class="rss-item-img"><img src="<?php echo htmlspecialchars($item['imagen']); ?>" alt="" width="320" height="180" loading="lazy" decoding="async"></div>
                                 <?php endif; ?>
                                 <div class="rss-item-content">
                                     <strong><?php echo htmlspecialchars($item['titulo']); ?></strong>
@@ -372,11 +430,16 @@ require_once __DIR__ . '/../partials/header.php';
         </div>
         <div class="listado-grid">
             <?php foreach ($noticias_destacadas_listado as $noticia): ?>
+            <?php
+            $imagenListadoLocal = !empty($noticia['imagen_principal'])
+                ? obtenerImagenLocalOptimizadaRss(basename((string) $noticia['imagen_principal']))
+                : ['src' => '', 'srcset' => ''];
+            ?>
             <div class="listado-card">
                 <?php if ($noticia['imagen_principal']): ?>
                 <div class="listado-img">
                     <a href="<?php echo route('noticia', ['id' => $noticia['id_noticia']]); ?>">
-                        <img src="<?php echo base_url('uploads/noticias/' . $noticia['imagen_principal']); ?>" alt="<?php echo htmlspecialchars($noticia['titulo']); ?>" loading="lazy" decoding="async">
+                        <img src="<?php echo htmlspecialchars($imagenListadoLocal['src'], ENT_QUOTES, 'UTF-8'); ?>" <?php if ($imagenListadoLocal['srcset'] !== ''): ?>srcset="<?php echo htmlspecialchars($imagenListadoLocal['srcset'], ENT_QUOTES, 'UTF-8'); ?>" sizes="(min-width: 900px) 25vw, 100vw"<?php endif; ?> alt="<?php echo htmlspecialchars($noticia['titulo']); ?>" width="480" height="270" loading="lazy" decoding="async">
                     </a>
                 </div>
                 <?php endif; ?>
@@ -413,6 +476,12 @@ require_once __DIR__ . '/../partials/header.php';
                 $tituloUltimaLargo = function_exists('mb_strlen')
                     ? mb_strlen($tituloUltima, 'UTF-8') > 55
                     : strlen($tituloUltima) > 55;
+                $imagenUltimaOptimizada = !empty($noticia['imagen_externa'])
+                    ? obtenerImagenExternaOptimizadaRss((string) $noticia['imagen_externa'])
+                    : ['src' => '', 'srcset' => ''];
+                $imagenUltimaLocal = !empty($noticia['imagen_principal'])
+                    ? obtenerImagenLocalOptimizadaRss(basename((string) $noticia['imagen_principal']))
+                    : ['src' => '', 'srcset' => ''];
                 ?>
                                 <article class="ultima-card news-card news-card--vertical news-card--compact news-card--public<?php echo !empty($noticia['id_fuente_rss']) ? ' news-card--external' : ''; ?>">
                     <h3 class="ultima-titulo news-card__title"><a<?php echo $tituloUltimaLargo ? ' class="ultima-titulo-largo"' : ''; ?> href="<?php echo route('noticia', ['id' => $noticia['id_noticia']]); ?>"><?php echo htmlspecialchars($tituloUltima); ?></a></h3>
@@ -421,16 +490,20 @@ require_once __DIR__ . '/../partials/header.php';
                             <?php
                             // Intentar imagen_principal (local)
                             if (!empty($noticia['imagen_principal'])) {
-                                echo '<img src="' . base_url('uploads/noticias/' . $noticia['imagen_principal']) . '" alt="' . htmlspecialchars($noticia['titulo']) . '" loading="lazy" decoding="async">';
+                                echo '<img src="' . htmlspecialchars($imagenUltimaLocal['src'], ENT_QUOTES, 'UTF-8') . '"'
+                                    . ($imagenUltimaLocal['srcset'] !== '' ? ' srcset="' . htmlspecialchars($imagenUltimaLocal['srcset'], ENT_QUOTES, 'UTF-8') . '" sizes="(min-width: 900px) 33vw, 50vw"' : '')
+                                    . ' alt="' . htmlspecialchars($noticia['titulo']) . '" width="480" height="270" loading="lazy" decoding="async">';
                             }
                             // Si no, intentar imagen_externa (RSS)
                             elseif (!empty($noticia['imagen_externa'])) {
-                                echo '<img src="' . htmlspecialchars($noticia['imagen_externa']) . '" alt="' . htmlspecialchars($noticia['titulo']) . '" loading="lazy" decoding="async"
+                                echo '<img src="' . htmlspecialchars($imagenUltimaOptimizada['src'], ENT_QUOTES, 'UTF-8') . '"'
+                                    . ($imagenUltimaOptimizada['srcset'] !== '' ? ' srcset="' . htmlspecialchars($imagenUltimaOptimizada['srcset'], ENT_QUOTES, 'UTF-8') . '" sizes="(min-width: 900px) 33vw, 50vw"' : '')
+                                    . ' alt="' . htmlspecialchars($noticia['titulo']) . '" width="480" height="270" loading="lazy" decoding="async"
       onerror="this.onerror=null;this.src=\'' . htmlspecialchars(base_url('assets/img/default-image.jpg'), ENT_QUOTES, 'UTF-8') . '\';">';
                             }
                             // Si no hay ninguna imagen, usar imagen por defecto
                             else {
-                                echo '<img src="' . base_url('assets/img/default-image.jpg') . '" alt="" loading="lazy" decoding="async">';
+                                echo '<img src="' . base_url('assets/img/default-image.jpg') . '" alt="" width="480" height="270" loading="lazy" decoding="async">';
                             }
                             ?>
                         </a>
@@ -459,9 +532,15 @@ require_once __DIR__ . '/../partials/header.php';
             <?php
             $popularImg = '';
             if (!empty($popular['imagen_principal'])) {
-                $popularImg = base_url('uploads/noticias/' . $popular['imagen_principal']);
+                $popularImg = obtenerImagenLocalOptimizadaRss(
+                    basename((string) $popular['imagen_principal'])
+                )['src'];
             } elseif (!empty($popular['imagen_externa'])) {
-                $popularImg = $popular['imagen_externa'];
+                $popularImg = obtenerUrlMiniaturaRss(
+                    (string) $popular['imagen_externa'],
+                    320,
+                    180
+                ) ?? (string) $popular['imagen_externa'];
             }
             ?>
             <div class="popular-item">
@@ -472,6 +551,8 @@ require_once __DIR__ . '/../partials/header.php';
                     <a href="<?php echo route('noticia', ['id' => $popular['id_noticia']]); ?>">
                         <img src="<?php echo htmlspecialchars($popularImg, ENT_QUOTES, 'UTF-8'); ?>"
                              alt="<?php echo htmlspecialchars($popular['titulo']); ?>" 
+                             width="160"
+                             height="90"
                              loading="lazy"
                              decoding="async">
                     </a>

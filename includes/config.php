@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 
 define('SITE_NAME', 'TuPortalNews');
-define('SITE_VERSION', '1.1.3');
+define('SITE_VERSION', '1.1.4');
 define('ROOT_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 define('INCLUDES_PATH', ROOT_PATH . 'includes' . DIRECTORY_SEPARATOR);
 define('UPLOADS_PATH', ROOT_PATH . 'uploads' . DIRECTORY_SEPARATOR);
@@ -94,7 +94,8 @@ $requestPathForSession = (string) parse_url(
 );
 $skipSessionStart =
     (defined('SKIP_SESSION_START') && SKIP_SESSION_START === true)
-    || $requestPathForSession === '/sitemap.xml';
+    || $requestPathForSession === '/sitemap.xml'
+    || $requestPathForSession === '/public/rss-image';
 
 if (session_status() === PHP_SESSION_NONE && !$skipSessionStart) {
     session_name(SESSION_NAME);

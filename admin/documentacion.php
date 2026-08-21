@@ -45,7 +45,8 @@ Permisos::requerirAdmin();
     </div>
 
     <div class="highlight">
-        <strong>Versión 1.1.3:</strong> arquitectura PHP procedimental modular,
+        <strong>Versión 1.1.4:</strong> imágenes responsive en caché WebP,
+        portada optimizada y accesibilidad validada, junto con arquitectura PHP procedimental modular,
         rutas centralizadas, separación completa de contenido público y
         privado, colaciones UTF-8 unificadas, pruebas repetibles, backups con
         retención, clasificación dual de noticias (región + tema), importación

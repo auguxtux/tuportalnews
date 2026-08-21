@@ -67,6 +67,57 @@ function limpiarCacheRssAntigua(
     return $resultado;
 }
 
+/**
+ * @return array{eliminados: int, errores: int}
+ */
+function limpiarMiniaturasRssAntiguas(
+    string $directorio,
+    int $antiguedadSegundos = 259200
+): array {
+    $resultado = ['eliminados' => 0, 'errores' => 0];
+    $directorioReal = realpath($directorio);
+
+    if ($directorioReal === false || !is_dir($directorioReal)) {
+        return $resultado;
+    }
+
+    $limite = time() - max(0, $antiguedadSegundos);
+    $archivos = glob($directorioReal . DIRECTORY_SEPARATOR . 'rss_img_*.webp');
+    if ($archivos === false) {
+        $resultado['errores']++;
+        return $resultado;
+    }
+
+    foreach ($archivos as $archivo) {
+        $nombre = basename($archivo);
+        if (preg_match('/^rss_img_[a-f0-9]{64}\.webp$/D', $nombre) !== 1) {
+            continue;
+        }
+
+        $rutaReal = realpath($archivo);
+        if (
+            $rutaReal === false
+            || dirname($rutaReal) !== $directorioReal
+            || !is_file($rutaReal)
+        ) {
+            continue;
+        }
+
+        $fechaModificacion = filemtime($rutaReal);
+        if ($fechaModificacion === false || $fechaModificacion >= $limite) {
+            continue;
+        }
+
+        if (unlink($rutaReal)) {
+            $resultado['eliminados']++;
+        } else {
+            $resultado['errores']++;
+        }
+    }
+
+    return $resultado;
+}
+
 if (realpath((string) ($_SERVER['SCRIPT_FILENAME'] ?? '')) === __FILE__) {
     $directorioCache = dirname(__DIR__)
         . DIRECTORY_SEPARATOR
@@ -77,6 +128,11 @@ if (realpath((string) ($_SERVER['SCRIPT_FILENAME'] ?? '')) === __FILE__) {
         . 'rss';
 
     $resultado = limpiarCacheRssAntigua($directorioCache);
+    $resultadoMiniaturas = limpiarMiniaturasRssAntiguas(
+        $directorioCache . DIRECTORY_SEPARATOR . 'images'
+    );
+    $resultado['eliminados'] += $resultadoMiniaturas['eliminados'];
+    $resultado['errores'] += $resultadoMiniaturas['errores'];
 
     if ($resultado['errores'] > 0) {
         fwrite(

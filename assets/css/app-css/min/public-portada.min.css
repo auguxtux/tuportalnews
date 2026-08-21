@@ -84,6 +84,10 @@
 .hero-slide-titulo a {
     color: white;
     text-decoration: none;
+    background: rgba(0, 0, 0, 0.82);
+    padding: 0.12em 0.35em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
 }
 
 .hero-slide-subtitulo {
@@ -161,7 +165,8 @@
 
 .hero-btn {
     padding: 0.7rem 1.5rem;
-    color: yellow;
+    color: #fff;
+    background: #1e3a8a;
     text-decoration: none;
     font-weight: bold;
     transition: all 0.3s;
@@ -320,7 +325,7 @@
 
 .ultima-categoria {
     font-size: 0.75rem;
-    color: #3b82f6;
+    color: #1d4ed8;
     text-transform: uppercase;
     font-weight: 600;
 }
@@ -418,7 +423,7 @@
 
 .popular-meta {
     font-size: 0.85rem;
-    color: #999;
+    color: #595959;
     margin-top: 5px;
     text-align: right;
 }
@@ -774,7 +779,7 @@
 
 .rss-item-content small {
     font-size: 0.7rem;
-    color: #999;
+    color: #595959;
     display: block;
     margin-bottom: 6px;
 }
@@ -1127,7 +1132,7 @@
 }
 
 .destacada-titulo a {
-    color: #e03722;
+    color: #a52516;
     text-decoration: none;
     font-size: 0.9rem;
 }
@@ -1159,7 +1164,7 @@
 
 .destacada-btn {
     background: #ececec;
-    color: #e03722;
+    color: #8f2115;
     padding: 5px 14px;
     border-radius: 4px;
     font-weight: 600;

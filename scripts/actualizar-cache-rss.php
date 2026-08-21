@@ -43,7 +43,68 @@ foreach ($fuentes as $fuente) {
         continue;
     }
 
-    fwrite(STDOUT, '[OK] ' . $nombre . PHP_EOL);
+    $noticias = procesarContenidoRSS(
+        $contenido,
+        (int) ($fuente['limite'] ?? 4)
+    );
+    $miniaturas = actualizarMiniaturasRss($noticias);
+
+    fwrite(
+        STDOUT,
+        '[OK] ' . $nombre
+        . ' · miniaturas: ' . $miniaturas['generadas']
+        . ' · fallidas: ' . $miniaturas['fallidas']
+        . PHP_EOL
+    );
 }
+
+$stmtImagenes = db()->query(
+    "SELECT DISTINCT imagen_externa
+     FROM noticias
+     WHERE estado = 'publicada'
+       AND privada = 0
+       AND imagen_externa IS NOT NULL
+       AND imagen_externa != ''
+     LIMIT 500"
+);
+$urlsNoticias = $stmtImagenes->fetchAll(PDO::FETCH_COLUMN);
+$miniaturasNoticias = actualizarMiniaturasNoticiasExternas($urlsNoticias);
+
+fwrite(
+    STDOUT,
+    '[OK] Noticias externas · variantes: '
+    . $miniaturasNoticias['generadas']
+    . ' · fallidas: ' . $miniaturasNoticias['fallidas']
+    . PHP_EOL
+);
+
+$stmtLocales = db()->query(
+    "SELECT DISTINCT imagen_principal
+     FROM noticias
+     WHERE estado = 'publicada'
+       AND privada = 0
+       AND imagen_principal IS NOT NULL
+       AND imagen_principal != ''
+     LIMIT 500"
+);
+$imagenesLocales = $stmtLocales->fetchAll(PDO::FETCH_COLUMN);
+$localesGeneradas = 0;
+$localesFallidas = 0;
+foreach ($imagenesLocales as $archivo) {
+    foreach ([320 => 180, 640 => 360] as $ancho => $alto) {
+        if (generarMiniaturaNoticiaLocal((string) $archivo, $ancho, $alto)) {
+            $localesGeneradas++;
+        } else {
+            $localesFallidas++;
+        }
+    }
+}
+
+fwrite(
+    STDOUT,
+    '[OK] Noticias locales · variantes: ' . $localesGeneradas
+    . ' · fallidas: ' . $localesFallidas
+    . PHP_EOL
+);
 
 exit($fallos === 0 ? 0 : 1);

@@ -285,14 +285,18 @@ function resolverRedireccionRss(string $urlBase, string $destino): string|false
  *
  * @return string|false
  */
-function descargarContenidoRSS(string $url): string|false
+function descargarContenidoRSS(
+    string $url,
+    int $maxBytes = 2097152,
+    string $accept = 'application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.8'
+): string|false
 {
     if (!function_exists('curl_init')) {
         return false;
     }
 
     $maxRedirecciones = 3;
-    $maxBytes = 2 * 1024 * 1024;
+    $maxBytes = min(8 * 1024 * 1024, max(1024, $maxBytes));
     $urlActual = trim($url);
 
     for ($redireccion = 0; $redireccion <= $maxRedirecciones; $redireccion++) {
@@ -325,7 +329,7 @@ function descargarContenidoRSS(string $url): string|false
                 $destino['host'] . ':' . $destino['port'] . ':' . $ipCurl,
             ],
             CURLOPT_HTTPHEADER => [
-                'Accept: application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.8',
+                'Accept: ' . $accept,
             ],
             CURLOPT_HEADERFUNCTION => static function ($curl, string $cabecera) use (&$location): int {
                 if (stripos($cabecera, 'Location:') === 0) {
@@ -370,6 +374,446 @@ function descargarContenidoRSS(string $url): string|false
     }
 
     return false;
+}
+
+/**
+ * Devuelve el directorio privado de miniaturas RSS.
+ */
+function directorioMiniaturasRss(): string
+{
+    return dirname(__DIR__, 2)
+        . DIRECTORY_SEPARATOR
+        . 'storage'
+        . DIRECTORY_SEPARATOR
+        . 'cache'
+        . DIRECTORY_SEPARATOR
+        . 'rss'
+        . DIRECTORY_SEPARATOR
+        . 'images';
+}
+
+function claveMiniaturaRss(
+    string $url,
+    int $ancho = 320,
+    int $alto = 180
+): string
+{
+    if ($ancho === 320 && $alto === 180) {
+        return hash('sha256', $url);
+    }
+
+    return hash('sha256', $ancho . 'x' . $alto . '|' . $url);
+}
+
+function rutaMiniaturaRss(
+    string $url,
+    int $ancho = 320,
+    int $alto = 180
+): string
+{
+    return directorioMiniaturasRss()
+        . DIRECTORY_SEPARATOR
+        . 'rss_img_'
+        . claveMiniaturaRss($url, $ancho, $alto)
+        . '.webp';
+}
+
+/**
+ * Devuelve la URL pública de una miniatura existente sin descargar recursos.
+ */
+function obtenerUrlMiniaturaRss(
+    string $url,
+    int $ancho = 320,
+    int $alto = 180
+): ?string
+{
+    if (!esImagenRssValida($url)) {
+        return null;
+    }
+
+    $ruta = rutaMiniaturaRss($url, $ancho, $alto);
+    if (!is_file($ruta) || !is_readable($ruta)) {
+        return null;
+    }
+
+    $version = filemtime($ruta);
+
+    return route('rss_image', [
+        'id' => claveMiniaturaRss($url, $ancho, $alto),
+        'v' => $version === false ? 1 : $version,
+    ]);
+}
+
+/**
+ * Devuelve una imagen externa optimizada y sus variantes disponibles.
+ *
+ * @return array{src: string, srcset: string}
+ */
+function obtenerImagenExternaOptimizadaRss(string $url): array
+{
+    $variantes = [];
+    foreach ([320, 640, 960] as $ancho) {
+        $miniatura = obtenerUrlMiniaturaRss($url, $ancho, (int) ($ancho * 9 / 16));
+        if ($miniatura !== null) {
+            $variantes[] = $miniatura . ' ' . $ancho . 'w';
+        }
+    }
+
+    return [
+        'src' => obtenerUrlMiniaturaRss($url, 640, 360) ?? $url,
+        'srcset' => implode(', ', $variantes),
+    ];
+}
+
+/**
+ * Devuelve la clave estable de una variante local sin exponer su nombre.
+ */
+function claveMiniaturaNoticiaLocal(
+    string $archivo,
+    int $ancho,
+    int $alto
+): string {
+    $ruta = UPLOAD_NOTICIAS . $archivo;
+    $version = is_file($ruta) ? (int) filemtime($ruta) : 0;
+
+    return hash(
+        'sha256',
+        'local|' . $archivo . '|' . $version . '|' . $ancho . 'x' . $alto
+    );
+}
+
+function rutaMiniaturaNoticiaLocal(
+    string $archivo,
+    int $ancho,
+    int $alto
+): string {
+    return directorioMiniaturasRss()
+        . DIRECTORY_SEPARATOR
+        . 'rss_img_'
+        . claveMiniaturaNoticiaLocal($archivo, $ancho, $alto)
+        . '.webp';
+}
+
+/**
+ * Genera una variante WebP de una imagen subida sin modificar el original.
+ */
+function generarMiniaturaNoticiaLocal(
+    string $archivo,
+    int $ancho,
+    int $alto
+): bool {
+    if (
+        $archivo === ''
+        || basename($archivo) !== $archivo
+        || !class_exists(Imagick::class)
+        || !in_array($ancho, [320, 640], true)
+        || !in_array($alto, [180, 360], true)
+    ) {
+        return false;
+    }
+
+    $origen = realpath(UPLOAD_NOTICIAS . $archivo);
+    $directorioOrigen = realpath(UPLOAD_NOTICIAS);
+    if (
+        $origen === false
+        || $directorioOrigen === false
+        || dirname($origen) !== $directorioOrigen
+        || !is_file($origen)
+        || !is_readable($origen)
+    ) {
+        return false;
+    }
+
+    $directorio = directorioMiniaturasRss();
+    if (!is_dir($directorio) && !mkdir($directorio, 0755, true)) {
+        return false;
+    }
+
+    $ruta = rutaMiniaturaNoticiaLocal($archivo, $ancho, $alto);
+    if (is_file($ruta)) {
+        return true;
+    }
+
+    $temporal = null;
+    $imagen = null;
+    try {
+        $imagen = new Imagick($origen);
+        $imagen->setIteratorIndex(0);
+        $fotograma = $imagen->getImage();
+        $imagen->clear();
+        $imagen = $fotograma;
+        if (method_exists($imagen, 'autoOrient')) {
+            $imagen->autoOrient();
+        } elseif (method_exists($imagen, 'autoOrientImage')) {
+            $imagen->autoOrientImage();
+        }
+        $imagen->cropThumbnailImage($ancho, $alto);
+        $imagen->stripImage();
+        $imagen->setImageFormat('webp');
+        $imagen->setOption('webp:method', '6');
+        $imagen->setImageCompressionQuality(78);
+
+        $temporal = tempnam($directorio, '.news-img-');
+        if ($temporal === false || !$imagen->writeImage($temporal)) {
+            return false;
+        }
+        if (!chmod($temporal, 0644) || !rename($temporal, $ruta)) {
+            return false;
+        }
+        $temporal = null;
+        return true;
+    } catch (Throwable $e) {
+        error_log('NEWS IMAGE ERROR: no se pudo generar una miniatura local.');
+        return false;
+    } finally {
+        if ($imagen instanceof Imagick) {
+            $imagen->clear();
+        }
+        if (is_string($temporal) && is_file($temporal)) {
+            unlink($temporal);
+        }
+    }
+}
+
+/**
+ * @return array{src: string, srcset: string}
+ */
+function obtenerImagenLocalOptimizadaRss(string $archivo): array
+{
+    if ($archivo === '' || basename($archivo) !== $archivo) {
+        return ['src' => '', 'srcset' => ''];
+    }
+
+    $variantes = [];
+    foreach ([320 => 180, 640 => 360] as $ancho => $alto) {
+        $ruta = rutaMiniaturaNoticiaLocal($archivo, $ancho, $alto);
+        if (is_file($ruta) && is_readable($ruta)) {
+            $version = filemtime($ruta) ?: 1;
+            $url = route('rss_image', [
+                'id' => claveMiniaturaNoticiaLocal($archivo, $ancho, $alto),
+                'v' => $version,
+            ]);
+            $variantes[$ancho] = $url;
+        }
+    }
+
+    return [
+        'src' => $variantes[640] ?? base_url('uploads/noticias/' . $archivo),
+        'srcset' => implode(', ', array_map(
+            static fn (int $ancho, string $url): string => $url . ' ' . $ancho . 'w',
+            array_keys($variantes),
+            array_values($variantes)
+        )),
+    ];
+}
+
+/**
+ * Genera una miniatura WebP 16:9 limitada y validada.
+ */
+function generarMiniaturaRss(
+    string $url,
+    int $duracionCache = 86400,
+    int $ancho = 320,
+    int $alto = 180,
+    ?string $contenidoDescargado = null
+): bool {
+    if (
+        !esImagenRssValida($url)
+        || !class_exists(Imagick::class)
+        || $ancho < 80
+        || $alto < 45
+        || $ancho > 1920
+        || $alto > 1080
+    ) {
+        return false;
+    }
+
+    $directorio = directorioMiniaturasRss();
+    if (
+        !is_dir($directorio)
+        && !mkdir($directorio, 0755, true)
+        && !is_dir($directorio)
+    ) {
+        return false;
+    }
+
+    $ruta = rutaMiniaturaRss($url, $ancho, $alto);
+    if (
+        is_file($ruta)
+        && (time() - (int) filemtime($ruta)) < max(0, $duracionCache)
+    ) {
+        return true;
+    }
+
+    $bloqueo = fopen($ruta . '.lock', 'c');
+    if ($bloqueo === false || !flock($bloqueo, LOCK_EX)) {
+        if (is_resource($bloqueo)) {
+            fclose($bloqueo);
+        }
+        return false;
+    }
+
+    $temporal = null;
+    $imagen = null;
+
+    try {
+        clearstatcache(true, $ruta);
+        if (
+            is_file($ruta)
+            && (time() - (int) filemtime($ruta)) < max(0, $duracionCache)
+        ) {
+            return true;
+        }
+
+        $contenido = $contenidoDescargado ?? descargarContenidoRSS(
+            $url,
+            8 * 1024 * 1024,
+            'image/webp,image/jpeg,image/png,image/*;q=0.8'
+        );
+        if ($contenido === false) {
+            return false;
+        }
+
+        $info = @getimagesizefromstring($contenido);
+        $mimePermitidos = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+        $anchoOriginal = is_array($info) ? (int) ($info[0] ?? 0) : 0;
+        $altoOriginal = is_array($info) ? (int) ($info[1] ?? 0) : 0;
+        $mime = is_array($info) ? (string) ($info['mime'] ?? '') : '';
+
+        if (
+            $anchoOriginal < 1
+            || $altoOriginal < 1
+            || $anchoOriginal > 12000
+            || $altoOriginal > 12000
+            || ($anchoOriginal * $altoOriginal) > 40000000
+            || !in_array($mime, $mimePermitidos, true)
+        ) {
+            return false;
+        }
+
+        $imagen = new Imagick();
+        $imagen->readImageBlob($contenido);
+        $imagen->setIteratorIndex(0);
+        $primerFotograma = $imagen->getImage();
+        $imagen->clear();
+        $imagen = $primerFotograma;
+        if (method_exists($imagen, 'autoOrient')) {
+            $imagen->autoOrient();
+        } elseif (method_exists($imagen, 'autoOrientImage')) {
+            $imagen->autoOrientImage();
+        }
+        $imagen->cropThumbnailImage($ancho, $alto);
+        $imagen->stripImage();
+        $imagen->setImageFormat('webp');
+        $imagen->setOption('webp:method', '6');
+        $imagen->setImageCompressionQuality(76);
+
+        $temporal = tempnam($directorio, '.rss-img-');
+        if ($temporal === false || !$imagen->writeImage($temporal)) {
+            return false;
+        }
+        if (!chmod($temporal, 0644) || !rename($temporal, $ruta)) {
+            return false;
+        }
+        $temporal = null;
+
+        return true;
+    } catch (Throwable $e) {
+        error_log('RSS ERROR: no se pudo generar una miniatura externa.');
+        return false;
+    } finally {
+        if ($imagen instanceof Imagick) {
+            $imagen->clear();
+        }
+        if (is_string($temporal) && is_file($temporal)) {
+            unlink($temporal);
+        }
+        flock($bloqueo, LOCK_UN);
+        fclose($bloqueo);
+        if (is_file($ruta . '.lock')) {
+            unlink($ruta . '.lock');
+        }
+    }
+}
+
+/**
+ * Prepara variantes responsive para imágenes externas de noticias públicas.
+ *
+ * @param array<int, string> $urls
+ * @return array{generadas: int, fallidas: int}
+ */
+function actualizarMiniaturasNoticiasExternas(array $urls): array
+{
+    $resultado = ['generadas' => 0, 'fallidas' => 0];
+
+    foreach (array_unique($urls) as $url) {
+        $url = trim((string) $url);
+        if (!esImagenRssValida($url)) {
+            continue;
+        }
+
+        $variantesPendientes = [];
+        foreach ([320, 640, 960] as $ancho) {
+            $alto = (int) ($ancho * 9 / 16);
+            $ruta = rutaMiniaturaRss($url, $ancho, $alto);
+            if (
+                !is_file($ruta)
+                || (time() - (int) filemtime($ruta)) >= 86400
+            ) {
+                $variantesPendientes[$ancho] = $alto;
+            } else {
+                $resultado['generadas']++;
+            }
+        }
+
+        if ($variantesPendientes === []) {
+            continue;
+        }
+
+        $contenido = descargarContenidoRSS(
+            $url,
+            8 * 1024 * 1024,
+            'image/webp,image/jpeg,image/png,image/*;q=0.8'
+        );
+        if ($contenido === false) {
+            $resultado['fallidas'] += count($variantesPendientes);
+            continue;
+        }
+
+        foreach ($variantesPendientes as $ancho => $alto) {
+            if (generarMiniaturaRss($url, 86400, $ancho, $alto, $contenido)) {
+                $resultado['generadas']++;
+            } else {
+                $resultado['fallidas']++;
+            }
+        }
+    }
+
+    return $resultado;
+}
+
+/**
+ * @param array<int, array<string, mixed>> $noticias
+ * @return array{generadas: int, fallidas: int}
+ */
+function actualizarMiniaturasRss(array $noticias): array
+{
+    $resultado = ['generadas' => 0, 'fallidas' => 0];
+
+    foreach ($noticias as $noticia) {
+        $url = trim((string) ($noticia['imagen_original'] ?? ''));
+        if ($url === '') {
+            continue;
+        }
+
+        if (generarMiniaturaRss($url)) {
+            $resultado['generadas']++;
+        } else {
+            $resultado['fallidas']++;
+        }
+    }
+
+    return $resultado;
 }
 
 /**
@@ -464,7 +908,8 @@ function obtenerContenidoRSSConCache(
  *     link: string,
  *     fecha: string,
  *     descripcion: string,
- *     imagen: string|null
+ *     imagen: string|null,
+ *     imagen_original: string|null
  * }>
  */
 function procesarContenidoRSS(
@@ -557,6 +1002,7 @@ function procesarContenidoRSS(
             continue;
         }
 
+        $imagenOriginal = extraerImagenRSS($item);
         $noticias[] = [
             'titulo' => $titulo,
             'link' => $link,
@@ -565,7 +1011,10 @@ function procesarContenidoRSS(
                 $descripcionOriginal,
                 $longitudDescripcion
             ),
-            'imagen' => extraerImagenRSS($item),
+            'imagen' => $imagenOriginal === null
+                ? null
+                : (obtenerUrlMiniaturaRss($imagenOriginal) ?? $imagenOriginal),
+            'imagen_original' => $imagenOriginal,
         ];
     }
 
@@ -582,7 +1031,8 @@ function procesarContenidoRSS(
  *     link: string,
  *     fecha: string,
  *     descripcion: string,
- *     imagen: string|null
+ *     imagen: string|null,
+ *     imagen_original: string|null
  * }>
  */
 function cargarFeedRSS(
@@ -667,12 +1117,19 @@ function actualizarCacheRssExterna(string $url): bool
         . DIRECTORY_SEPARATOR
         . 'rss';
 
-    return obtenerContenidoRSSConCache(
+    $contenido = obtenerContenidoRSSConCache(
         $url,
         $directorioCache,
         0,
         true
-    ) !== false;
+    );
+    if ($contenido === false) {
+        return false;
+    }
+
+    actualizarMiniaturasRss(procesarContenidoRSS($contenido, 4));
+
+    return true;
 }
 
 /**

@@ -141,7 +141,10 @@ require_once __DIR__ . '/../partials/header.php';
                                                     'UTF-8'
                                                 ); ?>"
                                                 alt=""
+                                                width="320"
+                                                height="180"
                                                 loading="lazy"
+                                                decoding="async"
                                                 onerror="this.parentElement.style.display='none'"
                                             >
                                         </div>

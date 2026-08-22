@@ -193,11 +193,13 @@ $meta_autor = (string) ($meta_autor ?? SITE_NAME);
                         <a href="<?php echo base_url(); ?>" aria-label="Inicio">
 
                             <img
-                                src="<?php echo base_url('assets/img/logo.png'); ?>"
+                                src="<?php echo base_url('assets/img/logo.webp'); ?>"
 
                                 alt="<?php echo htmlspecialchars(SITE_NAME, ENT_QUOTES, 'UTF-8'); ?>"
 
                                 class="header-logo-img"
+                                width="96"
+                                height="96"
                             >
                         </a>
                     </div>
@@ -238,6 +240,8 @@ $meta_autor = (string) ($meta_autor ?? SITE_NAME);
                                 alt="Avatar de <?php echo htmlspecialchars($nombre, ENT_QUOTES, 'UTF-8'); ?>"
 
                                 class="header-avatar-img"
+                                width="64"
+                                height="64"
                                 onerror="this.onerror=null;this.src='<?php echo base_url('assets/img/default-avatar.png'); ?>';"
 
                             >

@@ -9,6 +9,8 @@ sesiones.
   favoritas, perfil y buscador;
 - consultar portada, categorías, fuentes, noticias por lugares, buscadores y
   tiempo;
+- consultar medios externos en portada; sus enlaces se abren en el sitio
+  original y no forman parte de las noticias de TuPortalNews;
 - comentar noticias públicas y gestionar sus propios comentarios;
 - guardar favoritas y valorar noticias;
 - reportar noticias o comentarios indicando un motivo;
@@ -67,6 +69,9 @@ Conserva todas las funciones públicas del Articulista y además:
 - confirmar reportes para publicar un resumen anónimo en el contenido de su
   mismo ámbito, o revisarlos, desestimarlos y actuar sobre el contenido;
 - administrar fuentes RSS y revisar su propiedad;
+- elegir qué fuentes RSS activas aparecen en los bloques externos de portada;
+- actualizar inmediatamente la caché externa al crear o cambiar un medio
+  seleccionado, manteniendo además la renovación automática cada 15 minutos;
 - configurar registro, comentarios, cuotas, mantenimiento y minificación;
 - distinguir el registro de Comentaristas del registro y aprobación de
   Articulistas;
@@ -98,8 +103,12 @@ Conserva todas las funciones públicas del Articulista y además:
   cookies analíticas;
 - una sesión se considera en línea cuando ha tenido actividad durante los
   últimos cinco minutos.
-- las tarjetas comparten estructura visual, pero conservan modificadores por
-  contexto para que un ajuste local no altere otros listados;
+- las tarjetas comparten apariencia, pero la dirección vertical u horizontal
+  y la densidad compacta se declaran con modificadores independientes;
+- los bloques RSS externos muestran hasta cuatro enlaces por medio, no
+  importan noticias ni consultan el control de duplicados de los Articulistas;
+- una noticia importada puede seguir apareciendo como enlace externo porque
+  ambos flujos son independientes;
 - los metadatos compatibles enlazan autor, categoría, fuente, ubicación y
   comentarios con sus listados correspondientes;
 - toda noticia nueva o editada debe tener categoría, fuente, ubicación e

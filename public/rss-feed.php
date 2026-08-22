@@ -17,56 +17,13 @@ require_once __DIR__ . '/../includes/helpers/rss.php';
 // Tiempo de conservación de cada fuente en caché: 15 minutos.
 $duracionCache = 900;
 
-// Se conserva exactamente la misma selección y presentación de fuentes.
-$feeds = [
-    [
-        'nombre' => 'Fuerteventura Digital',
-        'url' => 'https://www.fuerteventuradigital.com/rss/',
-        'color' => '#00a859',
-        'icono' => '🏝️',
-        'limite' => 4,
-    ],
-    [
-        'nombre' => 'Noticias de Municipios',
-        'url' => 'https://www.fuerteventuradigital.com/rss/municipios/',
-        'color' => '#ffa500',
-        'icono' => '🏛️',
-        'limite' => 4,
-    ],
-    [
-        'nombre' => 'Turismo en Fuerteventura',
-        'url' => 'https://www.fuerteventuradigital.com/rss/turismo/',
-        'color' => '#1e90ff',
-        'icono' => '✈️',
-        'limite' => 4,
-    ],
-    [
-        'nombre' => 'Canarias7',
-        'url' => 'https://www.canarias7.es/rss/portada.xml',
-        'color' => '#0088cc',
-        'icono' => '📰',
-        'limite' => 4,
-    ],
-    [
-        'nombre' => 'El País',
-        'url' => 'https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada',
-        'color' => '#004481',
-        'icono' => '🌍',
-        'limite' => 4,
-    ],
-    [
-        'nombre' => 'Radio Sintonía',
-        'url' => 'https://radiosintonia.com/feed/',
-        'color' => '#e34234',
-        'icono' => '🎙️',
-        'limite' => 4,
-    ],
-];
+$feeds = obtenerFuentesRssExternas(db());
 
 $resultados = cargarFeedsRSS(
     $feeds,
-    __DIR__ . '/../cache',
-    $duracionCache
+    ROOT_PATH . 'storage/cache/rss',
+    $duracionCache,
+    false
 );
 
 $titulo_pagina = 'Noticias de actualidad';
@@ -144,7 +101,7 @@ require_once __DIR__ . '/../partials/header.php';
                         <?php foreach ($datos['noticias'] as $noticia): ?>
                             <?php $tieneImagen = !empty($noticia['imagen']); ?>
 
-                            <li class="news-card news-card--compact news-card--external">
+                            <li class="news-card news-card--horizontal news-card--compact news-card--external">
                                 <a
                                     href="<?php echo htmlspecialchars(
                                         $noticia['link'],
@@ -184,7 +141,10 @@ require_once __DIR__ . '/../partials/header.php';
                                                     'UTF-8'
                                                 ); ?>"
                                                 alt=""
+                                                width="320"
+                                                height="180"
                                                 loading="lazy"
+                                                decoding="async"
                                                 onerror="this.parentElement.style.display='none'"
                                             >
                                         </div>

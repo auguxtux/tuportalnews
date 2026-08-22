@@ -84,6 +84,9 @@
 .hero-slide-titulo a {
     color: white;
     text-decoration: none;
+    padding: 0.12em 0.35em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
 }
 
 .hero-slide-subtitulo {
@@ -160,14 +163,12 @@
 }
 
 .hero-btn {
-    padding: 0.7rem 1.5rem;
-    color: yellow;
+    color: #fff;
     text-decoration: none;
     font-weight: bold;
     transition: all 0.3s;
     font-size: 1rem;
     float: right;
-    /*! width: 4444444444444444444px; */
 }
 
 .hero-btn:hover {
@@ -304,13 +305,8 @@
 
 .ultimas-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 4px;
-}
-
-.ultima-card {
-    flex-direction: row-reverse;
-    border-radius: 4px;
 }
 
 .ultima-card:hover {
@@ -325,7 +321,7 @@
 
 .ultima-categoria {
     font-size: 0.75rem;
-    color: #3b82f6;
+    color: #1d4ed8;
     text-transform: uppercase;
     font-weight: 600;
 }
@@ -423,7 +419,7 @@
 
 .popular-meta {
     font-size: 0.85rem;
-    color: #999;
+    color: #595959;
     margin-top: 5px;
     text-align: right;
 }
@@ -758,12 +754,11 @@
 }
 
 .rss-item-img {
-    flex-shrink: 0;
-    width: 80px;
-    height: 80px;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #f0f0f0;
+  flex-shrink: 0;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f0f0f0;
 }
 
 .rss-item-img img {
@@ -780,7 +775,7 @@
 
 .rss-item-content small {
     font-size: 0.7rem;
-    color: #999;
+    color: #595959;
     display: block;
     margin-bottom: 6px;
 }
@@ -937,6 +932,10 @@
 }
 
 @media (max-width: 768px) {
+    .ultimas-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .tema-header h3 {
         font-size: 0.95rem;
         gap:4px;
@@ -998,10 +997,6 @@
         padding: 0.5rem 0.75rem;
     }
     
-    .ultima-card {
-        flex-direction: column;
-    }
-
     .ultima-titulo a {
         display: -webkit-box;
         position: relative;
@@ -1059,17 +1054,14 @@
 }
 
 .destacada-badge {
-    position: absolute;
-    top: rem;
-    left: 5%;
-    z-index: 10;
-    background: linear-gradient(135deg, #f59e0b, #dc2626);
-    padding: 5px 24px;
-    border-radius: 30px;
-    box-shadow: 9px 9px 28px rgb(253, 216, 53);
-    border: 1px inset #fff7b4;
+  position: absolute;
+  left: 5%;
+  z-index: 10;
+  background: linear-gradient(135deg, #f59e0b, #dc2626);
+  padding: 5px 24px;
+  border-radius: 30px;
+  border: 1px inset #fff7b4;
 }
-
 .destacada-badge span {
     color: white;
     font-weight: bold;
@@ -1133,7 +1125,7 @@
 }
 
 .destacada-titulo a {
-    color: #e03722;
+    color: #a52516;
     text-decoration: none;
     font-size: 0.9rem;
 }
@@ -1151,7 +1143,7 @@
 .destacada-extracto {
     color: #4b5563;
     margin-bottom: 1rem;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
 }
 
 .destacada-meta {
@@ -1165,7 +1157,7 @@
 
 .destacada-btn {
     background: #ececec;
-    color: #e03722;
+    color: #8f2115;
     padding: 5px 14px;
     border-radius: 4px;
     font-weight: 600;
@@ -1255,11 +1247,21 @@
 }
 
 /* Últimas noticias tags */
+.ultima-contenido {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
 .ultima-tags {
     display: flex;
+    justify-content: flex-end;
     gap: 0.5rem;
     align-items: center;
     flex-wrap: wrap;
+    width: 100%;
+    margin-top: auto;
+    text-align: right;
 }
 .ultima-region {
     font-size: 0.75rem;

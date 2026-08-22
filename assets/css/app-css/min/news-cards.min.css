@@ -1,4 +1,6 @@
-/* Sistema visual compartido para tarjetas de noticias. */
+/* =============================================
+   BASE COMPARTIDA — Solo propiedades visuales
+   ============================================= */
 .news-card {
     --news-card-accent: #2563eb;
     --news-card-surface: #ffffff;
@@ -8,7 +10,7 @@
     background: var(--news-card-surface);
     border: 1px solid #dbe3ef;
     border-top: 4px solid var(--news-card-accent);
-    border-radius: 0.65rem;
+    border-radius: 4px;
     box-shadow: 0 3px 12px rgba(15, 23, 42, 0.07);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -18,21 +20,71 @@
     box-shadow: 0 20px 30px -12px rgba(15, 23, 42, 0.18);
 }
 
-.news-card--vertical {
+.news-card:focus-within {
+    outline: 3px solid rgba(37, 99, 235, 0.25);
+    outline-offset: 2px;
+}
+
+/* =============================================
+   MODIFICADORES DE LAYOUT — Por tipo de card
+   ============================================= */
+
+/* Estructura compartida: el eje se elige con un modificador explícito. */
+.news-card--vertical,
+.news-card--horizontal {
     display: flex;
+}
+
+.news-card--vertical {
     flex-direction: column;
 }
 
-.news-card--compact {
-    display: flex;
+.news-card--horizontal {
     flex-direction: row;
 }
 
+/* Densidad compacta, independiente de la dirección de la tarjeta. */
 .news-card--compact {
-    gap: 0.5rem;
+    gap: 9px;
     padding: 0.5rem;
 }
 
+/* =============================================
+   COLORES POR ESTADO/FUENTE
+   ============================================= */
+.news-card--public {
+    --news-card-accent: #2563eb;
+}
+
+.news-card--external {
+    --news-card-accent: #0f766e;
+    --news-card-surface: #f8fffd;
+}
+
+.news-card--private {
+    --news-card-accent: #7c3aed;
+    --news-card-surface: #fcfaff;
+}
+
+.news-card--draft {
+    --news-card-accent: #64748b;
+}
+
+.news-card--pending {
+    --news-card-accent: #d97706;
+    --news-card-surface: #fffbeb;
+}
+
+.news-card--archived {
+    --news-card-accent: #475569;
+    --news-card-surface: #f8fafc;
+}
+
+/* =============================================
+   COMPONENTES INTERNOS
+   ============================================= */
+
+/* Imagen */
 .news-card__media {
     overflow: hidden;
     background: #f3f4f6;
@@ -67,6 +119,7 @@
     transform: scale(1.05);
 }
 
+/* Contenido */
 .news-card__body {
     flex: 1;
     min-width: 0;
@@ -93,6 +146,7 @@
     font-weight: 400;
 }
 
+/* Metadatos */
 .news-card__meta {
     display: flex;
     flex-wrap: wrap;
@@ -101,6 +155,54 @@
     color: #6b7280;
 }
 
+.news-card .news-card__meta--standard {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+    width: 100%;
+    margin-top: auto;
+    padding: 0.75rem 1rem;
+    border: solid #dbe3ef;
+    border-width: 1px 0 0;
+    border-radius: 0;
+    background: #f8fafc;
+    color: #475569;
+    font-size: 0.85rem;
+    line-height: 1.35;
+}
+
+.news-card .news-card__meta--standard > * {
+    display: inline-flex;
+    flex: 1 1 9rem;
+    align-items: center;
+    gap: 0.35rem;
+    min-width: 0;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.news-card .news-card__meta--standard.news-card__meta--inline > * {
+    flex: 0 1 auto;
+    width: auto;
+}
+
+.news-card .news-card__meta--standard a {
+    color: #1d4ed8;
+    text-decoration: none;
+}
+
+.news-card .news-card__meta--standard a:hover {
+    text-decoration: underline;
+}
+
+.news-card .news-card__meta--standard a:focus-visible {
+    border-radius: 3px;
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+}
+
+/* Acciones */
 .news-card__actions {
     text-align: center;
 }
@@ -113,42 +215,29 @@
     transition: transform 0.2s ease, color 0.2s ease, background 0.2s ease;
 }
 
-.news-card--public {
-    --news-card-accent: #2563eb;
-}
-
-.news-card--external {
-    --news-card-accent: #0f766e;
-    --news-card-surface: #f8fffd;
-}
-
-.news-card--private {
-    --news-card-accent: #7c3aed;
-    --news-card-surface: #fcfaff;
-}
-
-.news-card--draft {
-    --news-card-accent: #64748b;
-}
-
-.news-card--pending {
-    --news-card-accent: #d97706;
-    --news-card-surface: #fffbeb;
-}
-
-.news-card--archived {
-    --news-card-accent: #475569;
-    --news-card-surface: #f8fafc;
-}
-
-.news-card:focus-within {
-    outline: 3px solid rgba(37, 99, 235, 0.25);
-    outline-offset: 2px;
-}
-
+/* =============================================
+   RESPONSIVE
+   ============================================= */
 @media (max-width: 480px) {
-    .news-card {
-        border-radius: 0.5rem;
+    .news-card .news-card__meta--standard {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.45rem;
+        padding: 0.7rem 0.8rem;
     }
 
+    .news-card .news-card__meta--standard > * {
+        flex-basis: auto;
+        width: 100%;
+    }
+
+    .news-card .news-card__meta--standard.news-card__meta--inline {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .news-card .news-card__meta--standard.news-card__meta--inline > * {
+        flex-basis: auto;
+        width: auto;
+    }
 }

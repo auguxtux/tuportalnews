@@ -461,3 +461,21 @@
         max-height: 100px;
     }
 }
+
+/* Interfaz editorial coherente con la creación */
+.editar-noticia-titulo { width: min(100% - 1rem, 1100px); margin: 0 auto; padding: 1.25rem 1rem .35rem; color: #172554; font-size: clamp(1.35rem, 3vw, 2rem); text-transform: none; }
+.editar-noticia-introduccion { width: min(100% - 2rem, 760px); margin: 0 auto 1rem; color: #475569; line-height: 1.55; text-align: center; }
+.editar-noticia-formulario { width: min(100% - 1rem, 1100px); max-width: 1100px; display: grid; gap: 1rem; }
+.editar-noticia-grid-2 { gap: 1rem; margin: 0; }
+.editar-noticia-columna { display: grid; align-content: start; gap: 1rem; }
+.editar-noticia-campo-form { padding: clamp(1rem, 3vw, 1.35rem); border: 1px solid #dbe3ec; border-radius: 12px; background: #fff; box-shadow: 0 5px 18px rgba(15,23,42,.05); }
+.editar-noticia-campo-form > label { margin-bottom: .55rem; color: #334155; font-size: .88rem; text-transform: none; }
+.editar-noticia-campo-form input[type="text"], .editar-noticia-campo-form input[type="url"], .editar-noticia-campo-form input[type="file"], .editar-noticia-campo-form select, .editar-noticia-campo-form textarea { min-height: 44px; border-color: #94a3b8; color: #0f172a; }
+.editar-noticia-campo-form small, .ayuda { color: #475569; font-size: .82rem; line-height: 1.45; }
+.editar-noticia-radio-group, .imagen-opciones, .video-opciones { justify-content: flex-start; gap: .65rem; }
+.editar-noticia-radio-group label, .imagen-opciones label, .video-opciones label { min-height: 42px; padding: .5rem .7rem; border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; color: #334155; text-transform: none; }
+#panelVideoLocal, #panelVideoExterno { border: 1px solid #cbd5e1; background: #f8fafc; }
+.editar-noticia-acciones-form { position: sticky; z-index: 10; bottom: 0; justify-content: flex-end; padding: 1rem; border: 1px solid #dbe3ec; border-radius: 12px; background: rgba(255,255,255,.96); box-shadow: 0 -6px 20px rgba(15,23,42,.08); backdrop-filter: blur(6px); }
+.editar-noticia-btn { min-height: 44px; padding: .65rem 1.1rem; text-align: center; }
+.editar-noticia-formulario :focus-visible { outline: 3px solid rgba(37,99,235,.25); outline-offset: 2px; }
+@media (max-width: 768px) { .editar-noticia-grid-2 { grid-template-columns: 1fr; } .editar-noticia-acciones-form { position: static; } }

@@ -35,6 +35,31 @@ aplicarse las migraciones de `video_tipo` y `medio_principal`.
 Aplicar las migraciones pendientes una a una y ejecutar su verificación.
 No copiar la base de datos de desarrollo a producción.
 
+Para los bloques RSS externos aplicar:
+
+- `20260820_seleccionar_fuentes_rss_externas.sql`: añade la bandera
+  `mostrar_externas` a `fuentes_rss`, inicialmente desactivada. Después del
+  despliegue el Admin elige los medios visibles y ejecuta una vez
+  `scripts/actualizar-cache-rss.php` para preparar sus cachés.
+
+El cron de `scripts/actualizar-cache-rss.php` debe ejecutarse cada 15 minutos.
+La portada y `/public/rss-feed` solo leen `storage/cache/rss/` y nunca esperan
+a los proveedores durante una visita pública. El mismo cron valida y convierte
+las imágenes externas a WebP 320×180 en `storage/cache/rss/images/`; requiere
+Imagick con soporte WebP. `/public/rss-image` sirve esas miniaturas con caché
+inmutable de 30 días y sin iniciar sesión. `cron/limpiar-rss.php` retira las
+miniaturas que llevan más de tres días sin renovarse.
+
+La misma tarea prepara variantes WebP de 320, 640 y 960 píxeles para las
+imágenes externas de noticias públicas. Las tarjetas eligen la variante con
+`srcset`; la página completa conserva el recurso original. Una renovación
+descarga cada original una sola vez aunque genere los tres tamaños.
+
+Las imágenes subidas de noticias públicas conservan también su original y la
+tarea prepara derivados WebP de 320 y 640 píxeles para las tarjetas. Estos
+derivados comparten el endpoint privado de caché y se regeneran automáticamente
+si cambia la fecha de modificación del archivo fuente.
+
 Para 1.0.0 revisar y aplicar, si todavía están pendientes:
 
 - `20260813_eliminar_fecha_nacimiento_usuarios.sql`: elimina la columna que
@@ -49,6 +74,8 @@ Para 1.0.0 revisar y aplicar, si todavía están pendientes:
 
 - comprobar portada, login, categorías, fuentes, noticias por lugares, noticia,
   tiempo y catálogo NASA;
+- comprobar que cada fuente activa marcada como externa muestra cuatro enlaces
+  en una pestaña nueva y que desmarcarla retira su bloque;
 - comprobar que las tarjetas y metadatos coinciden con desarrollo y regenerar
   las copias CSS antes de activar el modo de producción;
 - comprobar permisos de administrador, articulista y colaborador;

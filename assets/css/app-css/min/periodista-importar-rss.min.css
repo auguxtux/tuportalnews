@@ -77,6 +77,86 @@
 	word-break: break-all;
 }
 
+.rss-noticias-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.rss-noticia-card {
+  min-width: 0;
+  padding: 0;
+}
+
+.rss-noticia-card--importada {
+  opacity: 0.72;
+}
+
+.rss-noticia-checkbox {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 2;
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+}
+
+.rss-noticia-checkbox:disabled {
+  cursor: not-allowed;
+}
+
+.rss-noticia-titulo {
+  display: block;
+  min-height: 4.6rem;
+  padding: 0.85rem 2.75rem 0.75rem 1rem;
+  cursor: pointer;
+}
+
+.rss-noticia-card--importada .rss-noticia-titulo {
+  cursor: not-allowed;
+}
+
+.rss-noticia-media {
+  height: 210px;
+  border-radius: 0;
+}
+
+.rss-noticia-extracto {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  line-height: 1.5;
+  text-align: justify;
+}
+
+.rss-noticia-meta {
+  margin-top: auto;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid #dbe3ef;
+  font-size: 0.78rem;
+}
+
+.rss-noticia-acciones {
+  padding: 0 1rem 0.85rem;
+}
+
+.rss-noticia-acciones a {
+  display: inline-flex;
+  justify-content: center;
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border-radius: 4px;
+  background: #0f766e;
+  color: #fff;
+  text-decoration: none;
+}
+
+.rss-noticia-aviso {
+  margin: 0 1rem 1rem;
+}
+
 .campo {
 	margin-bottom: 1rem;
 }
@@ -95,6 +175,44 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   background: #ebf6ff;
+}
+
+.rss-ubicacion-campo {
+  padding: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+}
+
+.rss-ubicacion-campo legend {
+  padding: 0 0.4rem;
+  font-weight: 700;
+}
+
+.rss-ubicacion-opciones {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+}
+
+.rss-ubicacion-opciones label {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid #dbe3ef;
+  border-radius: 4px;
+  background: #f8fafc;
+  cursor: pointer;
+}
+
+.rss-ubicacion-opciones input {
+  flex: 0 0 auto;
+  width: 1.1rem;
+  height: 1.1rem;
+  padding: 0;
 }
 .btn-importar {
 	background: #10b981;
@@ -144,4 +262,16 @@
 	.importar-grid {
 		grid-template-columns: 1fr;
 	}
+
+  .rss-noticias-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rss-noticia-titulo {
+    min-height: 0;
+  }
+
+  .rss-noticia-media {
+    height: 190px;
+  }
 }

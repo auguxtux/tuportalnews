@@ -19,6 +19,10 @@ La aplicación conserva una arquitectura PHP procedimental.
 - `migrations/`: cambios versionados de esquema o datos estructurales.
 - `scripts/`: comprobaciones y tareas técnicas no públicas.
 
+Las imágenes de los bloques RSS externos se generan como miniaturas WebP en
+la caché privada y se publican exclusivamente mediante `public/rss-image.php`;
+las visitas a portada no descargan ni transforman imágenes de terceros.
+
 Flujo habitual de una página:
 
 1. cargar `bootstrap.php`;

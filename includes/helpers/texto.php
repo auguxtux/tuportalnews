@@ -13,7 +13,18 @@ function truncarTexto($texto, $longitud = 100, $final = '...') {
 }
 
 function obtenerPrimerParrafo($contenido, $limite = 300) {
-    $texto = html_entity_decode($contenido, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $texto = (string) $contenido;
+    for ($i = 0; $i < 3; $i++) {
+        $decodificado = html_entity_decode(
+            $texto,
+            ENT_QUOTES | ENT_HTML5,
+            'UTF-8'
+        );
+        if ($decodificado === $texto) {
+            break;
+        }
+        $texto = $decodificado;
+    }
     $texto = strip_tags($texto);
     $texto = preg_replace('/\s+/', ' ', $texto);
     $texto = trim($texto);
@@ -41,7 +52,6 @@ function extraerDominioFuente(string $url): string {
     $url = trim($url);
     if ($url === '') return $url;
 
-    // Si no parece URL, devolver tal cual (nombre de fuente manual)
     if (preg_match('/^https?:\/\//i', $url) === 0) {
         return $url;
     }
@@ -49,11 +59,20 @@ function extraerDominioFuente(string $url): string {
     $host = parse_url($url, PHP_URL_HOST);
     if (!$host) return $url;
 
-    // Quitar www.
-    $host = preg_replace('/^www\./i', '', $host);
+    $host = preg_replace('/^(www|feeds|rss)\./i', '', $host);
+    $partes = explode('.', $host);
+    $primero = $partes[0] ?? '';
 
-    // Quitar extensión (.com, .es, .org, etc.)
-    $host = preg_replace('/\.[a-z]{2,}$/', '', $host);
+    if (preg_match('/^e00-([a-z]+)/i', $primero, $m)) {
+        return strtolower($m[1]);
+    }
 
-    return strtolower(trim($host));
+    $cdn = ['uecdn', 'cdn', 'static', 'media', 'img'];
+    if (in_array(strtolower($primero), $cdn) && isset($partes[1])) {
+        return strtolower($partes[1]);
+    }
+
+    // En hosts de agregadores (p. ej. eldiario.opennemas.com), la marca
+    // sigue siendo el primer segmento, igual que en un dominio directo.
+    return strtolower($primero);
 }

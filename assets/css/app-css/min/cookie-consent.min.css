@@ -66,12 +66,12 @@
 }
 
 .cookie-btn-accept {
-    background: #10b981;
+    background: #047857;
     color: white;
 }
 
 .cookie-btn-accept:hover {
-    background: #059669;
+    background: #065f46;
     transform: scale(1.02);
 }
 

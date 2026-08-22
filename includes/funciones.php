@@ -21,6 +21,7 @@ $helpers = [
     'url.php',
     'login-attempts.php',
     'reportes.php',
+    'perfil.php',
     'clasificacion.php',
 ];
 

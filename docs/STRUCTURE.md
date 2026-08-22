@@ -47,6 +47,11 @@ Los formularios y procesadores de reportes comparten mediante
 entrada y las consultas que delimitan el contenido reportable. El indicador de
 ámbito mantiene separadas las noticias y los comentarios públicos y privados.
 
+Los perfiles de Admin, Articulista y Comentarista mantienen controladores y
+vistas propios, pero comparten en `includes/helpers/perfil.php` las reglas de
+datos personales y contraseña. La autorización, los mensajes y el tratamiento
+de avatar permanecen en cada área.
+
 Las lecturas reutilizadas por la portada y los listados públicos se concentran
 en `includes/helpers/noticias.php`. Las páginas validan la entrada, llaman al
 helper y preparan la vista; no duplican el SQL de conteo, filtros o paginación.

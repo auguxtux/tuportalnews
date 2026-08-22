@@ -42,35 +42,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !verificarTokenCSRF($_POST['csrf_to
     
     // ACTUALIZAR DATOS PERSONALES
     if ($accion === 'actualizar_perfil') {
-        $nombre = limpiarDatos($_POST['nombre'] ?? '');
-        $telefono = limpiarDatos($_POST['telefono'] ?? '');
-        $ciudad = limpiarDatos($_POST['ciudad'] ?? '');
-        $biografia = limpiarDatos($_POST['biografia'] ?? '');
-        
-        // Validaciones
-        if (empty($nombre)) {
-            $errores[] = 'El nombre es obligatorio';
-        }
-        
-        if (!validarTelefono($telefono)) {
-            $errores[] = 'Teléfono no válido';
-        }
-        
-        if (empty($ciudad)) {
-            $errores[] = 'La ciudad es obligatoria';
-        }
-
-        if (mb_strlen($nombre) > 150) {
-            $errores[] = 'El nombre no puede superar 150 caracteres';
-        }
-
-        if (mb_strlen($ciudad) > 120) {
-            $errores[] = 'La ciudad no puede superar 120 caracteres';
-        }
-
-        if (mb_strlen($biografia) > 500) {
-            $errores[] = 'La biografía no puede superar 500 caracteres';
-        }
+        $datosPerfil = normalizarDatosPerfil($_POST);
+        $nombre = $datosPerfil['nombre'];
+        $telefono = $datosPerfil['telefono'];
+        $ciudad = $datosPerfil['ciudad'];
+        $biografia = $datosPerfil['biografia'];
+        $errores = array_merge($errores, validarDatosPerfil($datosPerfil));
         
         if (empty($errores)) {
             $sql = "UPDATE usuarios SET 
@@ -109,22 +86,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !verificarTokenCSRF($_POST['csrf_to
         $password_nueva = $_POST['password_nueva'] ?? '';
         $password_confirmar = $_POST['password_confirmar'] ?? '';
         
-        // Verificar contraseña actual
-        if (strlen($password_actual) > 4096) {
-            $errores[] = 'La contraseña actual supera la longitud permitida';
-        } elseif (!password_verify($password_actual, $usuario['password'])) {
-            $errores[] = 'La contraseña actual no es correcta';
-        }
-        
-        if (strlen($password_nueva) > 4096) {
-            $errores[] = 'La nueva contraseña supera la longitud permitida';
-        } elseif (strlen($password_nueva) < 10) {
-            $errores[] = 'La nueva contraseña debe tener al menos 10 caracteres';
-        }
-        
-        if ($password_nueva !== $password_confirmar) {
-            $errores[] = 'Las contraseñas no coinciden';
-        }
+        $errores = array_merge($errores, validarCambioPasswordPerfil(
+            $password_actual,
+            $password_nueva,
+            $password_confirmar,
+            (string)$usuario['password']
+        ));
         
         if (empty($errores)) {
             $password_hash = password_hash($password_nueva, PASSWORD_DEFAULT);

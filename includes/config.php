@@ -135,9 +135,3 @@ if (PHP_SAPI !== 'cli' && is_file(ROOT_PATH . '.maintenance')) {
         exit;
     }
 }
-
-require_once __DIR__ . '/routes.php';
-require_once __DIR__ . '/funciones.php';
-require_once __DIR__ . '/mail-config.php';
-require_once __DIR__ . '/noticia-utils.php';
-require_once __DIR__ . '/notificaciones.php';

@@ -6,7 +6,7 @@ declare(strict_types=1);
  */
 
 define('SKIP_SESSION_START', true);
-require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/bootstrap.php';
 require_once __DIR__ . '/../includes/helpers/rss.php';
 
 $metodo = strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? 'GET'));

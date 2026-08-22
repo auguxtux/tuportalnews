@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 header_remove('X-Powered-By');
 
-require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/bootstrap.php';
 require_once __DIR__ . '/../includes/minify.php';
 
 // ============================================

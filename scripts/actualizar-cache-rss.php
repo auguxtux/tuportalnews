@@ -12,8 +12,7 @@ if (PHP_SAPI !== 'cli') {
 
 define('SKIP_SESSION_START', true);
 
-require_once __DIR__ . '/../includes/config.php';
-require_once __DIR__ . '/../includes/conexion.php';
+require_once __DIR__ . '/../includes/bootstrap.php';
 require_once __DIR__ . '/../includes/helpers/rss.php';
 
 $directorioCache = ROOT_PATH

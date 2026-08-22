@@ -3,7 +3,10 @@
 La aplicación conserva una arquitectura PHP procedimental.
 
 - `index.php`: front controller.
-- `includes/bootstrap.php`: carga común.
+- `includes/config.php`: configuración local, constantes, sesión y modo de
+  mantenimiento; no carga módulos funcionales.
+- `includes/bootstrap.php`: carga común explícita de conexión, rutas, helpers,
+  correo, utilidades de noticias y notificaciones.
 - `includes/routes.php`: nombres de ruta y destinos físicos.
 - `includes/helpers/`: utilidades reutilizables.
 - `includes/modules/`: lógica aislada de módulos públicos sin nuevas capas de
@@ -31,6 +34,10 @@ Flujo habitual de una página:
 4. ejecutar consultas preparadas o helpers;
 5. preparar datos;
 6. mostrar la página o redirigir mediante una ruta registrada.
+
+Los puntos de entrada web y CLI deben cargar `bootstrap.php`. Los archivos
+internos que solo necesitan constantes pueden cargar `config.php`, evitando
+depender de efectos laterales para disponer de funciones o conexión.
 
 Las noticias privadas deben permanecer separadas de las públicas en consultas,
 comentarios, reportes, valoraciones, búsquedas y enlaces.

@@ -7,10 +7,8 @@ declare(strict_types=1);
  * Versión Mejorada con Categorías, Búsqueda y Listado
  */
 
-require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/bootstrap.php';
 require_once __DIR__ . '/../includes/minify.php';
-require_once __DIR__ . '/../includes/funciones.php';
-require_once __DIR__ . '/../includes/conexion.php';
 require_once __DIR__ . '/../includes/privado.php';
 require_once __DIR__ . '/../includes/permisos.php';
 require_once __DIR__ . '/../includes/helpers/rss.php';

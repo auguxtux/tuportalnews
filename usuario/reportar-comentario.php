@@ -38,19 +38,7 @@ if ($id_comentario <= 0) {
 }
 
 $pdo = db();
-// Obtener datos del comentario
-$stmt = $pdo->prepare("
-    SELECT c.*, u.nombre as autor_nombre, n.titulo as noticia_titula, n.id_noticia
-    FROM comentarios c
-    JOIN usuarios u ON c.id_usuario = u.id_usuario
-    JOIN noticias n ON c.id_noticia = n.id_noticia
-    WHERE c.id_comentario = ?
-      AND c.estado = 'aprobado'
-      AND n.estado IN ('publicada','destacada')
-      AND n.privada = ?
-");
-$stmt->execute([$id_comentario, $reportePrivado ? 1 : 0]);
-$comentario = $stmt->fetch();
+$comentario = obtenerComentarioReportable($pdo, $id_comentario, $reportePrivado);
 
 if (!$comentario) {
     http_response_code(404);
@@ -74,7 +62,7 @@ require_once __DIR__ . '/../partials/header.php';
         Vas a reportar un comentario de
         <strong><?php echo htmlspecialchars($comentario['autor_nombre'], ENT_QUOTES, 'UTF-8'); ?></strong>
         en la noticia
-        <strong><?php echo htmlspecialchars($comentario['noticia_titula'], ENT_QUOTES, 'UTF-8'); ?></strong>.
+        <strong><?php echo htmlspecialchars($comentario['noticia_titulo'], ENT_QUOTES, 'UTF-8'); ?></strong>.
     </p>
 
     <div id="mensaje-reporte" class="usuario-reportar-mensaje" data-mensaje-reporte role="status" aria-live="polite"></div>

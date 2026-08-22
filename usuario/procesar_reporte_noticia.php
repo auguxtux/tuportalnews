@@ -39,8 +39,9 @@ if (!verificarTokenCSRF($_POST['csrf_token'] ?? '')) {
 }
 
 $noticiaId = (int)($_POST['noticia_id'] ?? 0);
-$motivo = limpiarDatos($_POST['motivo'] ?? '');
-$descripcion = mb_substr(trim((string)($_POST['descripcion'] ?? '')), 0, 1000);
+$datosReporte = normalizarDatosReporte($_POST);
+$motivo = $datosReporte['motivo'];
+$descripcion = $datosReporte['descripcion'];
 $usuarioId = (int)$_SESSION['usuario_id'];
 
 if ($noticiaId <= 0 || !motivoReporteValido($motivo)) {
@@ -56,20 +57,15 @@ if ($motivo === 'otro' && $descripcion === '') {
 }
 
 $pdo = db();
-$stmt = $pdo->prepare("SELECT id_autor FROM noticias
-                       WHERE id_noticia = ?
-                         AND estado IN ('publicada','destacada')
-                         AND privada = ?");
-$stmt->execute([$noticiaId, $reportePrivado ? 1 : 0]);
-$autorId = $stmt->fetchColumn();
+$noticia = obtenerNoticiaReportable($pdo, $noticiaId, $reportePrivado);
 
-if ($autorId === false) {
+if ($noticia === false) {
     $respuesta['mensaje'] = 'Contenido no disponible';
     echo json_encode($respuesta);
     exit;
 }
 
-if ((int)$autorId === $usuarioId) {
+if ((int)$noticia['id_autor'] === $usuarioId) {
     $respuesta['mensaje'] = 'No puedes reportar tu propia noticia';
     echo json_encode($respuesta);
     exit;

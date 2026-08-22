@@ -398,11 +398,7 @@ function claveMiniaturaRss(
     int $alto = 180
 ): string
 {
-    if ($ancho === 320 && $alto === 180) {
-        return hash('sha256', $url);
-    }
-
-    return hash('sha256', $ancho . 'x' . $alto . '|' . $url);
+    return hash('sha256', 'v2|' . $ancho . 'x' . $alto . '|' . $url);
 }
 
 function rutaMiniaturaRss(
@@ -452,7 +448,7 @@ function obtenerUrlMiniaturaRss(
 function obtenerImagenExternaOptimizadaRss(string $url): array
 {
     $variantes = [];
-    foreach ([320, 640, 960] as $ancho) {
+    foreach ([320, 480, 640, 960] as $ancho) {
         $miniatura = obtenerUrlMiniaturaRss($url, $ancho, (int) ($ancho * 9 / 16));
         if ($miniatura !== null) {
             $variantes[] = $miniatura . ' ' . $ancho . 'w';
@@ -506,8 +502,8 @@ function generarMiniaturaNoticiaLocal(
         $archivo === ''
         || basename($archivo) !== $archivo
         || !class_exists(Imagick::class)
-        || !in_array($ancho, [320, 640], true)
-        || !in_array($alto, [180, 360], true)
+        || !in_array($ancho, [320, 480, 640], true)
+        || !in_array($alto, [180, 270, 360], true)
     ) {
         return false;
     }
@@ -585,7 +581,7 @@ function obtenerImagenLocalOptimizadaRss(string $archivo): array
     }
 
     $variantes = [];
-    foreach ([320 => 180, 640 => 360] as $ancho => $alto) {
+    foreach ([320 => 180, 480 => 270, 640 => 360] as $ancho => $alto) {
         $ruta = rutaMiniaturaNoticiaLocal($archivo, $ancho, $alto);
         if (is_file($ruta) && is_readable($ruta)) {
             $version = filemtime($ruta) ?: 1;
@@ -706,7 +702,7 @@ function generarMiniaturaRss(
         $imagen->stripImage();
         $imagen->setImageFormat('webp');
         $imagen->setOption('webp:method', '6');
-        $imagen->setImageCompressionQuality(76);
+        $imagen->setImageCompressionQuality(68);
 
         $temporal = tempnam($directorio, '.rss-img-');
         if ($temporal === false || !$imagen->writeImage($temporal)) {
@@ -753,7 +749,7 @@ function actualizarMiniaturasNoticiasExternas(array $urls): array
         }
 
         $variantesPendientes = [];
-        foreach ([320, 640, 960] as $ancho) {
+        foreach ([320, 480, 640, 960] as $ancho) {
             $alto = (int) ($ancho * 9 / 16);
             $ruta = rutaMiniaturaRss($url, $ancho, $alto);
             if (
@@ -1013,7 +1009,11 @@ function procesarContenidoRSS(
             ),
             'imagen' => $imagenOriginal === null
                 ? null
-                : (obtenerUrlMiniaturaRss($imagenOriginal) ?? $imagenOriginal),
+                : (
+                    obtenerUrlMiniaturaRss($imagenOriginal, 256, 144)
+                    ?? obtenerUrlMiniaturaRss($imagenOriginal)
+                    ?? $imagenOriginal
+                ),
             'imagen_original' => $imagenOriginal,
         ];
     }

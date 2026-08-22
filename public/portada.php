@@ -234,8 +234,7 @@ require_once __DIR__ . '/../partials/header.php';
     <p style="color: #4b5563; line-height: 1.4; margin-bottom: 4px; text-align: justify; font-size: 0.9rem;">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>TuPortalNews</strong> Portal informativo donde puedes consultar noticias, comentar, valorar y denunciar contenidos. Con informaciones de actualidad Política, Economía, Ciencia, Cultura, Deportes y otros temas de interés.
 
-<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;Si deseas <strong>contribuir activamente</strong> en la elaboración de contenidos, regístrate y solicita un perfil de <strong>Comentarista</strong> de las publicaciones, <strong>Articulista</strong> independiente o <strong>Colaborador</strong> del Portal.
+    &nbsp;&nbsp;&nbsp;&nbsp;Si deseas <strong>contribuir activamente</strong> en la elaboración de contenidos : <strong>Articulista</strong> independiente, <strong>Comentarista</strong> de publicaciones o <strong>Colaborador</strong> del Portal regístrate y solicita un perfil.
         <br>
         &nbsp;&nbsp;&nbsp;&nbsp; <strong>Se rechazarán aquellas personas</strong> que no cumplan con las normas de respeto a los <strong>Derechos Humanos</strong> y <strong>Animales</strong>. El equipo de administradores garantiza una gestión segura y organizada.
 

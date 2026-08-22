@@ -51,6 +51,8 @@ helper y preparan la vista; no duplican el SQL de conteo, filtros o paginación.
 - `assets/css/app-css/news-cards.css` define la base común de las tarjetas.
   Cada página añade solamente su variante contextual para evitar que un ajuste
   local rompa otros listados.
+- `partials/noticias/tarjeta-listado-publico.php` comparte el HTML de las
+  tarjetas equivalentes de fuente y ubicación, conservando sus variantes CSS.
 - El resto del CSS reutilizable concentra formularios, tablas y modales.
 - `assets/css/app-css/min/` contiene las copias CSS regeneradas para producción.
 - JavaScript se sirve desde una única fuente en `assets/js/app-js/`, con una

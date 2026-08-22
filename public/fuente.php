@@ -245,53 +245,11 @@ require_once __DIR__ . '/../partials/header.php';
         <?php else: ?>
 
             <?php foreach ($noticias as $noticia): ?>
-
-                <article class="tarjeta-noticia news-card news-card--vertical news-card--source news-card--public<?php echo !empty($noticia['id_fuente_rss']) ? ' news-card--external' : ''; ?>">
-                    <h2 class="tarjeta-titulo news-card__title">
-                        <a href="<?php echo route('noticia', ['id' => $noticia['id_noticia']]); ?>">
-                            <?php echo htmlspecialchars($noticia['titulo']); ?>
-                        </a>
-                    </h2>
-                    <?php if (!empty($noticia['subtitulo'])): ?>
-                        <h3 class="tarjeta-subtitulo news-card__subtitle"><?php echo htmlspecialchars($noticia['subtitulo']); ?></h3>
-                    <?php endif; ?>
-
-                    <div class="tarjeta-imagen news-card__media">
-                        <a href="<?php echo route('noticia', ['id' => $noticia['id_noticia']]); ?>">
-
-                            <?php echo mostrarImagenNoticia($noticia, 'tarjeta-imagen-img', '📷'); ?>
-
-                        </a>
-                    </div>
-                    <div class="tarjeta-metadatos news-card__meta news-card__meta--standard">
-                        <div class="metadato-autor">
-                            <?php if (!empty($noticia['autor_avatar'])): ?>
-
-                                <img src="<?php echo base_url('uploads/perfiles/' . $noticia['autor_avatar']); ?>" 
-
-                                     alt="" width="20" height="20" class="avatar-mini">
-                            <?php else: ?>
-
-                                <span class="avatar-mini-placeholder">👤</span>
-                            <?php endif; ?>
-
-                            <a href="<?php echo route('periodistas', ['id' => (int) $noticia['id_autor']]); ?>"><?php echo htmlspecialchars($noticia['autor_nombre']); ?></a>
-
-                        </div>
-                        <div class="metadato-fecha">📅 <?php echo formatearFecha($noticia['fecha_publicacion']); ?></div>
-
-                        <div class="metadato-categoria">📁 <a href="<?php echo route('categoria', ['id' => $noticia['id_categoria']]); ?>"><?php echo htmlspecialchars($noticia['nombre_categoria']); ?></a></div>
-
-                        <div class="metadato-visitas">👁️ <?php echo number_format($noticia['visitas']); ?></div>
-
-                        <div class="metadato-comentarios"><a href="<?php echo route('comentarios_noticia', ['id' => $noticia['id_noticia']]); ?>">💬 <?php echo $noticia['total_comentarios'] ?? 0; ?></a></div>
-
-                    </div>
-                    <div class="tarjeta-acciones news-card__actions">
-                        <a href="<?php echo route('noticia', ['id' => $noticia['id_noticia']]); ?>" class="btn btn-small news-card__button">Leer más →</a>
-
-                    </div>
-                </article>
+                <?php
+                $noticiaTarjeta = $noticia;
+                $varianteTarjeta = 'source';
+                require __DIR__ . '/../partials/noticias/tarjeta-listado-publico.php';
+                ?>
             <?php endforeach; ?>
 
         <?php endif; ?>

@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../includes/bootstrap.php';
 require_once __DIR__ . '/../includes/minify.php';
-require_once __DIR__ . '/../includes/routes.php'; // ← AÑADIDO: para URLs amigables
+require_once __DIR__ . '/../includes/helpers/noticias.php';
 
 $paginaEntrada = $_GET['pagina'] ?? null;
 $pagina = is_scalar($paginaEntrada) ? max(1, (int) $paginaEntrada) : 1;
@@ -17,69 +17,32 @@ $por_pagina = ITEMS_PER_PAGE;
 $offset = ($pagina - 1) * $por_pagina;
 
 // Permitir diferentes períodos
-$periodo = is_string($_GET['periodo'] ?? null) ? $_GET['periodo'] : 'todo';
-$filtro_fecha = '';
+$periodo = normalizarPeriodoNoticiasPopulares(
+    is_string($_GET['periodo'] ?? null) ? $_GET['periodo'] : 'todo'
+);
 $noticias = [];
 $top_noticia = false;
 $total_noticias = 0;
 $total_paginas = 0;
 $error = null;
 
-switch ($periodo) {
-    case 'semana':
-        $filtro_fecha = "AND n.fecha_publicacion >= DATE_SUB(NOW(), INTERVAL 7 DAY)";
-        break;
-    case 'mes':
-        $filtro_fecha = "AND n.fecha_publicacion >= DATE_SUB(NOW(), INTERVAL 30 DAY)";
-        break;
-    case 'ano':
-        $filtro_fecha = "AND n.fecha_publicacion >= DATE_SUB(NOW(), INTERVAL 1 YEAR)";
-        break;
-    default:
-        $periodo = 'todo';
-        break;
-}
-
 try {
     $pdo = db();
     
     // Total de noticias publicadas (con filtro de período)
-    $sql_total = "SELECT COUNT(*) FROM noticias n WHERE n.estado = 'publicada' AND n.privada = 0 $filtro_fecha";
-    $stmt_total = $pdo->query($sql_total);
-    $total_noticias = $stmt_total->fetchColumn();
+    $total_noticias = contarNoticiasPopulares($pdo, $periodo);
     $total_paginas = ceil($total_noticias / $por_pagina);
     
     // Noticias más vistas
-    $sql = "
-        SELECT n.*, 
-               u.nombre as autor_nombre, 
-               u.avatar as autor_avatar,
-               c.nombre_categoria,
-               c.slug_categoria,
-               (SELECT COUNT(*) FROM comentarios WHERE id_noticia = n.id_noticia AND estado = 'aprobado') as total_comentarios
-        FROM noticias n
-        JOIN usuarios u ON n.id_autor = u.id_usuario
-        JOIN categorias c ON n.id_categoria = c.id_categoria
-        WHERE n.estado = 'publicada' AND n.privada = 0 $filtro_fecha
-        ORDER BY n.visitas DESC, n.fecha_publicacion DESC
-        LIMIT :limit OFFSET :offset
-    ";
-    
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindValue(':limit', $por_pagina, PDO::PARAM_INT);
-    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-    $stmt->execute();
-    $noticias = $stmt->fetchAll();
+    $noticias = obtenerNoticiasPopularesPaginadas(
+        $pdo,
+        $periodo,
+        $por_pagina,
+        $offset
+    );
     
     // Obtener la noticia más vista en general
-    $stmt_top = $pdo->query("
-        SELECT n.titulo, n.visitas, n.id_noticia
-        FROM noticias n
-        WHERE n.estado = 'publicada' AND n.privada = 0
-        ORDER BY n.visitas DESC
-        LIMIT 1
-    ");
-    $top_noticia = $stmt_top->fetch();
+    $top_noticia = obtenerNoticiaPublicaMasVista($pdo);
     
 } catch (Exception $e) {
     $error = 'No se pudieron cargar las noticias populares.';

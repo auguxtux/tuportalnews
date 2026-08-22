@@ -42,6 +42,10 @@ depender de efectos laterales para disponer de funciones o conexión.
 Las noticias privadas deben permanecer separadas de las públicas en consultas,
 comentarios, reportes, valoraciones, búsquedas y enlaces.
 
+Las lecturas reutilizadas por la portada y los listados públicos se concentran
+en `includes/helpers/noticias.php`. Las páginas validan la entrada, llaman al
+helper y preparan la vista; no duplican el SQL de conteo, filtros o paginación.
+
 ## Recursos de interfaz
 
 - `assets/css/app-css/news-cards.css` define la base común de las tarjetas.

@@ -374,3 +374,199 @@ function obtenerNoticiasPublicadasPaginadas(
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+/**
+ * Construye los filtros opcionales del listado público.
+ *
+ * @return array{sql:string,parametros:array<string, int>}
+ */
+function filtrosListadoNoticiasPublicas(
+    int $idCategoria,
+    int $idRegion
+): array {
+    $condiciones = [];
+    $parametros = [];
+
+    if ($idCategoria > 0) {
+        $condiciones[] = 'c.id_categoria = :filtro_categoria';
+        $parametros[':filtro_categoria'] = $idCategoria;
+    }
+
+    if ($idRegion > 0) {
+        $condiciones[] = 'n.id_region = :filtro_region';
+        $parametros[':filtro_region'] = $idRegion;
+    }
+
+    return [
+        'sql' => $condiciones === []
+            ? ''
+            : ' AND ' . implode(' AND ', $condiciones),
+        'parametros' => $parametros,
+    ];
+}
+
+/** Cuenta las noticias del listado público con sus filtros opcionales. */
+function contarListadoNoticiasPublicas(
+    PDO $pdo,
+    int $idCategoria = 0,
+    int $idRegion = 0
+): int {
+    $filtros = filtrosListadoNoticiasPublicas($idCategoria, $idRegion);
+    $stmt = $pdo->prepare(
+        "SELECT COUNT(*)
+         FROM noticias n
+         INNER JOIN categorias c ON n.id_categoria = c.id_categoria
+         WHERE n.estado = 'publicada'
+           AND n.privada = 0{$filtros['sql']}"
+    );
+    $stmt->execute($filtros['parametros']);
+
+    return (int) $stmt->fetchColumn();
+}
+
+/**
+ * Devuelve las noticias del listado público con filtros y paginación.
+ *
+ * @return array<int, array<string, mixed>>
+ */
+function obtenerListadoNoticiasPublicas(
+    PDO $pdo,
+    int $idCategoria,
+    int $idRegion,
+    int $limite,
+    int $offset
+): array {
+    $limite = normalizarLimiteNoticias($limite, 100);
+    $offset = max(0, $offset);
+    $filtros = filtrosListadoNoticiasPublicas($idCategoria, $idRegion);
+
+    $stmt = $pdo->prepare(
+        "SELECT n.*,
+                u.nombre AS autor_nombre,
+                u.avatar AS autor_avatar,
+                c.nombre_categoria,
+                c.slug_categoria,
+                r.nombre AS nombre_region,
+                r.slug AS slug_region,
+                f.nombre AS fuente_normal_nombre,
+                fr.nombre AS fuente_rss_nombre,
+                (
+                    SELECT COUNT(*)
+                    FROM comentarios co
+                    WHERE co.id_noticia = n.id_noticia
+                      AND co.estado = 'aprobado'
+                ) AS total_comentarios
+         FROM noticias n
+         INNER JOIN usuarios u ON n.id_autor = u.id_usuario
+         INNER JOIN categorias c ON n.id_categoria = c.id_categoria
+         LEFT JOIN regiones r ON n.id_region = r.id_region
+         LEFT JOIN fuentes f ON f.id_fuente = n.id_fuente
+         LEFT JOIN fuentes_rss fr ON fr.id_fuente = n.id_fuente_rss
+         WHERE n.estado = 'publicada'
+           AND n.privada = 0{$filtros['sql']}
+         ORDER BY n.fecha_publicacion DESC, n.id_noticia DESC
+         LIMIT :limite OFFSET :offset"
+    );
+
+    foreach ($filtros['parametros'] as $nombre => $valor) {
+        $stmt->bindValue($nombre, $valor, PDO::PARAM_INT);
+    }
+    $stmt->bindValue(':limite', $limite, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/** Normaliza el periodo permitido para las noticias populares. */
+function normalizarPeriodoNoticiasPopulares(string $periodo): string
+{
+    return in_array($periodo, ['semana', 'mes', 'ano'], true)
+        ? $periodo
+        : 'todo';
+}
+
+/** Devuelve una condición SQL fija para el periodo validado. */
+function condicionPeriodoNoticiasPopulares(string $periodo): string
+{
+    return match (normalizarPeriodoNoticiasPopulares($periodo)) {
+        'semana' => ' AND n.fecha_publicacion >= DATE_SUB(NOW(), INTERVAL 7 DAY)',
+        'mes' => ' AND n.fecha_publicacion >= DATE_SUB(NOW(), INTERVAL 30 DAY)',
+        'ano' => ' AND n.fecha_publicacion >= DATE_SUB(NOW(), INTERVAL 1 YEAR)',
+        default => '',
+    };
+}
+
+/** Cuenta las noticias públicas incluidas en el periodo solicitado. */
+function contarNoticiasPopulares(PDO $pdo, string $periodo): int
+{
+    $condicionPeriodo = condicionPeriodoNoticiasPopulares($periodo);
+
+    return (int) $pdo->query(
+        "SELECT COUNT(*)
+         FROM noticias n
+         WHERE n.estado = 'publicada'
+           AND n.privada = 0{$condicionPeriodo}"
+    )->fetchColumn();
+}
+
+/**
+ * Devuelve las noticias públicas más vistas del periodo solicitado.
+ *
+ * @return array<int, array<string, mixed>>
+ */
+function obtenerNoticiasPopularesPaginadas(
+    PDO $pdo,
+    string $periodo,
+    int $limite,
+    int $offset
+): array {
+    $limite = normalizarLimiteNoticias($limite, 100);
+    $offset = max(0, $offset);
+    $condicionPeriodo = condicionPeriodoNoticiasPopulares($periodo);
+
+    $stmt = $pdo->prepare(
+        "SELECT n.*,
+                u.nombre AS autor_nombre,
+                u.avatar AS autor_avatar,
+                c.nombre_categoria,
+                c.slug_categoria,
+                (
+                    SELECT COUNT(*)
+                    FROM comentarios
+                    WHERE id_noticia = n.id_noticia
+                      AND estado = 'aprobado'
+                ) AS total_comentarios
+         FROM noticias n
+         INNER JOIN usuarios u ON n.id_autor = u.id_usuario
+         INNER JOIN categorias c ON n.id_categoria = c.id_categoria
+         WHERE n.estado = 'publicada'
+           AND n.privada = 0{$condicionPeriodo}
+         ORDER BY n.visitas DESC, n.fecha_publicacion DESC
+         LIMIT :limite OFFSET :offset"
+    );
+    $stmt->bindValue(':limite', $limite, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/**
+ * Devuelve la noticia pública con más visitas históricas.
+ *
+ * @return array<string, mixed>|false
+ */
+function obtenerNoticiaPublicaMasVista(PDO $pdo): array|false
+{
+    $stmt = $pdo->query(
+        "SELECT n.titulo, n.visitas, n.id_noticia
+         FROM noticias n
+         WHERE n.estado = 'publicada'
+           AND n.privada = 0
+         ORDER BY n.visitas DESC
+         LIMIT 1"
+    );
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}

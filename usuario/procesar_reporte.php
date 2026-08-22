@@ -48,8 +48,9 @@ if ($reportePrivado && !usuarioEsPrivado()) {
 
 // Obtener datos
 $comentario_id = intval($_POST['comentario_id'] ?? 0);
-$motivo = limpiarDatos($_POST['motivo'] ?? '');
-$descripcion = mb_substr(trim((string)($_POST['descripcion'] ?? '')), 0, 1000);
+$datosReporte = normalizarDatosReporte($_POST);
+$motivo = $datosReporte['motivo'];
+$descripcion = $datosReporte['descripcion'];
 $ip = obtenerIP();
 
 // Validaciones
@@ -73,15 +74,7 @@ if ($motivo === 'otro' && $descripcion === '') {
 
 // Verificar que el comentario existe
 $pdo = db();
-$stmt = $pdo->prepare("SELECT c.id_comentario, c.id_usuario
-                       FROM comentarios c
-                       JOIN noticias n ON c.id_noticia = n.id_noticia
-                       WHERE c.id_comentario = ?
-                         AND c.estado = 'aprobado'
-                         AND n.estado IN ('publicada','destacada')
-                         AND n.privada = ?");
-$stmt->execute([$comentario_id, $reportePrivado ? 1 : 0]);
-$comentario = $stmt->fetch();
+$comentario = obtenerComentarioReportable($pdo, $comentario_id, $reportePrivado);
 if (!$comentario) {
     $respuesta['mensaje'] = 'Contenido no disponible';
     echo json_encode($respuesta);

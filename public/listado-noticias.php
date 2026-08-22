@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../includes/bootstrap.php';
 require_once __DIR__ . '/../includes/minify.php';
-require_once __DIR__ . '/../includes/privado.php';
+require_once __DIR__ . '/../includes/helpers/noticias.php';
 
 // Obtener número de página
 $pagina = isset($_GET['pagina']) ? max(1, (int)$_GET['pagina']) : 1;
@@ -24,66 +24,22 @@ $filtro_region = isset($_GET['region']) ? (int)$_GET['region'] : 0;
 try {
     $pdo = db();
     
-    // Condiciones de filtrado
-    $where_extra = '';
-    $params_filtro = [];
-    
-    if ($filtro_categoria > 0) {
-        $where_extra .= ' AND c.id_categoria = :filtro_categoria';
-        $params_filtro[':filtro_categoria'] = $filtro_categoria;
-    }
-    if ($filtro_region > 0) {
-        $where_extra .= ' AND n.id_region = :filtro_region';
-        $params_filtro[':filtro_region'] = $filtro_region;
-    }
-    
-    // Obtener condición según permisos
-    $condicion_privacidad = getCondicionNoticias();
-    
     // Obtener total de noticias publicadas
-    $sql_total = "SELECT COUNT(*) FROM noticias n 
-                  INNER JOIN categorias c ON n.id_categoria = c.id_categoria
-                  WHERE n.estado = 'publicada' AND n.privada = 0 {$where_extra}";
-    $stmt_total = $pdo->prepare($sql_total);
-    $stmt_total->execute($params_filtro);
-    $total_noticias = $stmt_total->fetchColumn();
+    $total_noticias = contarListadoNoticiasPublicas(
+        $pdo,
+        $filtro_categoria,
+        $filtro_region
+    );
     $total_paginas = ceil($total_noticias / $por_pagina);
     
     // Obtener noticias de la página actual
-    $stmt = $pdo->prepare("
-        SELECT n.*, 
-               u.nombre as autor_nombre,
-               u.avatar as autor_avatar,
-               c.nombre_categoria,
-               c.slug_categoria,
-               r.nombre AS nombre_region,
-               r.slug AS slug_region,
-               f.nombre AS fuente_normal_nombre,
-               fr.nombre AS fuente_rss_nombre,
-               (
-                   SELECT COUNT(*)
-                   FROM comentarios co
-                   WHERE co.id_noticia = n.id_noticia
-                     AND co.estado = 'aprobado'
-               ) AS total_comentarios
-        FROM noticias n
-        JOIN usuarios u ON n.id_autor = u.id_usuario
-        JOIN categorias c ON n.id_categoria = c.id_categoria
-        LEFT JOIN regiones r ON n.id_region = r.id_region
-        LEFT JOIN fuentes f ON f.id_fuente = n.id_fuente
-        LEFT JOIN fuentes_rss fr ON fr.id_fuente = n.id_fuente_rss
-        WHERE n.estado = 'publicada' AND $condicion_privacidad {$where_extra}
-        ORDER BY n.fecha_publicacion DESC, n.id_noticia DESC
-        LIMIT :limit OFFSET :offset
-    ");
-    
-    $stmt->bindValue(':limit', $por_pagina, PDO::PARAM_INT);
-    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-    foreach ($params_filtro as $k => $v) {
-        $stmt->bindValue($k, $v, PDO::PARAM_INT);
-    }
-    $stmt->execute();
-    $noticias = $stmt->fetchAll();
+    $noticias = obtenerListadoNoticiasPublicas(
+        $pdo,
+        $filtro_categoria,
+        $filtro_region,
+        $por_pagina,
+        $offset
+    );
     
     // Obtener categorías para filtros
     $stmt_cats = $pdo->query("SELECT * FROM categorias WHERE activa = 1 ORDER BY orden, nombre_categoria");

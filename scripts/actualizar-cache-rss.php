@@ -12,8 +12,7 @@ if (PHP_SAPI !== 'cli') {
 
 define('SKIP_SESSION_START', true);
 
-require_once __DIR__ . '/../includes/config.php';
-require_once __DIR__ . '/../includes/conexion.php';
+require_once __DIR__ . '/../includes/bootstrap.php';
 require_once __DIR__ . '/../includes/helpers/rss.php';
 
 $directorioCache = ROOT_PATH
@@ -48,6 +47,17 @@ foreach ($fuentes as $fuente) {
         (int) ($fuente['limite'] ?? 4)
     );
     $miniaturas = actualizarMiniaturasRss($noticias);
+    foreach ($noticias as $noticia) {
+        $imagenOriginal = (string) ($noticia['imagen_original'] ?? '');
+        if ($imagenOriginal === '') {
+            continue;
+        }
+        if (generarMiniaturaRss($imagenOriginal, 86400, 256, 144)) {
+            $miniaturas['generadas']++;
+        } else {
+            $miniaturas['fallidas']++;
+        }
+    }
 
     fwrite(
         STDOUT,
@@ -91,7 +101,7 @@ $imagenesLocales = $stmtLocales->fetchAll(PDO::FETCH_COLUMN);
 $localesGeneradas = 0;
 $localesFallidas = 0;
 foreach ($imagenesLocales as $archivo) {
-    foreach ([320 => 180, 640 => 360] as $ancho => $alto) {
+    foreach ([320 => 180, 480 => 270, 640 => 360] as $ancho => $alto) {
         if (generarMiniaturaNoticiaLocal((string) $archivo, $ancho, $alto)) {
             $localesGeneradas++;
         } else {

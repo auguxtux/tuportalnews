@@ -84,7 +84,6 @@
 .hero-slide-titulo a {
     color: white;
     text-decoration: none;
-    background: rgba(0, 0, 0, 0.82);
     padding: 0.12em 0.35em;
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
@@ -164,15 +163,12 @@
 }
 
 .hero-btn {
-    padding: 0.7rem 1.5rem;
     color: #fff;
-    background: #1e3a8a;
     text-decoration: none;
     font-weight: bold;
     transition: all 0.3s;
-    font-size: 1rem;
+    font-size: 1.1rem;
     float: right;
-    /*! width: 4444444444444444444px; */
 }
 
 .hero-btn:hover {
@@ -1058,15 +1054,13 @@
 }
 
 .destacada-badge {
-    position: absolute;
-    top: rem;
-    left: 5%;
-    z-index: 10;
-    background: linear-gradient(135deg, #f59e0b, #dc2626);
-    padding: 5px 24px;
-    border-radius: 30px;
-    box-shadow: 9px 9px 28px rgb(253, 216, 53);
-    border: 1px inset #fff7b4;
+  position: absolute;
+  left: 5%;
+  z-index: 10;
+  background: linear-gradient(135deg, #f59e0b, #dc2626);
+  padding: 5px 24px;
+  border-radius: 30px;
+  border: 1px inset #fff7b4;
 }
 
 .destacada-badge span {
@@ -1150,7 +1144,7 @@
 .destacada-extracto {
     color: #4b5563;
     margin-bottom: 1rem;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
 }
 
 .destacada-meta {

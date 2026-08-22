@@ -1,6 +1,6 @@
 # Documentación técnica
 
-Esta documentación describe TuPortalNews 1.1.4, evolución de la primera
+Esta documentación describe TuPortalNews 1.1.5, evolución de la primera
 versión estable del nuevo historial limpio.
 
 - `INSTALLATION.md`: requisitos, configuración local y permisos.
@@ -12,7 +12,7 @@ versión estable del nuevo historial limpio.
 Los datos reales, credenciales, uploads, logs, cachés y backups no forman
 parte del repositorio.
 
-## Base estable de 1.1.4
+## Base estable de 1.1.5
 
 - tarjetas de noticias unificadas con variantes independientes por página,
   estructura vertical u horizontal explícita y densidad compacta independiente;
@@ -22,11 +22,11 @@ parte del repositorio.
   importadas, con enlaces al sitio original e imágenes obtenidas del RSS;
 - caché RSS actualizada cada 15 minutos y preparada inmediatamente al crear o
   cambiar una fuente seleccionada para los bloques externos;
-- miniaturas RSS convertidas fuera de la petición pública a WebP 320×180,
+- miniaturas RSS convertidas fuera de la petición pública a WebP 256×144 y 320×180,
   servidas desde caché local con conservación de navegador de 30 días;
-- tarjetas de noticias externas con variantes WebP responsive de 320, 640 y
-  960 píxeles, manteniendo la imagen original en la noticia completa;
-- imágenes locales de tarjetas con derivados WebP de 320 y 640 píxeles y logo
+- tarjetas de noticias externas con variantes WebP responsive de 320, 480,
+  640 y 960 píxeles, manteniendo la imagen original en la noticia completa;
+- imágenes locales de tarjetas con derivados WebP de 320, 480 y 640 píxeles y logo
   de cabecera reducido a un WebP específico de 96×96;
 - portada con contraste WCAG validado y nombres accesibles específicos en los
   enlaces de cada noticia del slider;

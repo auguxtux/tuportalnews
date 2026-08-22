@@ -45,18 +45,18 @@ Para los bloques RSS externos aplicar:
 El cron de `scripts/actualizar-cache-rss.php` debe ejecutarse cada 15 minutos.
 La portada y `/public/rss-feed` solo leen `storage/cache/rss/` y nunca esperan
 a los proveedores durante una visita pública. El mismo cron valida y convierte
-las imágenes externas a WebP 320×180 en `storage/cache/rss/images/`; requiere
+las imágenes externas a WebP 256×144 y 320×180 en `storage/cache/rss/images/`; requiere
 Imagick con soporte WebP. `/public/rss-image` sirve esas miniaturas con caché
 inmutable de 30 días y sin iniciar sesión. `cron/limpiar-rss.php` retira las
 miniaturas que llevan más de tres días sin renovarse.
 
-La misma tarea prepara variantes WebP de 320, 640 y 960 píxeles para las
+La misma tarea prepara variantes WebP de 320, 480, 640 y 960 píxeles para las
 imágenes externas de noticias públicas. Las tarjetas eligen la variante con
 `srcset`; la página completa conserva el recurso original. Una renovación
-descarga cada original una sola vez aunque genere los tres tamaños.
+descarga cada original una sola vez aunque genere los cuatro tamaños.
 
 Las imágenes subidas de noticias públicas conservan también su original y la
-tarea prepara derivados WebP de 320 y 640 píxeles para las tarjetas. Estos
+tarea prepara derivados WebP de 320, 480 y 640 píxeles para las tarjetas. Estos
 derivados comparten el endpoint privado de caché y se regeneran automáticamente
 si cambia la fecha de modificación del archivo fuente.
 

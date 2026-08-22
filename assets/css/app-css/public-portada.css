@@ -167,7 +167,7 @@
     text-decoration: none;
     font-weight: bold;
     transition: all 0.3s;
-    font-size: 1rem;
+    font-size: 1.1rem;
     float: right;
 }
 
@@ -1062,6 +1062,7 @@
   border-radius: 30px;
   border: 1px inset #fff7b4;
 }
+
 .destacada-badge span {
     color: white;
     font-weight: bold;

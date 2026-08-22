@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 
 define('SITE_NAME', 'TuPortalNews');
-define('SITE_VERSION', '1.1.4');
+define('SITE_VERSION', '1.1.5');
 define('ROOT_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 define('INCLUDES_PATH', ROOT_PATH . 'includes' . DIRECTORY_SEPARATOR);
 define('UPLOADS_PATH', ROOT_PATH . 'uploads' . DIRECTORY_SEPARATOR);
@@ -135,9 +135,3 @@ if (PHP_SAPI !== 'cli' && is_file(ROOT_PATH . '.maintenance')) {
         exit;
     }
 }
-
-require_once __DIR__ . '/routes.php';
-require_once __DIR__ . '/funciones.php';
-require_once __DIR__ . '/mail-config.php';
-require_once __DIR__ . '/noticia-utils.php';
-require_once __DIR__ . '/notificaciones.php';

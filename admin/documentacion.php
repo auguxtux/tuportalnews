@@ -45,7 +45,8 @@ Permisos::requerirAdmin();
     </div>
 
     <div class="highlight">
-        <strong>Versión 1.1.4:</strong> imágenes responsive en caché WebP,
+        <strong>Versión 1.1.5:</strong> imágenes responsive en caché WebP con
+        variantes ajustadas al tamaño real de las tarjetas,
         portada optimizada y accesibilidad validada, junto con arquitectura PHP procedimental modular,
         rutas centralizadas, separación completa de contenido público y
         privado, colaciones UTF-8 unificadas, pruebas repetibles, backups con

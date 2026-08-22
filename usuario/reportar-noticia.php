@@ -17,12 +17,7 @@ if ($reportePrivado && !usuarioEsPrivado()) {
 
 $noticiaId = (int)($_GET['id'] ?? 0);
 $pdo = db();
-$stmt = $pdo->prepare("SELECT id_noticia, id_autor, titulo FROM noticias
-                       WHERE id_noticia = ?
-                         AND estado IN ('publicada','destacada')
-                         AND privada = ?");
-$stmt->execute([$noticiaId, $reportePrivado ? 1 : 0]);
-$noticia = $stmt->fetch();
+$noticia = obtenerNoticiaReportable($pdo, $noticiaId, $reportePrivado);
 
 if (!$noticia || (int)$noticia['id_autor'] === (int)$_SESSION['usuario_id']) {
     http_response_code(404);

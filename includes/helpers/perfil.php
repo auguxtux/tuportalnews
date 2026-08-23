@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * Normaliza los datos personales compartidos por los perfiles.
  *
- * @return array{nombre:string,telefono:string,ciudad:string,biografia:string}
+ * @return array{nombre:string,telefono:string,ciudad:string,biografia:string,datos_colaboracion:string}
  */
 function normalizarDatosPerfil(array $datos): array
 {
@@ -13,13 +13,14 @@ function normalizarDatosPerfil(array $datos): array
         'telefono' => limpiarDatos($datos['telefono'] ?? ''),
         'ciudad' => limpiarDatos($datos['ciudad'] ?? ''),
         'biografia' => limpiarDatos($datos['biografia'] ?? ''),
+        'datos_colaboracion' => limpiarDatos($datos['datos_colaboracion'] ?? ''),
     ];
 }
 
 /**
  * Aplica las reglas comunes de los datos personales.
  *
- * @param array{nombre:string,telefono:string,ciudad:string,biografia:string} $datos
+ * @param array{nombre:string,telefono:string,ciudad:string,biografia:string,datos_colaboracion?:string} $datos
  * @return list<string>
  */
 function validarDatosPerfil(array $datos): array

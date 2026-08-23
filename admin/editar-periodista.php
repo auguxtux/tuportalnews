@@ -134,6 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['cambiar_estado'])) {
     $telefono = limpiarDatos(is_string($_POST['telefono'] ?? null) ? $_POST['telefono'] : '');
     $ciudad = limpiarDatos(is_string($_POST['ciudad'] ?? null) ? $_POST['ciudad'] : '');
     $biografia = limpiarDatos(is_string($_POST['biografia'] ?? null) ? $_POST['biografia'] : '');
+    $datosColaboracion = limpiarDatos(is_string($_POST['datos_colaboracion'] ?? null) ? $_POST['datos_colaboracion'] : '');
     $estado_solicitado = is_string($_POST['estado'] ?? null) ? $_POST['estado'] : '';
     $estado = in_array($estado_solicitado, ['activo', 'inactivo', 'bloqueado'], true)
         ? $estado_solicitado
@@ -148,6 +149,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['cambiar_estado'])) {
     if (mb_strlen($email) > 255) $errores[] = 'El email no puede superar 255 caracteres';
     if (mb_strlen($ciudad) > 120) $errores[] = 'La ciudad no puede superar 120 caracteres';
     if (mb_strlen($biografia) > 500) $errores[] = 'La biografía no puede superar 500 caracteres';
+    if ($datosColaboracion === '') $errores[] = 'Los datos de interés para colaborar son obligatorios';
+    if (mb_strlen($datosColaboracion) > 2000) $errores[] = 'Los datos de interés para colaborar no pueden superar 2000 caracteres';
 
     // Verificar email único (excepto el actual)
     if ($email !== $periodista['email']) {
@@ -182,6 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['cambiar_estado'])) {
         ':telefono' => $telefono,
         ':ciudad' => $ciudad,
         ':biografia' => $biografia,
+        ':datos_colaboracion' => $datosColaboracion,
         ':estado' => $estado,
         ':avatar' => $avatar,
         ':id' => $id
@@ -210,6 +214,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['cambiar_estado'])) {
                 telefono = :telefono,
                 ciudad = :ciudad,
                 biografia = :biografia,
+                datos_colaboracion = :datos_colaboracion,
                 estado = :estado,
                 avatar = :avatar
                 $password_sql
@@ -364,6 +369,12 @@ require_once __DIR__ . '/../partials/header.php';
                         <label for="biografia">📝 Biografía</label>
                         <textarea id="biografia" name="biografia" rows="4" maxlength="500"><?php echo htmlspecialchars(is_string($_POST['biografia'] ?? null) ? $_POST['biografia'] : ($periodista['biografia'] ?? '')); ?></textarea>
 
+                    </div>
+
+                    <div class="admin-editar-periodista-campo">
+                        <label for="datos_colaboracion">🤝 Datos privados de interés para colaborar *</label>
+                        <textarea id="datos_colaboracion" name="datos_colaboracion" rows="6" maxlength="2000" required><?php echo htmlspecialchars(is_string($_POST['datos_colaboracion'] ?? null) ? $_POST['datos_colaboracion'] : ($periodista['datos_colaboracion'] ?? ''), ENT_QUOTES, 'UTF-8'); ?></textarea>
+                        <small>Solo visible para el usuario y los administradores.</small>
                     </div>
                 </div>
             </div>

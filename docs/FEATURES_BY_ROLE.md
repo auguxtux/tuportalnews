@@ -86,6 +86,12 @@ Conserva todas las funciones públicas del Articulista y además:
 
 ## Reglas comunes
 
+- Comentaristas y Articulistas aportan durante el registro datos privados de
+  interés para colaborar. Solo el titular y los administradores pueden verlos;
+  el titular puede actualizarlos desde su perfil.
+- Las cuentas activas publican comentarios directamente. Las cuentas
+  pendientes, inactivas o bloqueadas no pueden comentar.
+
 - las modificaciones requieren sesión, permiso, método y CSRF adecuados;
 - cada usuario solo puede modificar contenido de su propiedad, salvo acciones
   administrativas autorizadas;

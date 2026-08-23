@@ -531,6 +531,12 @@ require_once __DIR__ . '/../partials/header.php';
 
                             </span>
                         </div>
+                        <?php if (!empty($per['datos_colaboracion'])): ?>
+                            <div class="admin-periodistas-card-datos-privados">
+                                <strong>🤝 Datos privados de colaboración:</strong>
+                                <p><?php echo nl2br(htmlspecialchars((string) $per['datos_colaboracion'], ENT_QUOTES, 'UTF-8')); ?></p>
+                            </div>
+                        <?php endif; ?>
                     </div>
                     
                     <div class="admin-periodistas-card-footer">

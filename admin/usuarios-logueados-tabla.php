@@ -343,12 +343,12 @@ require_once __DIR__ . '/../partials/header.php';
     <div class="tabla-container">
         <table>
             <thead>
-                <tr><th>ID</th><th>Usuario</th><th>Email</th><th>Teléfono</th><th>Rol</th><th>Estado</th><th>Privado</th><th>Registro</th><th>Nº Noticias / Comentarios</th><th>Acciones</th></tr>
+                <tr><th>ID</th><th>Usuario</th><th>Email</th><th>Teléfono</th><th>Datos privados de colaboración</th><th>Rol</th><th>Estado</th><th>Privado</th><th>Registro</th><th>Nº Noticias / Comentarios</th><th>Acciones</th></tr>
             </thead>
             <tbody>
                 <?php if (empty($usuarios)): ?>
 
-                    <tr><td colspan="10" style="text-align:center;">No hay usuarios que coincidan con los filtros</td></tr>
+                    <tr><td colspan="11" style="text-align:center;">No hay usuarios que coincidan con los filtros</td></tr>
                 <?php else: ?>
 
                     <?php foreach ($usuarios as $user): ?>
@@ -373,6 +373,17 @@ require_once __DIR__ . '/../partials/header.php';
                             <td><?php echo htmlspecialchars($user['email']); ?></td>
 
                             <td><?php echo htmlspecialchars($user['telefono'] ?? ''); ?></td>
+
+                            <td>
+                                <?php if (!empty($user['datos_colaboracion'])): ?>
+                                    <details>
+                                        <summary>🤝 Consultar</summary>
+                                        <?php echo nl2br(htmlspecialchars((string) $user['datos_colaboracion'], ENT_QUOTES, 'UTF-8')); ?>
+                                    </details>
+                                <?php else: ?>
+                                    <span aria-label="Sin datos">—</span>
+                                <?php endif; ?>
+                            </td>
 
                             <td><span class="rol-badge rol-<?php echo $user['rol']; ?>"><?php echo htmlspecialchars(match (true) {
                                 $user['rol'] === 'admin' => 'Admin',

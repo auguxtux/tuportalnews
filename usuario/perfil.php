@@ -47,14 +47,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !verificarTokenCSRF($_POST['csrf_to
         $telefono = $datosPerfil['telefono'];
         $ciudad = $datosPerfil['ciudad'];
         $biografia = $datosPerfil['biografia'];
+        $datosColaboracion = $datosPerfil['datos_colaboracion'];
         $errores = array_merge($errores, validarDatosPerfil($datosPerfil));
+        if ($datosColaboracion === '') $errores[] = 'Los datos de interés para colaborar son obligatorios';
+        if (mb_strlen($datosColaboracion) > 2000) $errores[] = 'Los datos de interés para colaborar no pueden superar 2000 caracteres';
         
         if (empty($errores)) {
             $sql = "UPDATE usuarios SET 
                     nombre = :nombre,
                     telefono = :telefono,
                     ciudad = :ciudad,
-                    biografia = :biografia
+                    biografia = :biografia,
+                    datos_colaboracion = :datos_colaboracion
                     WHERE id_usuario = :id";
             
             $stmt = $pdo->prepare($sql);
@@ -64,6 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !verificarTokenCSRF($_POST['csrf_to
                 ':telefono' => $telefono,
                 ':ciudad' => $ciudad,
                 ':biografia' => $biografia,
+                ':datos_colaboracion' => $datosColaboracion,
                 ':id' => $id_usuario
             ])) {
                 // Actualizar nombre en sesión
@@ -278,6 +283,12 @@ require_once __DIR__ . '/../partials/header.php';
                               placeholder="Cuéntanos algo sobre ti..."><?php echo htmlspecialchars($usuario['biografia'] ?? ''); ?></textarea>
 
                     <small>Máximo 500 caracteres</small>
+                </div>
+
+                <div class="perfiles-campo-form">
+                    <label for="usuario_perfil_datos_colaboracion">🤝 Datos de interés para colaborar *</label>
+                    <textarea id="usuario_perfil_datos_colaboracion" name="datos_colaboracion" rows="6" maxlength="2000" required><?php echo htmlspecialchars($usuario['datos_colaboracion'] ?? '', ENT_QUOTES, 'UTF-8'); ?></textarea>
+                    <small>Información privada, visible únicamente para ti y los administradores.</small>
                 </div>
                 
                 <div class="perfiles-acciones-form">

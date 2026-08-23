@@ -538,6 +538,13 @@ require_once __DIR__ . '/../partials/header.php';
                     <?php echo $esta_en_linea ? '🟢 En línea' : '⚪ Desconectado'; ?>
                 </span>
             </div>
+            <?php if (!empty($user['datos_colaboracion'])): ?>
+                <div class="tarjeta-info-item">
+                    <span class="icono">🤝</span>
+                    <span class="label">Colaboración:</span>
+                    <span class="valor"><?php echo nl2br(htmlspecialchars((string) $user['datos_colaboracion'], ENT_QUOTES, 'UTF-8')); ?></span>
+                </div>
+            <?php endif; ?>
         </div>
         
         <div class="tarjeta-footer">

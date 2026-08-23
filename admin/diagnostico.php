@@ -148,7 +148,7 @@ try {
     
     // Configuraciones mínimas
     $configs = $pdo->query("SELECT clave, valor FROM configuracion")->fetchAll(PDO::FETCH_KEY_PAIR);
-    $configs_esperadas = ['site_name', 'items_por_pagina', 'comentarios_aprobacion', 'permitir_registro'];
+    $configs_esperadas = ['site_name', 'items_por_pagina', 'permitir_registro'];
     foreach ($configs_esperadas as $cfg) {
         check("Config BD: $cfg", $configs[$cfg] ?? 'NO EXISTE', isset($configs[$cfg]) ? 'OK' : 'ERROR');
     }

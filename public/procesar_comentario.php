@@ -133,10 +133,8 @@ try {
         exit;
     }
     
-    // 8. Verificar moderación
-    $stmt = $pdo->query("SELECT valor FROM configuracion WHERE clave = 'comentarios_aprobacion'");
-    $config = $stmt->fetchColumn();
-    $estado = ($config == '1') ? 'pendiente' : 'aprobado';
+    // 8. Las cuentas activas publican directamente.
+    $estado = 'aprobado';
     
     // 9. Insertar comentario
     $stmt = $pdo->prepare("
@@ -168,11 +166,7 @@ try {
     }
     // ============================================
     
-    if ($estado == 'pendiente') {
-        mensajeFlash('warning', 'Comentario enviado. Esperando moderación.');
-    } else {
-        mensajeFlash('success', 'Comentario publicado correctamente.');
-    }
+    mensajeFlash('success', 'Comentario publicado correctamente.');
     
 } catch (Exception $e) {
     registrarErrorInterno('PUBLIC.COMENTARIO.PROCESAR', $e);

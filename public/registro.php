@@ -40,6 +40,7 @@ $datos = [
     'email' => '',
     'telefono' => '',
     'ciudad' => '',
+    'datos_colaboracion' => '',
     'password' => '',
     'password2' => '',
     'rol' => 'usuario'
@@ -94,6 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'email' => limpiarDatos($_POST['email'] ?? ''),
                 'telefono' => limpiarDatos($_POST['telefono'] ?? ''),
                 'ciudad' => limpiarDatos($_POST['ciudad'] ?? ''),
+                'datos_colaboracion' => limpiarDatos($_POST['datos_colaboracion'] ?? ''),
                 'password' => $_POST['password'] ?? '',
                 'password2' => $_POST['password2'] ?? '',
                 'rol' => in_array($_POST['rol'] ?? '', ['usuario', 'periodista']) ? $_POST['rol'] : 'usuario'
@@ -110,6 +112,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!validarEmail($datos['email'])) $errores[] = 'Email no válido';
             if (!validarTelefono($datos['telefono'])) $errores[] = 'Teléfono no válido (9 dígitos, empieza por 6-9)';
             if (empty($datos['ciudad'])) $errores[] = 'La ciudad es obligatoria';
+            if (empty($datos['datos_colaboracion'])) $errores[] = 'Los datos de interés para colaborar son obligatorios';
+            if (mb_strlen($datos['datos_colaboracion']) > 2000) $errores[] = 'Los datos de interés para colaborar no pueden superar 2000 caracteres';
             if (strlen($datos['password']) < 10) $errores[] = 'La contraseña debe tener al menos 10 caracteres';
             if ($datos['password'] !== $datos['password2']) $errores[] = 'Las contraseñas no coinciden';
             if (!$acepta_terminos) $errores[] = 'Debes aceptar los términos y condiciones';
@@ -212,6 +216,13 @@ require_once __DIR__ . '/../partials/standalone-header.php';
                     <small style="color: #f59e0b;">⚠️ Tu cuenta quedará pendiente de aprobación por un Admin</small>
                 <?php endif; ?>
 
+            </div>
+
+            <div class="public-registro-campo">
+                <label for="datos_colaboracion">🤝 Datos personales de interés para colaborar con TuPortalNews *</label>
+                <textarea id="datos_colaboracion" name="datos_colaboracion" rows="5" maxlength="2000" required
+                          placeholder="Cuéntanos tus intereses, experiencia o cómo te gustaría colaborar."><?php echo htmlspecialchars($datos['datos_colaboracion'], ENT_QUOTES, 'UTF-8'); ?></textarea>
+                <small>Información privada. Solo podrán verla y editarla tú y los administradores.</small>
             </div>
             
             <div class="public-registro-grid-2">

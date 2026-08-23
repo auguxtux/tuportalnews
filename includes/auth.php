@@ -627,6 +627,7 @@ final class Auth
                 'nombre',
                 'telefono',
                 'ciudad',
+                'datos_colaboracion',
             ];
 
             foreach ($requeridos as $campo) {
@@ -645,6 +646,7 @@ final class Auth
             $nombre = trim((string) $datos['nombre']);
             $telefono = trim((string) $datos['telefono']);
             $ciudad = trim((string) $datos['ciudad']);
+            $datosColaboracion = trim((string) $datos['datos_colaboracion']);
             $password = (string) $datos['password'];
 
             if (!validarEmail($email)) {
@@ -668,6 +670,11 @@ final class Auth
 
             if (mb_strlen($ciudad) > 120) {
                 $this->errores[] = 'La ciudad es demasiado larga.';
+                return false;
+            }
+
+            if (mb_strlen($datosColaboracion) > 2000) {
+                $this->errores[] = 'Los datos de colaboración son demasiado largos.';
                 return false;
             }
 
@@ -702,6 +709,7 @@ final class Auth
                     nombre,
                     telefono,
                     ciudad,
+                    datos_colaboracion,
                     avatar,
                     rol,
                     estado,
@@ -712,6 +720,7 @@ final class Auth
                     :nombre,
                     :telefono,
                     :ciudad,
+                    :datos_colaboracion,
                     'default-avatar.png',
                     :rol,
                     :estado,
@@ -727,6 +736,7 @@ final class Auth
                 ':nombre'           => $nombre,
                 ':telefono'         => $telefono,
                 ':ciudad'           => $ciudad,
+                ':datos_colaboracion' => $datosColaboracion,
                 ':rol'              => $rol,
                 ':estado'           => $estado,
             ]);

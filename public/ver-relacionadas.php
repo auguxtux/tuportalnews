@@ -204,7 +204,11 @@ require_once __DIR__ . '/../partials/header.php';
                     <?php if (!empty($rel['contenido'])): ?>
 
                         <div class="relacionada-extracto">
-                            <p><?php echo htmlspecialchars(truncarTexto(strip_tags($rel['contenido']), 120)); ?></p>
+                            <p><?php echo htmlspecialchars(
+                                obtenerPrimerParrafo((string) $rel['contenido'], 120),
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ); ?></p>
 
                         </div>
                         <!-- BOTÓN LEER MÁS -->

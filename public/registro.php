@@ -27,6 +27,10 @@ $stmt = $pdo->prepare("SELECT valor FROM configuracion WHERE clave = 'permitir_r
 $stmt->execute();
 $permitir_periodistas = $stmt->fetchColumn();
 
+$stmt = $pdo->prepare("SELECT valor FROM configuracion WHERE clave = 'registro_comentaristas_aprobacion'");
+$stmt->execute();
+$registro_comentaristas_aprobacion = $stmt->fetchColumn() === '1';
+
 $registro_bloqueado = ($permitir_registro != '1');
 $periodistas_bloqueados = ($permitir_periodistas != '1');
 
@@ -118,6 +122,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if ($datos['rol'] === 'periodista') {
             $_SESSION['mensaje_registro'] = '✅ Solicitud enviada. Un Admin revisará tu registro de Articulista y recibirás un email cuando sea aprobado.';
+        } elseif ($registro_comentaristas_aprobacion) {
+            $_SESSION['mensaje_registro'] = '✅ Solicitud enviada. Un Admin revisará tu registro de Comentarista y recibirás un email cuando sea aprobado.';
         } else {
             $_SESSION['mensaje_registro'] = '✅ Registro completado. Ya puedes iniciar sesión.';
         }

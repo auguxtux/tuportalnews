@@ -75,6 +75,8 @@ Conserva todas las funciones públicas del Articulista y además:
 - configurar registro, comentarios, cuotas, mantenimiento y minificación;
 - distinguir el registro de Comentaristas del registro y aprobación de
   Articulistas;
+- permitir que el Admin exija opcionalmente la aprobación de nuevos
+  Comentaristas y notificar por email cuando una cuenta pendiente sea aprobada;
 - revisar sesiones, intentos de acceso, bloqueos, actividad, errores y
   diagnóstico;
 - filtrar usuarios por rol y actividad, y consultar conexiones y tiempo de uso

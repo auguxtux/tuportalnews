@@ -135,7 +135,7 @@ final class Auth
 
             if ($usuario['estado'] === 'pendiente') {
                 $this->errores[] =
-                    '⏳ Tu cuenta de periodista está pendiente de aprobación. '
+                    '⏳ Tu cuenta está pendiente de aprobación. '
                     . 'Recibirás un email cuando sea activada.';
 
                 return false;
@@ -688,9 +688,12 @@ final class Auth
                 ':email' => $email,
             ]);
 
-            $estado = $rol === 'periodista'
-                ? 'pendiente'
-                : 'activo';
+            $requiereAprobacion = $rol === 'periodista'
+                || (
+                    $rol === 'usuario'
+                    && $this->configuracionActiva('registro_comentaristas_aprobacion')
+                );
+            $estado = $requiereAprobacion ? 'pendiente' : 'activo';
 
             $sql = "
                 INSERT INTO usuarios (

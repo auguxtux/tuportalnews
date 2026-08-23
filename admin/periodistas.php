@@ -77,8 +77,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['confirmar_accion']))
             registrarAdminAccionUsuario('aprobar_periodista', $id_post, $periodista['email'], 'Articulista aprobado');
 
             if ($periodista['estado'] === 'pendiente') {
-                enviarEmailAprobacion($periodista['email'], $periodista['nombre']);
-                $_SESSION['mensaje_flash'] = ['tipo' => 'success', 'mensaje' => '✅ Articulista aprobado y email enviado'];
+                $emailEnviado = enviarEmailAprobacion($periodista['email'], $periodista['nombre'], 'periodista');
+                $_SESSION['mensaje_flash'] = $emailEnviado
+                    ? ['tipo' => 'success', 'mensaje' => '✅ Articulista aprobado y email enviado']
+                    : ['tipo' => 'warning', 'mensaje' => '⚠️ Articulista aprobado, pero no se pudo enviar el email'];
             } else {
                 $_SESSION['mensaje_flash'] = ['tipo' => 'success', 'mensaje' => '✅ Articulista activado'];
             }

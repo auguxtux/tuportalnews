@@ -27,6 +27,7 @@ $reglas_configuracion = [
     'items_por_pagina' => ['tipo' => 'entero', 'min' => 1, 'max' => 100],
     'comentarios_aprobacion' => ['tipo' => 'booleano'],
     'permitir_registro' => ['tipo' => 'booleano'],
+    'registro_comentaristas_aprobacion' => ['tipo' => 'booleano'],
     'permitir_registro_periodistas' => ['tipo' => 'booleano'],
     'max_tamano_imagen' => ['tipo' => 'entero', 'min' => 0, 'max' => 104857600],
     'limite_admin_mb' => ['tipo' => 'entero', 'min' => 0, 'max' => 100000],
@@ -61,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['guardar_config'])) {
         $default_checkboxes = [
             'comentarios_aprobacion' => '0',
             'permitir_registro' => '0',
+            'registro_comentaristas_aprobacion' => '0',
             'permitir_registro_periodistas' => '0',
             'notificar_uso_almacenamiento' => '0',
         ];
@@ -348,7 +350,7 @@ $almacenamiento_keys = ['limite_admin_mb', 'limite_periodista_mb', 'limite_usuar
                                     <textarea name="config[<?php echo $item['clave']; ?>]" rows="2"><?php echo htmlspecialchars($item['valor']); ?></textarea>
 
                                     
-                                <?php elseif (in_array($item['clave'], ['comentarios_aprobacion', 'permitir_registro', 'permitir_registro_periodistas'])): ?>
+                                <?php elseif (in_array($item['clave'], ['comentarios_aprobacion', 'permitir_registro', 'registro_comentaristas_aprobacion', 'permitir_registro_periodistas'])): ?>
 
                                     <label class="checkbox-label">
                                         <input type="checkbox" name="config[<?php echo $item['clave']; ?>]" value="1" <?php echo ($item['valor'] == '1') ? 'checked' : ''; ?>>

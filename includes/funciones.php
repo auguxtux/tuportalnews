@@ -433,7 +433,7 @@ function registrarAdminAccionUsuario($accion, $id_usuario_afectado, $email_afect
  * @param string $nombre Nombre del periodista
  * @return bool True si se envió correctamente
  */
-function enviarEmailAprobacion($email, $nombre) {
+function enviarEmailAprobacion($email, $nombre, string $rol = 'periodista') {
     // Cargar configuración SMTP si no está definida
     if (!defined('SMTP_HOST') && file_exists(__DIR__ . '/mail-config.php')) {
         require_once __DIR__ . '/mail-config.php';
@@ -450,6 +450,7 @@ function enviarEmailAprobacion($email, $nombre) {
     require_once __DIR__ . '/../vendor/phpmailer/phpmailer/src/Exception.php';
     
     $enlace_login = route('login');
+    $perfil = $rol === 'usuario' ? 'Comentarista' : 'Articulista';
     
     $mail = new PHPMailer\PHPMailer\PHPMailer(true);
     
@@ -470,7 +471,7 @@ function enviarEmailAprobacion($email, $nombre) {
         
         // Contenido
         $mail->isHTML(true);
-        $mail->Subject = "✅ ¡Cuenta de periodista aprobada! - " . SITE_NAME;
+        $mail->Subject = "✅ ¡Cuenta de {$perfil} aprobada! - " . SITE_NAME;
         
         $mail->Body = '
         <!DOCTYPE html>
@@ -496,8 +497,8 @@ function enviarEmailAprobacion($email, $nombre) {
                 </div>
                 <div class="content">
                     <p>Hola <strong>' . htmlspecialchars($nombre) . '</strong>,</p>
-                    <p>Tu solicitud de registro como <strong>periodista</strong> ha sido <strong style="color: #10b981;">APROBADA</strong>.</p>
-                    <p>Ya puedes acceder al panel de periodista y comenzar a crear noticias.</p>
+                    <p>Tu solicitud de registro como <strong>' . htmlspecialchars($perfil, ENT_QUOTES, 'UTF-8') . '</strong> ha sido <strong style="color: #10b981;">APROBADA</strong>.</p>
+                    <p>Ya puedes iniciar sesión y acceder a tu cuenta.</p>
                     <div style="text-align: center;">
                         <a href="' . $enlace_login . '" class="button">🔑 Iniciar Sesión</a>
                     </div>
@@ -511,7 +512,7 @@ function enviarEmailAprobacion($email, $nombre) {
         </body>
         </html>';
         
-        $mail->AltBody = "Hola $nombre,\n\nTu solicitud de registro como periodista ha sido APROBADA.\n\nYa puedes acceder al panel de periodista en: $enlace_login\n\n© " . SITE_NAME;
+        $mail->AltBody = "Hola $nombre,\n\nTu solicitud de registro como $perfil ha sido APROBADA.\n\nYa puedes iniciar sesión en: $enlace_login\n\n© " . SITE_NAME;
         
         $mail->send();
         error_log('Email de aprobación aceptado por SMTP');

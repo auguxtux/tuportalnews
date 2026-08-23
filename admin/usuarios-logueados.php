@@ -67,17 +67,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (in_array($accion_post, ['activar', 'toggle_privado', 'cambiar_rol'], true) && $id_post) {
-        $stmt = $pdo->prepare("SELECT email, rol FROM usuarios WHERE id_usuario = ?");
+        $stmt = $pdo->prepare("SELECT email, nombre, rol, estado FROM usuarios WHERE id_usuario = ?");
         $stmt->execute([$id_post]);
         $usuario_data = $stmt->fetch();
         $email_usuario = $usuario_data['email'] ?? '';
+        $nombre_usuario = $usuario_data['nombre'] ?? '';
         $rol_actual = $usuario_data['rol'] ?? '';
+        $estado_anterior = $usuario_data['estado'] ?? '';
 
         try {
             if ($accion_post === 'activar') {
                 $pdo->prepare("UPDATE usuarios SET estado = 'activo' WHERE id_usuario = ?")->execute([$id_post]);
                 registrarAdminAccionUsuario('activar', $id_post, $email_usuario, 'Usuario activado');
-                $_SESSION['mensaje_flash'] = ['tipo' => 'success', 'mensaje' => '✅ Usuario activado'];
+                if ($estado_anterior === 'pendiente') {
+                    $emailEnviado = enviarEmailAprobacion($email_usuario, $nombre_usuario, $rol_actual);
+                    $_SESSION['mensaje_flash'] = $emailEnviado
+                        ? ['tipo' => 'success', 'mensaje' => '✅ Cuenta aprobada y email enviado']
+                        : ['tipo' => 'warning', 'mensaje' => '⚠️ Cuenta aprobada, pero no se pudo enviar el email'];
+                } else {
+                    $_SESSION['mensaje_flash'] = ['tipo' => 'success', 'mensaje' => '✅ Usuario activado'];
+                }
             } elseif ($accion_post === 'toggle_privado') {
                 if ($rol_actual !== 'periodista') {
                     throw new RuntimeException('El acceso privado solo puede asignarse a articulistas.');

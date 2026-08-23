@@ -48,8 +48,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !verificarTokenCSRF($_POST['csrf_to
     try {
         switch ($accion) {
             case 'activar':
+                $stmt = $pdo->prepare("SELECT email, nombre, rol, estado FROM usuarios WHERE id_usuario = ?");
+                $stmt->execute([$id]);
+                $usuarioActivar = $stmt->fetch();
+                if (!$usuarioActivar) {
+                    throw new RuntimeException('Usuario no encontrado.');
+                }
                 $pdo->prepare("UPDATE usuarios SET estado = 'activo' WHERE id_usuario = ?")->execute([$id]);
-                $mensaje_flash = ['tipo' => 'success', 'mensaje' => 'Usuario activado'];
+                if ($usuarioActivar['estado'] === 'pendiente') {
+                    $emailEnviado = enviarEmailAprobacion(
+                        $usuarioActivar['email'],
+                        $usuarioActivar['nombre'],
+                        $usuarioActivar['rol']
+                    );
+                    $mensaje_flash = $emailEnviado
+                        ? ['tipo' => 'success', 'mensaje' => 'Cuenta aprobada y email enviado']
+                        : ['tipo' => 'warning', 'mensaje' => 'Cuenta aprobada, pero no se pudo enviar el email'];
+                } else {
+                    $mensaje_flash = ['tipo' => 'success', 'mensaje' => 'Usuario activado'];
+                }
                 break;
             case 'desactivar':
                 $pdo->prepare("UPDATE usuarios SET estado = 'inactivo' WHERE id_usuario = ?")->execute([$id]);

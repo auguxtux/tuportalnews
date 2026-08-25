@@ -91,6 +91,8 @@ Admin. Estas operaciones quedan reservadas al Root.
 - conserva todas las funciones de Admin;
 - puede administrar, desactivar y eliminar a otros administradores;
 - puede conceder o retirar el rol Admin;
+- puede convertir un Colaborador en Admin conservando sus contenidos y
+  retirando únicamente la autorización privada que pasa a ser redundante;
 - no puede desactivar, degradar ni eliminar su propia cuenta root desde la
   gestión de usuarios;
 - se identifica en servidor mediante el correo configurado localmente, nunca

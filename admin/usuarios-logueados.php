@@ -127,12 +127,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } elseif ($accion_post === 'cambiar_rol') {
                 $nuevo_rol = $_POST['nuevo_rol'] ?? '';
                 if (in_array($nuevo_rol, ['usuario', 'periodista', 'admin'], true)) {
-                    $pdo->prepare("UPDATE usuarios SET rol = ? WHERE id_usuario = ?")->execute([$nuevo_rol, $id_post]);
+                    $pdo->beginTransaction();
+                    if ($nuevo_rol === 'admin') {
+                        $pdo->prepare('DELETE FROM usuarios_privados WHERE id_usuario = ?')
+                            ->execute([$id_post]);
+                    }
+                    $pdo->prepare("UPDATE usuarios SET rol = ? WHERE id_usuario = ?")
+                        ->execute([$nuevo_rol, $id_post]);
+                    $pdo->commit();
                     registrarAdminCambioRol($id_post, $email_usuario, $rol_actual, $nuevo_rol);
                     $_SESSION['mensaje_flash'] = ['tipo' => 'success', 'mensaje' => '✅ Rol actualizado correctamente'];
                 }
             }
         } catch (Throwable $e) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
             registrarErrorInterno('ADMIN.USUARIOS.PERMISOS', $e);
             $_SESSION['mensaje_flash'] = ['tipo' => 'error', 'mensaje' => 'Error al procesar la acción'];
         }
@@ -615,6 +625,21 @@ require_once __DIR__ . '/../partials/header.php';
                         <input type="hidden" name="buscar_filtro" value="<?php echo htmlspecialchars($filtro_busqueda, ENT_QUOTES, 'UTF-8'); ?>">
                         <input type="hidden" name="pagina_filtro" value="<?php echo $pagina; ?>">
                         <button type="submit" class="btn-privado" style="border: 0; background: none; padding: 0; cursor: pointer; font: inherit;" onclick="return confirm('<?php echo $user['es_privado'] ? '¿Reasignar como Articulista? Se eliminarán definitivamente sus noticias privadas y todos sus comentarios.' : '¿Otorgar acceso de Colaborador?'; ?>')" title="Permiso privado">🔒</button>
+                    </form>
+                <?php endif; ?>
+
+                <?php if (Permisos::esRoot() && $user['rol'] === 'periodista' && (int) $user['es_privado'] === 1): ?>
+                    <form method="POST" action="<?php echo htmlspecialchars(route('admin_usuarios_logueados'), ENT_QUOTES, 'UTF-8'); ?>" style="display: inline;">
+                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generarTokenCSRF(), ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="hidden" name="accion" value="cambiar_rol">
+                        <input type="hidden" name="nuevo_rol" value="admin">
+                        <input type="hidden" name="id" value="<?php echo $user['id_usuario']; ?>">
+                        <input type="hidden" name="rol_filtro" value="<?php echo htmlspecialchars($filtro_rol, ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="hidden" name="estado_filtro" value="<?php echo htmlspecialchars($filtro_estado, ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="hidden" name="conexion_filtro" value="<?php echo htmlspecialchars($filtro_conexion, ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="hidden" name="buscar_filtro" value="<?php echo htmlspecialchars($filtro_busqueda, ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="hidden" name="pagina_filtro" value="<?php echo $pagina; ?>">
+                        <button type="submit" class="btn-activar" style="border: 0; background: none; padding: 0; cursor: pointer; font: inherit;" onclick="return confirm('¿Convertir este Colaborador en Admin? Mantendrá sus contenidos y dejará de figurar como Colaborador.')" title="Convertir en Admin">👑</button>
                     </form>
                 <?php endif; ?>
 

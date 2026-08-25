@@ -276,7 +276,11 @@ $csrf_token = generarTokenCSRF();
 // ============================================
 $busqueda = $_GET['q'] ?? '';
 $filtro_estado = $_GET['estado'] ?? '';
-$filtro_privado = $_GET['privado'] ?? '';
+$filtro_privado = is_string($_GET['privado'] ?? null) ? $_GET['privado'] : '';
+$filtros_privados_validos = ['', 'si', 'no', 'mis_articulistas', 'mis_colaboradores'];
+if (!in_array($filtro_privado, $filtros_privados_validos, true)) {
+    $filtro_privado = '';
+}
 $pagina = isset($_GET['pagina']) ? max(1, (int)$_GET['pagina']) : 1;
 $por_pagina = 20;
 $offset = ($pagina - 1) * $por_pagina;
@@ -331,6 +335,14 @@ try {
     } elseif ($filtro_privado === 'no') {
         $sql .= " AND up.id_usuario IS NULL";
         $sql_count .= " AND up.id_usuario IS NULL";
+    } elseif ($filtro_privado === 'mis_articulistas') {
+        $sql .= " AND u.creado_por_admin = :creador AND up.id_usuario IS NULL";
+        $sql_count .= " AND u.creado_por_admin = :creador AND up.id_usuario IS NULL";
+        $params[':creador'] = (int) $_SESSION['usuario_id'];
+    } elseif ($filtro_privado === 'mis_colaboradores') {
+        $sql .= " AND u.creado_por_admin = :creador AND up.id_usuario IS NOT NULL";
+        $sql_count .= " AND u.creado_por_admin = :creador AND up.id_usuario IS NOT NULL";
+        $params[':creador'] = (int) $_SESSION['usuario_id'];
     }
     
     // Ejecutar consulta de conteo
@@ -411,6 +423,10 @@ require_once __DIR__ . '/../partials/header.php';
             <option value="si" <?php echo $filtro_privado === 'si' ? 'selected' : ''; ?>>✅ Con acceso privado</option>
 
             <option value="no" <?php echo $filtro_privado === 'no' ? 'selected' : ''; ?>>❌ Sin acceso privado</option>
+
+            <option value="mis_articulistas" <?php echo $filtro_privado === 'mis_articulistas' ? 'selected' : ''; ?>>✍️ Mis Articulistas</option>
+
+            <option value="mis_colaboradores" <?php echo $filtro_privado === 'mis_colaboradores' ? 'selected' : ''; ?>>🔒 Mis Colaboradores</option>
 
         </select>
         

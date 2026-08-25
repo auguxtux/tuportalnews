@@ -63,12 +63,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['confirmar_accion']))
     }
 
     try {
-        $stmt = $pdo->prepare("SELECT id_usuario, nombre, email, estado FROM usuarios WHERE id_usuario = ? AND rol = 'periodista'");
+        $stmt = $pdo->prepare("SELECT id_usuario, nombre, email, estado, rol, creado_por_admin FROM usuarios WHERE id_usuario = ? AND rol = 'periodista'");
         $stmt->execute([$id_post]);
         $periodista = $stmt->fetch();
 
         if (!$periodista) {
             throw new Exception('Articulista no encontrado.');
+        }
+
+        $accionPermiso = in_array($accion_post, ['privado_activar', 'privado_desactivar'], true)
+            ? 'toggle_privado'
+            : 'activar';
+        if (!Permisos::puedeGestionarUsuario($periodista, $accionPermiso)) {
+            throw new RuntimeException('No tienes permiso para administrar esta cuenta.');
         }
 
         if ($accion_post === 'activar' || $accion_post === 'aprobar') {
@@ -142,12 +149,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_accion'])) 
             $pdo->beginTransaction();
             
             // Verificar que el usuario existe y es periodista
-            $stmt = $pdo->prepare("SELECT id_usuario, nombre, email, avatar, rol FROM usuarios WHERE id_usuario = ? AND rol = 'periodista'");
+            $stmt = $pdo->prepare("SELECT id_usuario, nombre, email, avatar, rol, creado_por_admin FROM usuarios WHERE id_usuario = ? AND rol = 'periodista'");
             $stmt->execute([$id_post]);
             $periodista = $stmt->fetch();
             
             if (!$periodista) {
                 throw new Exception("Articulista no encontrado o no tiene ese perfil.");
+            }
+
+            $accionPermiso = $accion_post === 'bloquear' ? 'desactivar' : 'activar';
+            if (!Permisos::puedeGestionarUsuario($periodista, $accionPermiso)) {
+                throw new RuntimeException('No tienes permiso para administrar esta cuenta.');
             }
             
             $noticias_afectadas = 0;
@@ -434,6 +446,11 @@ require_once __DIR__ . '/../partials/header.php';
     <div class="admin-periodistas-contenedor">
         <div class="admin-periodistas-grid">
             <?php foreach ($periodistas as $per): ?>
+                <?php
+                $accionEstado = $per['estado'] === 'activo' ? 'desactivar' : 'activar';
+                $puedeCambiarEstado = Permisos::puedeGestionarUsuario($per, $accionEstado);
+                $puedeEliminarCuenta = Permisos::puedeGestionarUsuario($per, 'eliminar');
+                ?>
 
                 <div class="admin-periodistas-card">
                     <div class="admin-periodistas-card-header">
@@ -541,7 +558,7 @@ require_once __DIR__ . '/../partials/header.php';
                     
                     <div class="admin-periodistas-card-footer">
                         <div class="admin-periodistas-acciones">
-                            <?php if ($per['estado'] === 'pendiente'): ?>
+                            <?php if ($puedeCambiarEstado && $per['estado'] === 'pendiente'): ?>
                                 <form method="POST" style="display: inline;">
                                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES, 'UTF-8'); ?>">
                                     <input type="hidden" name="accion" value="aprobar">
@@ -552,12 +569,12 @@ require_once __DIR__ . '/../partials/header.php';
                                     <input type="hidden" name="pagina" value="<?php echo $pagina; ?>">
                                     <button type="submit" class="admin-periodistas-btn admin-periodistas-btn-aprobar" style="border: 0; cursor: pointer;" onclick="return confirm('¿Aprobar este periodista?')">✅ Aprobar</button>
                                 </form>
-                            <?php elseif ($per['estado'] === 'activo'): ?>
+                            <?php elseif ($puedeCambiarEstado && $per['estado'] === 'activo'): ?>
 
                                 <a href="?accion=bloquear&id=<?php echo $per['id_usuario']; ?>&q=<?php echo urlencode($busqueda); ?>&estado=<?php echo urlencode($filtro_estado); ?>&privado=<?php echo urlencode($filtro_privado); ?>&pagina=<?php echo $pagina; ?>" 
 
                                    class="admin-periodistas-btn admin-periodistas-btn-bloquear">🔒 Bloquear</a>
-                            <?php elseif ($per['estado'] === 'bloqueado'): ?>
+                            <?php elseif ($puedeCambiarEstado && $per['estado'] === 'bloqueado'): ?>
 
                                 <a href="?accion=desbloquear&id=<?php echo $per['id_usuario']; ?>&q=<?php echo urlencode($busqueda); ?>&estado=<?php echo urlencode($filtro_estado); ?>&privado=<?php echo urlencode($filtro_privado); ?>&pagina=<?php echo $pagina; ?>" 
 
@@ -590,10 +607,13 @@ require_once __DIR__ . '/../partials/header.php';
                             <?php endif; ?>
 
                             
+                            <?php if (Permisos::esRoot()): ?>
                             <a href="<?php echo route('admin_editar_periodista', ['id' => (int) $per['id_usuario']]); ?>"
 
                                class="admin-periodistas-btn admin-periodistas-btn-editar">✏️ Editar</a>
+                            <?php endif; ?>
                             
+                            <?php if ($puedeEliminarCuenta): ?>
                             <a href="<?php echo route('admin_usuarios_logueados', [
                                 'modal' => 'eliminar',
                                 'id' => (int) $per['id_usuario'],
@@ -604,6 +624,7 @@ require_once __DIR__ . '/../partials/header.php';
                             ]); ?>"
 
                                class="admin-periodistas-btn admin-periodistas-btn-eliminar">🗑️ Eliminar</a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

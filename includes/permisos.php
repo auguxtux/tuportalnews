@@ -93,15 +93,23 @@ final class Permisos
             return false;
         }
 
-        if ((string) ($usuario['rol'] ?? '') === 'admin' && !self::esRoot()) {
+        if (self::esRoot()) {
+            return true;
+        }
+
+        if ((string) ($usuario['rol'] ?? '') === 'admin' || $nuevoRol === 'admin') {
             return false;
         }
 
-        if ($nuevoRol === 'admin' && !self::esRoot()) {
-            return false;
+        if ($accion === 'toggle_privado') {
+            return (string) ($usuario['rol'] ?? '') === 'periodista';
         }
 
-        return true;
+        if (in_array($accion, ['activar', 'desactivar', 'eliminar'], true)) {
+            return (int) ($usuario['creado_por_admin'] ?? 0) === $idSesion;
+        }
+
+        return false;
     }
 
     /**
@@ -207,6 +215,22 @@ final class Permisos
         );
 
         redireccionar(route('home'));
+        exit;
+    }
+
+    /**
+     * Requerir la cuenta Root para gestionar datos personales ajenos.
+     */
+    public static function requerirRoot(): void
+    {
+        self::requerirAdmin();
+
+        if (self::esRoot()) {
+            return;
+        }
+
+        mensajeFlash('error', 'Esta acción está reservada al administrador Root.');
+        redireccionar(route('admin_dashboard'));
         exit;
     }
 

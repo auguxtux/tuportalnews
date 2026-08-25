@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !verificarTokenCSRF($_POST['csrf_to
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && $accion && $id) {
     try {
         $stmt = $pdo->prepare(
-            'SELECT id_usuario, email, rol FROM usuarios WHERE id_usuario = ?'
+            'SELECT id_usuario, email, rol, creado_por_admin FROM usuarios WHERE id_usuario = ?'
         );
         $stmt->execute([$id]);
         $usuarioObjetivo = $stmt->fetch();
@@ -366,7 +366,10 @@ require_once __DIR__ . '/../partials/header.php';
                     <?php foreach ($usuarios as $user): ?>
                         <?php
                         $esCuentaRoot = Permisos::esUsuarioRoot($user);
-                        $puedeGestionarCuenta = Permisos::puedeGestionarUsuario($user);
+                        $accionEstado = $user['estado'] === 'activo' ? 'desactivar' : 'activar';
+                        $puedeCambiarEstado = Permisos::puedeGestionarUsuario($user, $accionEstado);
+                        $puedeGestionarPrivado = Permisos::puedeGestionarUsuario($user, 'toggle_privado');
+                        $puedeEliminarCuenta = Permisos::puedeGestionarUsuario($user, 'eliminar');
                         ?>
 
                         <tr>
@@ -429,7 +432,7 @@ require_once __DIR__ . '/../partials/header.php';
 
                             <td class="acciones">
                                 <div class="btn-grupo">
-                                    <?php if ($puedeGestionarCuenta && $user['estado'] === 'activo'): ?>
+                                    <?php if ($puedeCambiarEstado && $user['estado'] === 'activo'): ?>
                                         <form method="POST" style="display: inline;">
                                             <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generarTokenCSRF(), ENT_QUOTES, 'UTF-8'); ?>">
                                             <input type="hidden" name="accion" value="desactivar">
@@ -441,7 +444,7 @@ require_once __DIR__ . '/../partials/header.php';
                                             <button type="submit" class="btn-desactivar" style="border: 0; background: none; padding: 0; cursor: pointer; font: inherit;" onclick="return confirm('¿Desactivar este usuario?')" title="Desactivar">🔴</button>
                                         </form>
 
-                                    <?php elseif ($puedeGestionarCuenta): ?>
+                                    <?php elseif ($puedeCambiarEstado): ?>
                                         <form method="POST" style="display: inline;">
                                             <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generarTokenCSRF(), ENT_QUOTES, 'UTF-8'); ?>">
                                             <input type="hidden" name="accion" value="activar">
@@ -484,7 +487,7 @@ require_once __DIR__ . '/../partials/header.php';
                                     <?php endif; ?>
 
                                     
-                                    <?php if ($puedeGestionarCuenta && $user['rol'] === 'periodista'): ?>
+                                    <?php if ($puedeGestionarPrivado && $user['rol'] === 'periodista'): ?>
                                         <form method="POST" style="display: inline;">
                                             <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generarTokenCSRF(), ENT_QUOTES, 'UTF-8'); ?>">
                                             <input type="hidden" name="accion" value="toggle_privado">
@@ -499,7 +502,7 @@ require_once __DIR__ . '/../partials/header.php';
                                     <?php endif; ?>
 
                                     
-                                    <?php if ($puedeGestionarCuenta && $user['id_usuario'] != $_SESSION['usuario_id']): ?>
+                                    <?php if ($puedeEliminarCuenta && $user['id_usuario'] != $_SESSION['usuario_id']): ?>
 
                                         <a href="<?php echo htmlspecialchars(route('admin_usuarios_logueados', [
                                             'modal' => 'eliminar',

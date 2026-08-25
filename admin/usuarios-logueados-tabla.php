@@ -441,6 +441,20 @@ require_once __DIR__ . '/../partials/header.php';
                                         </form>
                                     <?php endif; ?>
 
+                                    <?php if (Permisos::esRoot() && $user['rol'] === 'admin' && !$esCuentaRoot): ?>
+                                        <form method="POST" action="<?php echo htmlspecialchars(route('admin_usuarios_logueados'), ENT_QUOTES, 'UTF-8'); ?>" style="display: inline;">
+                                            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generarTokenCSRF(), ENT_QUOTES, 'UTF-8'); ?>">
+                                            <input type="hidden" name="accion" value="cambiar_rol">
+                                            <input type="hidden" name="nuevo_rol" value="periodista">
+                                            <input type="hidden" name="id" value="<?php echo $user['id_usuario']; ?>">
+                                            <input type="hidden" name="rol_filtro" value="<?php echo htmlspecialchars($filtro_rol, ENT_QUOTES, 'UTF-8'); ?>">
+                                            <input type="hidden" name="estado_filtro" value="<?php echo htmlspecialchars($filtro_estado, ENT_QUOTES, 'UTF-8'); ?>">
+                                            <input type="hidden" name="buscar_filtro" value="<?php echo htmlspecialchars($filtro_busqueda, ENT_QUOTES, 'UTF-8'); ?>">
+                                            <input type="hidden" name="pagina_filtro" value="<?php echo $pagina; ?>">
+                                            <button type="submit" class="btn-privado" style="border: 0; background: none; padding: 0; cursor: pointer; font: inherit;" onclick="return confirm('¿Convertir este Admin en Colaborador? Mantendrá sus contenidos y perderá los permisos administrativos.')" title="Convertir en Colaborador">👤</button>
+                                        </form>
+                                    <?php endif; ?>
+
                                     
                                     <?php if ($puedeGestionarCuenta && $user['rol'] === 'periodista'): ?>
                                         <form method="POST" style="display: inline;">

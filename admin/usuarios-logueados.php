@@ -131,6 +131,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if ($nuevo_rol === 'admin') {
                         $pdo->prepare('DELETE FROM usuarios_privados WHERE id_usuario = ?')
                             ->execute([$id_post]);
+                    } elseif ($nuevo_rol === 'periodista' && $rol_actual === 'admin') {
+                        $pdo->prepare(
+                            'INSERT INTO usuarios_privados (id_usuario, activo, fecha_alta)
+                             VALUES (?, 1, NOW())
+                             ON DUPLICATE KEY UPDATE activo = 1'
+                        )->execute([$id_post]);
                     }
                     $pdo->prepare("UPDATE usuarios SET rol = ? WHERE id_usuario = ?")
                         ->execute([$nuevo_rol, $id_post]);
@@ -141,7 +147,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $email_usuario,
                         'Rol actualizado de ' . $rol_actual . ' a ' . $nuevo_rol
                     );
-                    $_SESSION['mensaje_flash'] = ['tipo' => 'success', 'mensaje' => '✅ Rol actualizado correctamente'];
+                    $mensajeRol = $nuevo_rol === 'admin'
+                        ? '✅ Colaborador convertido en Admin.'
+                        : ($nuevo_rol === 'periodista' && $rol_actual === 'admin'
+                            ? '✅ Admin convertido en Colaborador.'
+                            : '✅ Rol actualizado correctamente.');
+                    $_SESSION['mensaje_flash'] = ['tipo' => 'success', 'mensaje' => $mensajeRol];
                 }
             }
         } catch (Throwable $e) {
@@ -571,7 +582,10 @@ require_once __DIR__ . '/../partials/header.php';
                     💬 <?php echo $user['total_comentarios']; ?> comentarios
 
                 </span>
-                <?php $esta_en_linea = usuarioEstaEnLinea($user['ultima_actividad'] ?? null); ?>
+                <?php
+                $esta_en_linea = (int) $user['id_usuario'] === (int) ($_SESSION['usuario_id'] ?? 0)
+                    || usuarioEstaEnLinea($user['ultima_actividad'] ?? null);
+                ?>
                 <span class="badge <?php echo $esta_en_linea ? 'badge-conexion-online' : 'badge-conexion-offline'; ?>">
                     <?php echo $esta_en_linea ? '🟢 En línea' : '⚪ Desconectado'; ?>
                 </span>
@@ -645,6 +659,21 @@ require_once __DIR__ . '/../partials/header.php';
                         <input type="hidden" name="buscar_filtro" value="<?php echo htmlspecialchars($filtro_busqueda, ENT_QUOTES, 'UTF-8'); ?>">
                         <input type="hidden" name="pagina_filtro" value="<?php echo $pagina; ?>">
                         <button type="submit" class="btn-activar" style="border: 0; background: none; padding: 0; cursor: pointer; font: inherit;" onclick="return confirm('¿Convertir este Colaborador en Admin? Mantendrá sus contenidos y dejará de figurar como Colaborador.')" title="Convertir en Admin">👑</button>
+                    </form>
+                <?php endif; ?>
+
+                <?php if (Permisos::esRoot() && $user['rol'] === 'admin' && !$esCuentaRoot): ?>
+                    <form method="POST" action="<?php echo htmlspecialchars(route('admin_usuarios_logueados'), ENT_QUOTES, 'UTF-8'); ?>" style="display: inline;">
+                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generarTokenCSRF(), ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="hidden" name="accion" value="cambiar_rol">
+                        <input type="hidden" name="nuevo_rol" value="periodista">
+                        <input type="hidden" name="id" value="<?php echo $user['id_usuario']; ?>">
+                        <input type="hidden" name="rol_filtro" value="<?php echo htmlspecialchars($filtro_rol, ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="hidden" name="estado_filtro" value="<?php echo htmlspecialchars($filtro_estado, ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="hidden" name="conexion_filtro" value="<?php echo htmlspecialchars($filtro_conexion, ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="hidden" name="buscar_filtro" value="<?php echo htmlspecialchars($filtro_busqueda, ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="hidden" name="pagina_filtro" value="<?php echo $pagina; ?>">
+                        <button type="submit" class="btn-privado" style="border: 0; background: none; padding: 0; cursor: pointer; font: inherit;" onclick="return confirm('¿Convertir este Admin en Colaborador? Mantendrá sus contenidos y perderá los permisos administrativos.')" title="Convertir en Colaborador">👤</button>
                     </form>
                 <?php endif; ?>
 

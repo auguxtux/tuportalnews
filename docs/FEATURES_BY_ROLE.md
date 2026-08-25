@@ -82,6 +82,20 @@ Conserva todas las funciones públicas del Articulista y además:
 - crear, descargar, restaurar y eliminar backups;
 - consultar documentación y ejecutar verificaciones previas al despliegue.
 
+Un Admin puede gestionar cuentas que no sean administradoras. No puede
+modificar, desactivar ni eliminar al Root o a otro Admin, ni conceder el rol
+Admin. Estas operaciones quedan reservadas al Root.
+
+## Root (`admin` configurado mediante `ROOT_ADMIN_EMAIL`)
+
+- conserva todas las funciones de Admin;
+- puede administrar, desactivar y eliminar a otros administradores;
+- puede conceder o retirar el rol Admin;
+- no puede desactivar, degradar ni eliminar su propia cuenta root desde la
+  gestión de usuarios;
+- se identifica en servidor mediante el correo configurado localmente, nunca
+  mediante un valor enviado por el navegador.
+
 ## Reglas comunes
 
 - las modificaciones requieren sesión, permiso, método y CSRF adecuados;

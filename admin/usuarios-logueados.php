@@ -66,8 +66,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    if ($accion_post !== '' && $id_post > 0) {
+        $stmt = $pdo->prepare(
+            'SELECT id_usuario, email, rol FROM usuarios WHERE id_usuario = ?'
+        );
+        $stmt->execute([$id_post]);
+        $usuarioObjetivo = $stmt->fetch();
+        $nuevoRolSolicitado = is_string($_POST['nuevo_rol'] ?? null)
+            ? $_POST['nuevo_rol']
+            : '';
+
+        if (
+            !$usuarioObjetivo
+            || !Permisos::puedeGestionarUsuario(
+                $usuarioObjetivo,
+                $accion_post,
+                $nuevoRolSolicitado
+            )
+        ) {
+            $_SESSION['mensaje_flash'] = [
+                'tipo' => 'error',
+                'mensaje' => 'No tienes permiso para administrar esta cuenta.',
+            ];
+            header('Location: ' . $redirect_url);
+            exit;
+        }
+    }
+
     if (in_array($accion_post, ['activar', 'toggle_privado', 'cambiar_rol'], true) && $id_post) {
-        $stmt = $pdo->prepare("SELECT email, rol FROM usuarios WHERE id_usuario = ?");
+        $stmt = $pdo->prepare("SELECT id_usuario, email, rol FROM usuarios WHERE id_usuario = ?");
         $stmt->execute([$id_post]);
         $usuario_data = $stmt->fetch();
         $email_usuario = $usuario_data['email'] ?? '';
@@ -116,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if ($confirmar && $accion_post && $id_post) {
         try {
-            $stmt = $pdo->prepare("SELECT email FROM usuarios WHERE id_usuario = ?");
+            $stmt = $pdo->prepare("SELECT id_usuario, email, rol FROM usuarios WHERE id_usuario = ?");
             $stmt->execute([$id_post]);
             $usuario_eliminar = $stmt->fetch();
             $email_usuario = $usuario_eliminar['email'] ?? '';
@@ -430,6 +457,10 @@ require_once __DIR__ . '/../partials/header.php';
         <?php else: ?>
 
             <?php foreach ($usuarios as $user): ?>
+            <?php
+            $esCuentaRoot = Permisos::esUsuarioRoot($user);
+            $puedeGestionarCuenta = Permisos::puedeGestionarUsuario($user);
+            ?>
 
     <div class="tarjeta-usuario">
         <div class="tarjeta-header">
@@ -488,6 +519,7 @@ require_once __DIR__ . '/../partials/header.php';
                     default => ''
                 };
                 $rol_visible = match (true) {
+                    $esCuentaRoot => 'Root',
                     $user['rol'] === 'admin' => 'Admin',
                     $user['rol'] === 'periodista' && (int) $user['es_privado'] === 1 => 'Colaborador',
                     $user['rol'] === 'periodista' => 'Articulista',
@@ -549,7 +581,7 @@ require_once __DIR__ . '/../partials/header.php';
                 ];
                 ?>
                 
-                <?php if ($user['estado'] === 'activo'): ?>
+                <?php if ($puedeGestionarCuenta && $user['estado'] === 'activo'): ?>
 
                     <a href="<?php echo htmlspecialchars(route('admin_usuarios_logueados', array_merge([
                         'accion' => 'desactivar',
@@ -557,7 +589,7 @@ require_once __DIR__ . '/../partials/header.php';
                     ], $parametros_listado)), ENT_QUOTES, 'UTF-8'); ?>"
 
                        class="btn-desactivar" title="Desactivar">🔴</a>
-                <?php else: ?>
+                <?php elseif ($puedeGestionarCuenta): ?>
                     <form method="POST" action="<?php echo htmlspecialchars(route('admin_usuarios_logueados'), ENT_QUOTES, 'UTF-8'); ?>" style="display: inline;">
                         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generarTokenCSRF(), ENT_QUOTES, 'UTF-8'); ?>">
                         <input type="hidden" name="accion" value="activar">
@@ -572,7 +604,7 @@ require_once __DIR__ . '/../partials/header.php';
                 <?php endif; ?>
 
                 
-                <?php if ($user['rol'] === 'periodista'): ?>
+                <?php if ($puedeGestionarCuenta && $user['rol'] === 'periodista'): ?>
                     <form method="POST" action="<?php echo htmlspecialchars(route('admin_usuarios_logueados'), ENT_QUOTES, 'UTF-8'); ?>" style="display: inline;">
                         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generarTokenCSRF(), ENT_QUOTES, 'UTF-8'); ?>">
                         <input type="hidden" name="accion" value="toggle_privado">
@@ -587,7 +619,7 @@ require_once __DIR__ . '/../partials/header.php';
                 <?php endif; ?>
 
                 
-                <?php if ($user['id_usuario'] != $_SESSION['usuario_id']): ?>
+                <?php if ($puedeGestionarCuenta && $user['id_usuario'] != $_SESSION['usuario_id']): ?>
 
                     <a href="<?php echo htmlspecialchars(route('admin_usuarios_logueados', array_merge([
                         'accion' => 'eliminar',

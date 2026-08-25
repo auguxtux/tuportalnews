@@ -53,6 +53,12 @@ $siteUrl = rtrim((string) ($env['SITE_URL'] ?? 'https://develop.erun.es'), '/');
 define('ENV_PRODUCTION', $envProduction);
 define('SITE_URL', $siteUrl);
 
+$rootAdminEmail = strtolower(trim((string) ($env['ROOT_ADMIN_EMAIL'] ?? '')));
+if ($rootAdminEmail !== '' && filter_var($rootAdminEmail, FILTER_VALIDATE_EMAIL) === false) {
+    throw new RuntimeException('La configuración del administrador root no es válida.');
+}
+define('ROOT_ADMIN_EMAIL', $rootAdminEmail);
+
 foreach ($requiredEnv as $envName) {
     if (!array_key_exists($envName, $env)) {
         throw new RuntimeException('La configuración local está incompleta.');

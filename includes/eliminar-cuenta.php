@@ -25,13 +25,25 @@ function eliminarCuentaCompleta($id_usuario, $pdo) {
         $pdo->beginTransaction();
         
         // Obtener datos del usuario
-        $stmt = $pdo->prepare("SELECT nombre, email, avatar, rol FROM usuarios WHERE id_usuario = ?");
+        $stmt = $pdo->prepare("SELECT id_usuario, nombre, email, avatar, rol FROM usuarios WHERE id_usuario = ?");
         $stmt->execute([$id_usuario]);
         $usuario = $stmt->fetch();
         
         if (!$usuario) {
             $pdo->rollBack();
             return ['success' => false, 'message' => 'Usuario no encontrado'];
+        }
+
+        $esCuentaPropia = (int) ($_SESSION['usuario_id'] ?? 0) === (int) $id_usuario;
+        if (
+            Permisos::esUsuarioRoot($usuario)
+            || (!$esCuentaPropia && !Permisos::puedeGestionarUsuario($usuario, 'eliminar'))
+        ) {
+            $pdo->rollBack();
+            return [
+                'success' => false,
+                'message' => 'No tienes permiso para eliminar esta cuenta.',
+            ];
         }
         
         // 1. ELIMINAR NOTICIAS (si es periodista)

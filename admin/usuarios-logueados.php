@@ -135,7 +135,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $pdo->prepare("UPDATE usuarios SET rol = ? WHERE id_usuario = ?")
                         ->execute([$nuevo_rol, $id_post]);
                     $pdo->commit();
-                    registrarAdminCambioRol($id_post, $email_usuario, $rol_actual, $nuevo_rol);
+                    registrarAdminAccionUsuario(
+                        'cambiar_rol',
+                        $id_post,
+                        $email_usuario,
+                        'Rol actualizado de ' . $rol_actual . ' a ' . $nuevo_rol
+                    );
                     $_SESSION['mensaje_flash'] = ['tipo' => 'success', 'mensaje' => '✅ Rol actualizado correctamente'];
                 }
             }

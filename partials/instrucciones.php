@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 $rol = $_SESSION['usuario_rol'] ?? 'usuario';
 $es_privado = false;
+$es_root = $rol === 'admin' && Permisos::esRoot();
 
 if ($rol === 'periodista' && isset($_SESSION['usuario_id'])) {
     try {
@@ -22,7 +23,8 @@ if ($rol === 'periodista' && isset($_SESSION['usuario_id'])) {
 }
 
 $perfilVisible = match (true) {
-    $rol === 'admin' => 'Admin',
+    $es_root => 'Root',
+    $rol === 'admin' => 'Admin secundario',
     $rol === 'periodista' && $es_privado => 'Colaborador',
     $rol === 'periodista' => 'Articulista',
     default => 'Comentarista',
@@ -42,8 +44,18 @@ $perfilVisible = match (true) {
                     <h4>👥 Cuentas y permisos</h4>
                     <ul>
                         <li>🧭 Usa el navegador superior del panel para ir al resumen, actividad, gestión o herramientas.</li>
-                        <li>✅ Gestiona Comentaristas, Articulistas y Admins.</li>
-                        <li>🔒 Concede o retira el permiso de Colaborador.</li>
+                        <?php if ($es_root): ?>
+                            <li>👑 Administra todas las cuentas, incluidos los demás Admins.</li>
+                            <li>🔁 Concede el rol Admin o revierte un Admin no-root a Colaborador.</li>
+                            <li>🛡️ Tu propia cuenta Root no se puede degradar, desactivar ni eliminar.</li>
+                        <?php else: ?>
+                            <li>➕ Puedes crear nuevos Articulistas y Colaboradores.</li>
+                            <li>🔒 Puedes conceder o retirar el permiso de Colaborador.</li>
+                            <li>✅ Solo puedes activar, desactivar, bloquear o eliminar cuentas creadas por ti.</li>
+                            <li>🚫 No puedes editar cuentas ajenas ni administrar cuentas Admin o Root.</li>
+                            <li>✍️ <a href="<?php echo htmlspecialchars(route('admin_periodistas', ['privado' => 'mis_articulistas']), ENT_QUOTES, 'UTF-8'); ?>">Abrir Mis Articulistas</a>.</li>
+                            <li>🔐 <a href="<?php echo htmlspecialchars(route('admin_periodistas', ['privado' => 'mis_colaboradores']), ENT_QUOTES, 'UTF-8'); ?>">Abrir Mis Colaboradores</a>.</li>
+                        <?php endif; ?>
                         <li>📧 Asigna a cada Colaborador su correo corporativo <code>@erun.es</code>.</li>
                         <li>⏸️ Desactivar conserva el contenido; eliminar definitivamente borra su actividad.</li>
                     </ul>

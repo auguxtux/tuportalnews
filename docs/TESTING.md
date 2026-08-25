@@ -78,6 +78,16 @@ formato del diff, páginas públicas y bloqueo de archivos internos.
 - diagnóstico y documentación.
 - filtrar perfiles por rol y estado de conexión, y comprobar que los contadores
   aumentan tras un nuevo login y al mantener actividad durante más de un minuto.
+- iniciar sesión como Admin secundario y comprobar que el panel y la guía
+  muestran ese nivel, sus límites y los enlaces “Mis Articulistas” y “Mis
+  Colaboradores”;
+- crear un Articulista y un Colaborador con ese Admin, comprobar que aparecen
+  en sus filtros y que permite activar, desactivar, bloquear y eliminar esas
+  cuentas;
+- comprobar que el Admin secundario puede conceder o retirar acceso privado,
+  pero no puede editar cuentas ajenas ni actuar sobre otro Admin o el Root;
+- iniciar sesión como Root y confirmar que la guía muestra administración
+  global, promoción a Admin y reversión de Admin a Colaborador.
 
 ### Regresiones críticas
 

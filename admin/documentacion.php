@@ -84,14 +84,20 @@ Permisos::requerirAdmin();
             Comentarista = <code>usuario</code>;
             Articulista = <code>periodista</code> sin permiso privado;
             Colaborador = <code>periodista</code> con registro activo en <code>usuarios_privados</code>;
-            Admin = <code>admin</code>.
+            Admin y Root = <code>admin</code>; el Root se identifica mediante
+            <code>ROOT_ADMIN_EMAIL</code>.
             Los nombres internos se conservan para mantener sesiones, permisos, consultas y rutas compatibles.
         </div>
         <div class="grid-cards">
             <div class="card">
-                <div class="role-badge">👑 Admin</div>
-                <h3>Control total</h3>
+                <div class="role-badge">🛡️ Admin secundario / 👑 Root</div>
+                <h3>Administración por niveles</h3>
                 <ul class="role-list">
+                    <li><i class="fas fa-user-plus"></i> El Admin secundario crea Articulistas y Colaboradores</li>
+                    <li><i class="fas fa-filter"></i> Accesos directos a «Mis Articulistas» y «Mis Colaboradores»</li>
+                    <li><i class="fas fa-user-shield"></i> Solo activa, bloquea o elimina cuentas creadas por él</li>
+                    <li><i class="fas fa-ban"></i> No edita cuentas ajenas ni administra otros Admins o al Root</li>
+                    <li><i class="fas fa-crown"></i> El Root administra todas las cuentas y concede o revierte el rol Admin</li>
                     <li><i class="fas fa-check-circle"></i> Gestión de Comentaristas, Articulistas, Colaboradores y categorías</li>
                     <li><i class="fas fa-compass"></i> Panel morado con navegación por resumen, actividad, gestión y herramientas</li>
                     <li><i class="fas fa-table"></i> Tablas equivalentes y navegación directa para categorías y fuentes</li>

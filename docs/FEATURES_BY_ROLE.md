@@ -86,6 +86,11 @@ Un Admin puede gestionar cuentas que no sean administradoras. No puede
 modificar, desactivar ni eliminar al Root o a otro Admin, ni conceder el rol
 Admin. Estas operaciones quedan reservadas al Root.
 
+Un Admin normal puede crear Articulistas y conceder o retirar el permiso de
+Colaborador. Solo puede activar, desactivar o eliminar las cuentas que él mismo
+haya creado. No puede editar datos personales ajenos ni gestionar cuentas
+anteriores o creadas por otro Admin.
+
 ## Root (`admin` configurado mediante `ROOT_ADMIN_EMAIL`)
 
 - conserva todas las funciones de Admin;

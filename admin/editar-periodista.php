@@ -12,7 +12,7 @@ require_once __DIR__ . '/../includes/permisos.php';
 require_once __DIR__ . '/../includes/upload-handler.php';
 require_once __DIR__ . '/../includes/minify.php';
 
-Permisos::requerirAdmin();
+Permisos::requerirRoot();
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 

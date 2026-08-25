@@ -139,11 +139,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Insertar usuario como periodista
                     $sql = "INSERT INTO usuarios (
                         nombre, email, password, telefono, ciudad, 
-                        biografia, avatar, rol, estado,
+                        biografia, avatar, rol, creado_por_admin, estado,
                         fecha_registro, email_verificado
                     ) VALUES (
                         :nombre, :email, :password, :telefono, :ciudad,
-                        :biografia, :avatar, 'periodista', 'activo',
+                        :biografia, :avatar, 'periodista', :creado_por_admin, 'activo',
                         NOW(), 1
                     )";
                     
@@ -155,7 +155,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         ':telefono' => $datos['telefono'],
                         ':ciudad' => $datos['ciudad'],
                         ':biografia' => $datos['biografia'] ?: null,
-                        ':avatar' => $avatar
+                        ':avatar' => $avatar,
+                        ':creado_por_admin' => (int) $_SESSION['usuario_id'],
                     ]);
                     
                     if ($resultado) {

@@ -25,7 +25,7 @@ function eliminarCuentaCompleta($id_usuario, $pdo) {
         $pdo->beginTransaction();
         
         // Obtener datos del usuario
-        $stmt = $pdo->prepare("SELECT id_usuario, nombre, email, avatar, rol FROM usuarios WHERE id_usuario = ?");
+        $stmt = $pdo->prepare("SELECT id_usuario, nombre, email, avatar, rol, creado_por_admin FROM usuarios WHERE id_usuario = ?");
         $stmt->execute([$id_usuario]);
         $usuario = $stmt->fetch();
         

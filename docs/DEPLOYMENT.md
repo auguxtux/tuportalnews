@@ -35,6 +35,11 @@ aplicarse las migraciones de `video_tipo` y `medio_principal`.
 Aplicar las migraciones pendientes una a una y ejecutar su verificación.
 No copiar la base de datos de desarrollo a producción.
 
+Para la propiedad de cuentas creadas desde administración aplicar
+`20260825_registrar_admin_creador_usuarios.sql`. Las cuentas existentes quedan
+sin creador administrativo y solo el Root puede cambiar su estado o
+eliminarlas; las nuevas cuentas guardan automáticamente el Admin que las creó.
+
 Para los bloques RSS externos aplicar:
 
 - `20260820_seleccionar_fuentes_rss_externas.sql`: añade la bandera

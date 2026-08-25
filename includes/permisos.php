@@ -42,6 +42,69 @@ final class Permisos
     }
 
     /**
+     * Verificar si la sesión pertenece al administrador root configurado.
+     */
+    public static function esRoot(): bool
+    {
+        return self::esAdmin()
+            && self::esEmailRoot((string) ($_SESSION['usuario_email'] ?? ''));
+    }
+
+    /**
+     * Identificar la cuenta root sin depender de su identificador interno.
+     */
+    public static function esEmailRoot(string $email): bool
+    {
+        return defined('ROOT_ADMIN_EMAIL')
+            && ROOT_ADMIN_EMAIL !== ''
+            && hash_equals(ROOT_ADMIN_EMAIL, strtolower(trim($email)));
+    }
+
+    /**
+     * @param array<string, mixed> $usuario
+     */
+    public static function esUsuarioRoot(array $usuario): bool
+    {
+        return self::esEmailRoot((string) ($usuario['email'] ?? ''));
+    }
+
+    /**
+     * Decide en servidor si el admin actual puede gestionar otra cuenta.
+     * El root es inmutable y solo el root administra otros administradores.
+     *
+     * @param array<string, mixed> $usuario
+     */
+    public static function puedeGestionarUsuario(
+        array $usuario,
+        string $accion = '',
+        string $nuevoRol = ''
+    ): bool {
+        if (!self::esAdmin() || self::esUsuarioRoot($usuario)) {
+            return false;
+        }
+
+        $idObjetivo = (int) ($usuario['id_usuario'] ?? 0);
+        $idSesion = (int) ($_SESSION['usuario_id'] ?? 0);
+        if (
+            $idObjetivo > 0
+            && $idObjetivo === $idSesion
+            && in_array($accion, ['cambiar_rol', 'desactivar', 'eliminar'], true)
+        ) {
+            return false;
+        }
+
+        if ((string) ($usuario['rol'] ?? '') === 'admin' && !self::esRoot()) {
+            return false;
+        }
+
+        if ($nuevoRol === 'admin' && !self::esRoot()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Verificar si es periodista.
      */
     public static function esPeriodista(): bool

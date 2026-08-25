@@ -66,8 +66,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    if ($accion_post !== '' && $id_post > 0) {
+        $stmt = $pdo->prepare(
+            'SELECT id_usuario, email, rol FROM usuarios WHERE id_usuario = ?'
+        );
+        $stmt->execute([$id_post]);
+        $usuarioObjetivo = $stmt->fetch();
+        $nuevoRolSolicitado = is_string($_POST['nuevo_rol'] ?? null)
+            ? $_POST['nuevo_rol']
+            : '';
+
+        if (
+            !$usuarioObjetivo
+            || !Permisos::puedeGestionarUsuario(
+                $usuarioObjetivo,
+                $accion_post,
+                $nuevoRolSolicitado
+            )
+        ) {
+            $_SESSION['mensaje_flash'] = [
+                'tipo' => 'error',
+                'mensaje' => 'No tienes permiso para administrar esta cuenta.',
+            ];
+            header('Location: ' . $redirect_url);
+            exit;
+        }
+    }
+
     if (in_array($accion_post, ['activar', 'toggle_privado', 'cambiar_rol'], true) && $id_post) {
-        $stmt = $pdo->prepare("SELECT email, nombre, rol, estado FROM usuarios WHERE id_usuario = ?");
+        $stmt = $pdo->prepare("SELECT id_usuario, email, nombre, rol, estado FROM usuarios WHERE id_usuario = ?");
         $stmt->execute([$id_post]);
         $usuario_data = $stmt->fetch();
         $email_usuario = $usuario_data['email'] ?? '';
@@ -109,12 +136,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } elseif ($accion_post === 'cambiar_rol') {
                 $nuevo_rol = $_POST['nuevo_rol'] ?? '';
                 if (in_array($nuevo_rol, ['usuario', 'periodista', 'admin'], true)) {
-                    $pdo->prepare("UPDATE usuarios SET rol = ? WHERE id_usuario = ?")->execute([$nuevo_rol, $id_post]);
-                    registrarAdminCambioRol($id_post, $email_usuario, $rol_actual, $nuevo_rol);
-                    $_SESSION['mensaje_flash'] = ['tipo' => 'success', 'mensaje' => '✅ Rol actualizado correctamente'];
+                    $pdo->beginTransaction();
+                    if ($nuevo_rol === 'admin') {
+                        $pdo->prepare('DELETE FROM usuarios_privados WHERE id_usuario = ?')
+                            ->execute([$id_post]);
+                    } elseif ($nuevo_rol === 'periodista' && $rol_actual === 'admin') {
+                        $pdo->prepare(
+                            'INSERT INTO usuarios_privados (id_usuario, activo, fecha_alta)
+                             VALUES (?, 1, NOW())
+                             ON DUPLICATE KEY UPDATE activo = 1'
+                        )->execute([$id_post]);
+                    }
+                    $pdo->prepare("UPDATE usuarios SET rol = ? WHERE id_usuario = ?")
+                        ->execute([$nuevo_rol, $id_post]);
+                    $pdo->commit();
+                    registrarAdminAccionUsuario(
+                        'cambiar_rol',
+                        $id_post,
+                        $email_usuario,
+                        'Rol actualizado de ' . $rol_actual . ' a ' . $nuevo_rol
+                    );
+                    $mensajeRol = $nuevo_rol === 'admin'
+                        ? '✅ Colaborador convertido en Admin.'
+                        : ($nuevo_rol === 'periodista' && $rol_actual === 'admin'
+                            ? '✅ Admin convertido en Colaborador.'
+                            : '✅ Rol actualizado correctamente.');
+                    $_SESSION['mensaje_flash'] = ['tipo' => 'success', 'mensaje' => $mensajeRol];
                 }
             }
         } catch (Throwable $e) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
             registrarErrorInterno('ADMIN.USUARIOS.PERMISOS', $e);
             $_SESSION['mensaje_flash'] = ['tipo' => 'error', 'mensaje' => 'Error al procesar la acción'];
         }
@@ -125,7 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if ($confirmar && $accion_post && $id_post) {
         try {
-            $stmt = $pdo->prepare("SELECT email FROM usuarios WHERE id_usuario = ?");
+            $stmt = $pdo->prepare("SELECT id_usuario, email, rol FROM usuarios WHERE id_usuario = ?");
             $stmt->execute([$id_post]);
             $usuario_eliminar = $stmt->fetch();
             $email_usuario = $usuario_eliminar['email'] ?? '';
@@ -439,6 +492,10 @@ require_once __DIR__ . '/../partials/header.php';
         <?php else: ?>
 
             <?php foreach ($usuarios as $user): ?>
+            <?php
+            $esCuentaRoot = Permisos::esUsuarioRoot($user);
+            $puedeGestionarCuenta = Permisos::puedeGestionarUsuario($user);
+            ?>
 
     <div class="tarjeta-usuario">
         <div class="tarjeta-header">
@@ -497,6 +554,7 @@ require_once __DIR__ . '/../partials/header.php';
                     default => ''
                 };
                 $rol_visible = match (true) {
+                    $esCuentaRoot => 'Root',
                     $user['rol'] === 'admin' => 'Admin',
                     $user['rol'] === 'periodista' && (int) $user['es_privado'] === 1 => 'Colaborador',
                     $user['rol'] === 'periodista' => 'Articulista',
@@ -533,7 +591,10 @@ require_once __DIR__ . '/../partials/header.php';
                     💬 <?php echo $user['total_comentarios']; ?> comentarios
 
                 </span>
-                <?php $esta_en_linea = usuarioEstaEnLinea($user['ultima_actividad'] ?? null); ?>
+                <?php
+                $esta_en_linea = (int) $user['id_usuario'] === (int) ($_SESSION['usuario_id'] ?? 0)
+                    || usuarioEstaEnLinea($user['ultima_actividad'] ?? null);
+                ?>
                 <span class="badge <?php echo $esta_en_linea ? 'badge-conexion-online' : 'badge-conexion-offline'; ?>">
                     <?php echo $esta_en_linea ? '🟢 En línea' : '⚪ Desconectado'; ?>
                 </span>
@@ -565,7 +626,7 @@ require_once __DIR__ . '/../partials/header.php';
                 ];
                 ?>
                 
-                <?php if ($user['estado'] === 'activo'): ?>
+                <?php if ($puedeGestionarCuenta && $user['estado'] === 'activo'): ?>
 
                     <a href="<?php echo htmlspecialchars(route('admin_usuarios_logueados', array_merge([
                         'accion' => 'desactivar',
@@ -573,7 +634,7 @@ require_once __DIR__ . '/../partials/header.php';
                     ], $parametros_listado)), ENT_QUOTES, 'UTF-8'); ?>"
 
                        class="btn-desactivar" title="Desactivar">🔴</a>
-                <?php else: ?>
+                <?php elseif ($puedeGestionarCuenta): ?>
                     <form method="POST" action="<?php echo htmlspecialchars(route('admin_usuarios_logueados'), ENT_QUOTES, 'UTF-8'); ?>" style="display: inline;">
                         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generarTokenCSRF(), ENT_QUOTES, 'UTF-8'); ?>">
                         <input type="hidden" name="accion" value="activar">
@@ -588,7 +649,7 @@ require_once __DIR__ . '/../partials/header.php';
                 <?php endif; ?>
 
                 
-                <?php if ($user['rol'] === 'periodista'): ?>
+                <?php if ($puedeGestionarCuenta && $user['rol'] === 'periodista'): ?>
                     <form method="POST" action="<?php echo htmlspecialchars(route('admin_usuarios_logueados'), ENT_QUOTES, 'UTF-8'); ?>" style="display: inline;">
                         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generarTokenCSRF(), ENT_QUOTES, 'UTF-8'); ?>">
                         <input type="hidden" name="accion" value="toggle_privado">
@@ -602,8 +663,38 @@ require_once __DIR__ . '/../partials/header.php';
                     </form>
                 <?php endif; ?>
 
+                <?php if (Permisos::esRoot() && $user['rol'] === 'periodista' && (int) $user['es_privado'] === 1): ?>
+                    <form method="POST" action="<?php echo htmlspecialchars(route('admin_usuarios_logueados'), ENT_QUOTES, 'UTF-8'); ?>" style="display: inline;">
+                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generarTokenCSRF(), ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="hidden" name="accion" value="cambiar_rol">
+                        <input type="hidden" name="nuevo_rol" value="admin">
+                        <input type="hidden" name="id" value="<?php echo $user['id_usuario']; ?>">
+                        <input type="hidden" name="rol_filtro" value="<?php echo htmlspecialchars($filtro_rol, ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="hidden" name="estado_filtro" value="<?php echo htmlspecialchars($filtro_estado, ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="hidden" name="conexion_filtro" value="<?php echo htmlspecialchars($filtro_conexion, ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="hidden" name="buscar_filtro" value="<?php echo htmlspecialchars($filtro_busqueda, ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="hidden" name="pagina_filtro" value="<?php echo $pagina; ?>">
+                        <button type="submit" class="btn-activar" style="border: 0; background: none; padding: 0; cursor: pointer; font: inherit;" onclick="return confirm('¿Convertir este Colaborador en Admin? Mantendrá sus contenidos y dejará de figurar como Colaborador.')" title="Convertir en Admin">👑</button>
+                    </form>
+                <?php endif; ?>
+
+                <?php if (Permisos::esRoot() && $user['rol'] === 'admin' && !$esCuentaRoot): ?>
+                    <form method="POST" action="<?php echo htmlspecialchars(route('admin_usuarios_logueados'), ENT_QUOTES, 'UTF-8'); ?>" style="display: inline;">
+                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generarTokenCSRF(), ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="hidden" name="accion" value="cambiar_rol">
+                        <input type="hidden" name="nuevo_rol" value="periodista">
+                        <input type="hidden" name="id" value="<?php echo $user['id_usuario']; ?>">
+                        <input type="hidden" name="rol_filtro" value="<?php echo htmlspecialchars($filtro_rol, ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="hidden" name="estado_filtro" value="<?php echo htmlspecialchars($filtro_estado, ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="hidden" name="conexion_filtro" value="<?php echo htmlspecialchars($filtro_conexion, ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="hidden" name="buscar_filtro" value="<?php echo htmlspecialchars($filtro_busqueda, ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="hidden" name="pagina_filtro" value="<?php echo $pagina; ?>">
+                        <button type="submit" class="btn-privado" style="border: 0; background: none; padding: 0; cursor: pointer; font: inherit;" onclick="return confirm('¿Convertir este Admin en Colaborador? Mantendrá sus contenidos y perderá los permisos administrativos.')" title="Convertir en Colaborador">👤</button>
+                    </form>
+                <?php endif; ?>
+
                 
-                <?php if ($user['id_usuario'] != $_SESSION['usuario_id']): ?>
+                <?php if ($puedeGestionarCuenta && $user['id_usuario'] != $_SESSION['usuario_id']): ?>
 
                     <a href="<?php echo htmlspecialchars(route('admin_usuarios_logueados', array_merge([
                         'accion' => 'eliminar',

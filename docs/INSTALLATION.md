@@ -29,11 +29,13 @@ DB_PASS
 DB_CHARSET
 SMTP_USER
 SMTP_PASSWORD
+ROOT_ADMIN_EMAIL
 ```
 
 Configurar localmente y sin versionar:
 
 - las credenciales SMTP de Brevo en `.env`;
+- el correo del único administrador root mediante `ROOT_ADMIN_EMAIL`;
 - `includes/aemet-config.php` para AEMET.
 
 `includes/mail-config.php` conserva únicamente los parámetros SMTP no secretos

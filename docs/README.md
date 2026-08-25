@@ -1,6 +1,6 @@
 # Documentación técnica
 
-Esta documentación describe TuPortalNews 1.1.5, evolución de la primera
+Esta documentación describe TuPortalNews 1.1.6, evolución de la primera
 versión estable del nuevo historial limpio.
 
 - `INSTALLATION.md`: requisitos, configuración local y permisos.
@@ -12,10 +12,14 @@ versión estable del nuevo historial limpio.
 Los datos reales, credenciales, uploads, logs, cachés y backups no forman
 parte del repositorio.
 
-## Base estable de 1.1.5
+## Base estable de 1.1.6
 
 - tarjetas de noticias unificadas con variantes independientes por página,
   estructura vertical u horizontal explícita y densidad compacta independiente;
+- administrador Root único configurado localmente, protegido frente a cambios
+  y con capacidad exclusiva para gestionar otros administradores;
+- promoción transaccional de Colaborador a Admin y reversión de Admin a
+  Colaborador, conservando contenidos y permisos privados coherentes;
 - portada con seis últimas noticias en tres columnas de escritorio y dos en
   pantallas pequeñas, sin metadatos secundarios en esas tarjetas;
 - bloques de medios externos administrables, separados de las noticias

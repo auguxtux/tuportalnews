@@ -84,6 +84,24 @@ Conserva todas las funciones públicas del Articulista y además:
 - crear, descargar, restaurar y eliminar backups;
 - consultar documentación y ejecutar verificaciones previas al despliegue.
 
+Un Admin puede gestionar cuentas que no sean administradoras. No puede
+modificar, desactivar ni eliminar al Root o a otro Admin, ni conceder el rol
+Admin. Estas operaciones quedan reservadas al Root.
+
+## Root (`admin` configurado mediante `ROOT_ADMIN_EMAIL`)
+
+- conserva todas las funciones de Admin;
+- puede administrar, desactivar y eliminar a otros administradores;
+- puede conceder o retirar el rol Admin;
+- puede convertir un Colaborador en Admin conservando sus contenidos y
+  retirando únicamente la autorización privada que pasa a ser redundante;
+- puede revertir un Admin no-root a Colaborador, conservando sus contenidos y
+  creando nuevamente su autorización para noticias privadas;
+- no puede desactivar, degradar ni eliminar su propia cuenta root desde la
+  gestión de usuarios;
+- se identifica en servidor mediante el correo configurado localmente, nunca
+  mediante un valor enviado por el navegador.
+
 ## Reglas comunes
 
 - Comentaristas y Articulistas aportan durante el registro datos privados de

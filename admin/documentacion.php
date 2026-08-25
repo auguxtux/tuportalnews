@@ -45,7 +45,8 @@ Permisos::requerirAdmin();
     </div>
 
     <div class="highlight">
-        <strong>Versión 1.1.5:</strong> imágenes responsive en caché WebP con
+        <strong>Versión 1.1.6:</strong> administrador Root protegido, gestión
+        segura de roles Admin y Colaborador, imágenes responsive en caché WebP con
         variantes ajustadas al tamaño real de las tarjetas,
         portada optimizada y accesibilidad validada, junto con arquitectura PHP procedimental modular,
         rutas centralizadas, separación completa de contenido público y

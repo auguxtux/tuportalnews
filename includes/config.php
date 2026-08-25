@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 
 define('SITE_NAME', 'TuPortalNews');
-define('SITE_VERSION', '1.1.5');
+define('SITE_VERSION', '1.1.6');
 define('ROOT_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 define('INCLUDES_PATH', ROOT_PATH . 'includes' . DIRECTORY_SEPARATOR);
 define('UPLOADS_PATH', ROOT_PATH . 'uploads' . DIRECTORY_SEPARATOR);
@@ -52,6 +52,12 @@ $siteUrl = rtrim((string) ($env['SITE_URL'] ?? 'https://develop.erun.es'), '/');
 
 define('ENV_PRODUCTION', $envProduction);
 define('SITE_URL', $siteUrl);
+
+$rootAdminEmail = strtolower(trim((string) ($env['ROOT_ADMIN_EMAIL'] ?? '')));
+if ($rootAdminEmail !== '' && filter_var($rootAdminEmail, FILTER_VALIDATE_EMAIL) === false) {
+    throw new RuntimeException('La configuración del administrador root no es válida.');
+}
+define('ROOT_ADMIN_EMAIL', $rootAdminEmail);
 
 foreach ($requiredEnv as $envName) {
     if (!array_key_exists($envName, $env)) {

@@ -91,6 +91,10 @@ Colaborador. Solo puede activar, desactivar o eliminar las cuentas que él mismo
 haya creado. No puede editar datos personales ajenos ni gestionar cuentas
 anteriores o creadas por otro Admin.
 
+El filtro de Gestión de Articulistas permite consultar “Mis Articulistas” y
+“Mis Colaboradores” según el Admin creador, además de los filtros generales de
+acceso privado.
+
 ## Root (`admin` configurado mediante `ROOT_ADMIN_EMAIL`)
 
 - conserva todas las funciones de Admin;

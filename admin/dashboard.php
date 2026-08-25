@@ -14,6 +14,7 @@ require_once __DIR__ . '/../includes/helpers/actividad-usuarios.php';
 Permisos::requerirAdmin();
 
 $pdo = db();
+$es_root = Permisos::esRoot();
 $ultimos_usuarios = [];
 $ultimas_noticias = [];
 $comentarios_pendientes = [];
@@ -208,8 +209,14 @@ require_once __DIR__ . '/../partials/header.php';
 <div class="panel-admin-container">
 
     <header class="role-panel-hero role-panel-hero--admin">
-        <h1 class="role-panel-hero__title">👑 Panel de Admin</h1>
-        <p class="role-panel-hero__description">Supervisa perfiles y contenidos, revisa la seguridad y administra la configuración del portal.</p>
+        <h1 class="role-panel-hero__title"><?php echo $es_root ? '👑 Panel Root' : '🛡️ Panel de Admin secundario'; ?></h1>
+        <p class="role-panel-hero__description">
+            <?php if ($es_root): ?>
+                Administración global de cuentas, roles, contenidos, seguridad y configuración del portal.
+            <?php else: ?>
+                Crea Articulistas y Colaboradores y gestiona las cuentas creadas por ti, además de los contenidos y herramientas del portal.
+            <?php endif; ?>
+        </p>
     </header>
 
     <nav class="role-panel-nav role-panel-hero--admin" aria-label="Funciones del administrador">
@@ -408,6 +415,16 @@ require_once __DIR__ . '/../partials/header.php';
                     (<?php echo (int) $stats['periodistas_pendientes']; ?>)
                 </span>
             </a>
+            <?php if (!$es_root): ?>
+                <a href="<?php echo route('admin_periodistas', ['privado' => 'mis_articulistas']); ?>" class="panel-admin-btn-accion">
+                    <span class="panel-admin-btn-icono">✍️</span>
+                    <span class="panel-admin-btn-texto">Mis Articulistas</span>
+                </a>
+                <a href="<?php echo route('admin_periodistas', ['privado' => 'mis_colaboradores']); ?>" class="panel-admin-btn-accion">
+                    <span class="panel-admin-btn-icono">🔐</span>
+                    <span class="panel-admin-btn-texto">Mis Colaboradores</span>
+                </a>
+            <?php endif; ?>
             <a href="<?php echo route('admin_noticias'); ?>" class="panel-admin-btn-accion">
                 <span class="panel-admin-btn-icono">📰</span>
                 <span class="panel-admin-btn-texto">Gestión de Noticias</span>

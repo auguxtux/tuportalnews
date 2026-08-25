@@ -56,7 +56,7 @@ Conserva todas las funciones públicas del Articulista y además:
 - mantener el contenido privado fuera de portada, buscadores, reportes y
   enlaces públicos.
 
-## Admin (`admin`)
+## Admin secundario (`admin` no configurado como Root)
 
 - utilizar un panel morado dividido en resumen, actividad, gestión y
   herramientas;
@@ -84,7 +84,7 @@ Conserva todas las funciones públicas del Articulista y además:
 - crear, descargar, restaurar y eliminar backups;
 - consultar documentación y ejecutar verificaciones previas al despliegue.
 
-Un Admin puede gestionar cuentas que no sean administradoras. No puede
+Un Admin secundario puede gestionar cuentas que no sean administradoras. No puede
 modificar, desactivar ni eliminar al Root o a otro Admin, ni conceder el rol
 Admin. Estas operaciones quedan reservadas al Root.
 
@@ -93,9 +93,10 @@ Colaborador. Solo puede activar, desactivar o eliminar las cuentas que él mismo
 haya creado. No puede editar datos personales ajenos ni gestionar cuentas
 anteriores o creadas por otro Admin.
 
-El filtro de Gestión de Articulistas permite consultar “Mis Articulistas” y
-“Mis Colaboradores” según el Admin creador, además de los filtros generales de
-acceso privado.
+El panel y la guía del perfil identifican expresamente al “Admin secundario”.
+Incluyen accesos directos a “Mis Articulistas” y “Mis Colaboradores”, que usan
+el Admin creador de cada cuenta, además de los filtros generales de acceso
+privado.
 
 ## Root (`admin` configurado mediante `ROOT_ADMIN_EMAIL`)
 

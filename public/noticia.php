@@ -478,7 +478,7 @@ $mostrarGaleriaCompleta = $videoEsPrincipal ? $totalImagenes > 0 : $totalImagene
                         </div>
 
                         <?php if (trim((string) $imagen['texto']) !== ''): ?>
-                            <p class="new-texto-imagen">
+                            <p class="new-texto-imagen" tabindex="0">
                                 <?= nl2br(
                                     htmlspecialchars(
                                         (string) $imagen['texto'],

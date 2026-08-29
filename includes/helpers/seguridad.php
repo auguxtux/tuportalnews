@@ -396,6 +396,45 @@ function sanitizarHtmlNoticia(string $html): string {
     return trim($resultado);
 }
 
+/**
+ * Convierte en espacios los saltos usados para envolver manualmente texto
+ * corrido. Conserva párrafos cortos, poemas y saltos editoriales aislados.
+ */
+function normalizarSaltosTextoCorrido(string $html): string
+{
+    return preg_replace_callback(
+        '~(<p\b[^>]*>)(.*?)(</p>)~is',
+        static function (array $coincidencia): string {
+            $contenido = $coincidencia[2];
+            $totalSaltos = preg_match_all('~<br\s*/?>~i', $contenido);
+
+            if ($totalSaltos === false || $totalSaltos < 3) {
+                return $coincidencia[0];
+            }
+
+            $textoPlano = html_entity_decode(
+                strip_tags(preg_replace('~<br\s*/?>~i', "\n", $contenido) ?? $contenido),
+                ENT_QUOTES | ENT_HTML5,
+                'UTF-8'
+            );
+            $longitudMedia = mb_strlen(trim($textoPlano), 'UTF-8') / ($totalSaltos + 1);
+
+            if ($longitudMedia < 35) {
+                return $coincidencia[0];
+            }
+
+            $contenidoFluido = preg_replace(
+                '~\s*<br\s*/?>\s*~i',
+                ' ',
+                $contenido
+            ) ?? $contenido;
+
+            return $coincidencia[1] . $contenidoFluido . $coincidencia[3];
+        },
+        $html
+    ) ?? $html;
+}
+
 function obtenerIP() {
     $ip = $_SERVER['REMOTE_ADDR'] ?? '';
     return filter_var($ip, FILTER_VALIDATE_IP) ?: '0.0.0.0';

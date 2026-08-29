@@ -100,19 +100,6 @@
     max-width: none;
 }
 
-@media (min-width: 769px) {
-    /* Los saltos usados para envolver líneas no deben bloquear el flujo
-       alrededor de la imagen ni conservar columnas estrechas debajo de ella. */
-    .new-texto-noticia p br {
-        display: inline;
-        content: "";
-    }
-
-    .new-texto-noticia p br::after {
-        content: " ";
-    }
-}
-
 .new-clean {
     clear: both;
 }

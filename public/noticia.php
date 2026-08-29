@@ -444,7 +444,9 @@ $mostrarGaleriaCompleta = $videoEsPrincipal ? $totalImagenes > 0 : $totalImagene
              * El contenido se imprime como HTML porque procede del editor
              * de noticias. Debe sanearse al guardar desde el panel editorial.
              */
-            echo sanitizarHtmlNoticia((string) $noticia['contenido']);
+            echo normalizarSaltosTextoCorrido(
+                sanitizarHtmlNoticia((string) $noticia['contenido'])
+            );
             ?>
         </div>
 

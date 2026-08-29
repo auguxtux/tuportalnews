@@ -276,7 +276,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $url_convertida = convertirUrlNubeDirecta($url);
                 $imagen_guardada = validarUrlHttpHttps($url_convertida);
                 if (!$imagen_guardada) {
-                    $errores[] = "La URL de la imagen $i no es válida";
+                    $errores[] = "La URL del elemento multimedia " . ($i - 1) . " no es válida";
                 } else {
                     // Guardar la URL convertida en el POST (para preview y almacenamiento)
                     $_POST[$campo_url] = $url_convertida;
@@ -285,7 +285,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             
             elseif (!empty($_FILES[$campo_file]['name'])) {
-                $uploader = new UploadHandler($_FILES[$campo_file], 'noticia', 'imagen', $id_usuario);
+                $tipo_multimedia = detectarTipoMultimediaSubido($_FILES[$campo_file]);
+                if ($tipo_multimedia === null) {
+                    $errores[] = "Formato multimedia no permitido en el elemento " . ($i - 1);
+                    continue;
+                }
+                $uploader = new UploadHandler($_FILES[$campo_file], 'noticia', $tipo_multimedia, $id_usuario);
                 $resultado = $uploader->subir();
                 if ($resultado !== false && $resultado !== null) {
                     $imagen_guardada = $resultado;
@@ -709,32 +714,33 @@ require_once __DIR__ . '/../partials/header.php';
         <!-- BLOQUE 6: GALERÍA -->
         <!-- ============================================ -->
         <div class="form-seccion">
-            <h2 class="seccion-titulo">📸 Galería (hasta 5 imágenes)</h2>
+            <h2 class="seccion-titulo">🎞️ Galería multimedia (hasta 5 elementos)</h2>
             <div class="galeria-grid">
                 <?php for ($i = 2; $i <= 6; $i++): ?>
                     <?php $urlGaleriaActual = trim((string) ($_POST["imagen_galeria_url_$i"] ?? '')); ?>
 
                     <div class="galeria-item">
-                        <h3 class="galeria-item-titulo">Imagen <?php echo $i - 1; ?></h3>
+                        <h3 class="galeria-item-titulo">Multimedia <?php echo $i - 1; ?></h3>
 
                         
                         <label class="checkbox-small">
                             <input type="checkbox" class="chkGaleriaUrl" data-img="<?php echo $i; ?>" <?php echo $urlGaleriaActual !== '' ? 'checked' : ''; ?>>
 
-                            <span>🔗 Usar URL externa</span>
+                            <span>🔗 Usar URL directa</span>
                         </label>
                         
                         <div id="divGaleriaLocal_<?php echo $i; ?>" <?php echo $urlGaleriaActual !== '' ? 'style="display: none;"' : ''; ?>>
 
                             <label>📁 Archivo local</label>
-                            <input type="file" name="imagen_<?php echo $i; ?>" accept="image/*">
+                            <input type="file" id="imagen_<?php echo $i; ?>" name="imagen_<?php echo $i; ?>" accept="image/jpeg,image/png,image/gif,image/webp,video/mp4,video/webm,video/ogg,video/quicktime,application/pdf">
+                            <small>Imagen, vídeo (MP4, WebM, OGG, MOV) o PDF.</small>
 
                         </div>
                         
                         <div id="divGaleriaUrl_<?php echo $i; ?>" style="display: <?php echo $urlGaleriaActual !== '' ? 'block' : 'none'; ?>;">
 
-                            <label>🔗 URL externa</label>
-                            <input type="url" name="imagen_galeria_url_<?php echo $i; ?>" value="<?php echo htmlspecialchars($urlGaleriaActual, ENT_QUOTES, 'UTF-8'); ?>" placeholder="https://ejemplo.com/imagen.jpg">
+                            <label>🔗 URL directa de imagen, vídeo o PDF</label>
+                            <input type="url" name="imagen_galeria_url_<?php echo $i; ?>" value="<?php echo htmlspecialchars($urlGaleriaActual, ENT_QUOTES, 'UTF-8'); ?>" placeholder="https://ejemplo.com/recurso.pdf">
 
                             <div id="previewGaleriaUrl_<?php echo $i; ?>" class="preview-mini"></div>
 
@@ -807,6 +813,30 @@ function mostrarImagenPreview(contenedor, url, ancho, alto) {
     imagen.style.maxHeight = alto + 'px';
     imagen.addEventListener('error', () => imagen.remove());
     contenedor.replaceChildren(imagen);
+}
+
+function mostrarMultimediaPreview(contenedor, url, mime = '') {
+    contenedor.replaceChildren();
+    const ruta = url.split(/[?#]/, 1)[0].toLowerCase();
+    if (mime === 'application/pdf' || ruta.endsWith('.pdf')) {
+        const enlace = document.createElement('a');
+        enlace.href = url;
+        enlace.target = '_blank';
+        enlace.rel = 'noopener noreferrer';
+        enlace.textContent = '📄 Abrir PDF';
+        contenedor.appendChild(enlace);
+        return;
+    }
+    if (mime.startsWith('video/') || /\.(mp4|webm|ogg|mov)$/.test(ruta)) {
+        const video = document.createElement('video');
+        video.src = url;
+        video.controls = true;
+        video.preload = 'metadata';
+        video.style.maxWidth = '200px';
+        contenedor.appendChild(video);
+        return;
+    }
+    mostrarImagenPreview(contenedor, url, 200, 100);
 }
 
 function mostrarVideoPreview(contenedor, url) {
@@ -959,7 +989,7 @@ for (var i = 2; i <= 6; i++) {
             urlInput.addEventListener('input', function() {
                 var preview = document.getElementById('previewGaleriaUrl_' + idx);
                 if (this.value && this.value.trim()) {
-                    mostrarImagenPreview(preview, this.value, 150, 80);
+                    mostrarMultimediaPreview(preview, this.value);
                 } else {
                     preview.replaceChildren();
                 }
@@ -974,9 +1004,7 @@ document.addEventListener('DOMContentLoaded', function() {
         (function(idx) {
             var input = document.getElementById('imagen_' + idx);
             if (input) {
-                var preview = document.createElement('img');
-                preview.style.display = 'none';
-                preview.style.maxWidth = '150px';
+                var preview = document.createElement('div');
                 preview.style.marginTop = '0.5rem';
                 input.parentNode.appendChild(preview);
                 input.addEventListener('change', function() {
@@ -984,12 +1012,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (file) {
                         var reader = new FileReader();
                         reader.onload = function(e) {
-                            preview.src = e.target.result;
-                            preview.style.display = 'block';
+                            mostrarMultimediaPreview(preview, e.target.result, file.type || '');
                         };
                         reader.readAsDataURL(file);
                     } else {
-                        preview.style.display = 'none';
+                        preview.replaceChildren();
                     }
                 });
             }

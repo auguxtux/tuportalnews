@@ -84,6 +84,19 @@ function registrarVisitaNoticia(PDO $pdo, int $idNoticia, bool $esPrivada = fals
     $_SESSION['noticias_visitadas'][$idNoticia] = time();
 }
 
+function detectarTipoMedioGaleria(string $recurso): string
+{
+    $ruta = (string) (parse_url($recurso, PHP_URL_PATH) ?? $recurso);
+    $extension = strtolower(pathinfo($ruta, PATHINFO_EXTENSION));
+    if (in_array($extension, ALLOWED_VIDEO_EXTENSIONS, true)) {
+        return 'video';
+    }
+    if ($extension === 'pdf') {
+        return 'pdf';
+    }
+    return 'imagen';
+}
+
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 $vistaPrivada = defined('VISTA_NOTICIA_PRIVADA') && VISTA_NOTICIA_PRIVADA === true;
 
@@ -217,11 +230,13 @@ try {
                 'uploads/noticias/' . $imagenPrincipalLocal
             ),
             'texto' => (string) ($noticia['texto_imagen_principal'] ?? ''),
+            'tipo' => 'imagen',
         ];
     } elseif (!empty($noticia['imagen_externa'])) {
         $imagenesGaleria[] = [
             'src' => (string) $noticia['imagen_externa'],
             'texto' => (string) ($noticia['texto_imagen_principal'] ?? ''),
+            'tipo' => 'imagen',
         ];
     }
 
@@ -245,6 +260,7 @@ try {
         $imagenesGaleria[] = [
             'src' => $src,
             'texto' => (string) ($textosImagenes['img' . $i] ?? ''),
+            'tipo' => detectarTipoMedioGaleria($src),
         ];
     }
 } catch (Throwable $e) {
@@ -257,8 +273,17 @@ $totalImagenes = count($imagenesGaleria);
 $totalComentarios = count($comentarios);
 $totalRelacionadas = count($relacionadas);
 
+$imagenesModal = [];
+foreach ($imagenesGaleria as &$medioGaleria) {
+    if (($medioGaleria['tipo'] ?? 'imagen') === 'imagen') {
+        $medioGaleria['modal_index'] = count($imagenesModal);
+        $imagenesModal[] = $medioGaleria;
+    }
+}
+unset($medioGaleria);
+
 $imagenesGaleriaJson = json_encode(
-    $imagenesGaleria,
+    $imagenesModal,
     JSON_HEX_TAG
     | JSON_HEX_AMP
     | JSON_HEX_APOS
@@ -455,18 +480,19 @@ $mostrarGaleriaCompleta = $videoEsPrincipal ? $totalImagenes > 0 : $totalImagene
 
     <?php if ($mostrarGaleriaCompleta): ?>
         <div class="new-galeria-completa">
-            <h3 class="new-galeria-titulo">📸 Imágenes</h3>
+            <h3 class="new-galeria-titulo">🎞️ Multimedia</h3>
 
             <div class="new-grid-galeria">
                 <?php foreach ($imagenesGaleria as $index => $imagen): ?>
                     <div class="new-item-galeria">
+                        <?php if (($imagen['tipo'] ?? 'imagen') === 'imagen'): ?>
                         <div
                             class="new-miniatura"
                             role="button"
                             tabindex="0"
                             aria-label="Abrir imagen <?= $index + 1; ?>"
-                            onclick="abrirModalGaleria(<?= $index; ?>)"
-                            onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); abrirModalGaleria(<?= $index; ?>); }"
+                            onclick="abrirModalGaleria(<?= (int) ($imagen['modal_index'] ?? 0); ?>)"
+                            onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); abrirModalGaleria(<?= (int) ($imagen['modal_index'] ?? 0); ?>); }"
                         >
                             <img
                                 src="<?= htmlspecialchars((string) $imagen['src'], ENT_QUOTES, 'UTF-8'); ?>"
@@ -476,6 +502,20 @@ $mostrarGaleriaCompleta = $videoEsPrincipal ? $totalImagenes > 0 : $totalImagene
                                 decoding="async"
                             >
                         </div>
+                        <?php elseif ($imagen['tipo'] === 'video'): ?>
+                            <div class="new-miniatura new-miniatura--video">
+                                <video controls preload="metadata">
+                                    <source src="<?= htmlspecialchars((string) $imagen['src'], ENT_QUOTES, 'UTF-8'); ?>">
+                                    Tu navegador no puede reproducir este vídeo.
+                                </video>
+                            </div>
+                        <?php else: ?>
+                            <div class="new-miniatura new-miniatura--pdf">
+                                <span aria-hidden="true">📄</span>
+                                <strong>Documento PDF</strong>
+                                <a href="<?= htmlspecialchars((string) $imagen['src'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noopener noreferrer">Abrir PDF</a>
+                            </div>
+                        <?php endif; ?>
 
                         <?php if (trim((string) $imagen['texto']) !== ''): ?>
                             <p class="new-texto-imagen" tabindex="0">

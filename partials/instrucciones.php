@@ -116,6 +116,7 @@ $perfilVisible = match (true) {
                         <li>🌐 Los bloques RSS de portada son enlaces externos y no afectan al control de noticias importadas.</li>
                         <li>📍 Al importar varias noticias RSS, asigna una ubicación común y edita después las excepciones.</li>
                         <li>🖼️ Imágenes, vídeos y contenido del editor se validan al guardar.</li>
+                        <li>🎞️ La galería admite imágenes, vídeos locales y PDF; cada archivo consume cuota.</li>
                         <li>🚀 Selecciona multimedia NASA y decide si la imagen o el vídeo aparece primero.</li>
                         <li>🏷️ El tema se detecta automáticamente al importar; revisa y ajusta si es necesario.</li>
                     </ul>
@@ -146,6 +147,7 @@ $perfilVisible = match (true) {
                         <li>➕ Crea, edita y elimina únicamente tus propias noticias.</li>
                         <li>🧭 Asigna título, categoría, fuente, ubicación y contenido.</li>
                         <li>🖼️ La imagen principal es obligatoria y se optimiza automáticamente.</li>
+                        <li>🎞️ Añade imágenes, vídeos locales o PDF en los cinco espacios multimedia de la galería.</li>
                         <li>🚀 Añade imágenes o vídeos NASA sin consumir tu espacio y conserva su atribución.</li>
                         <li>📍 Selecciona la región (comunidad autónoma) de la noticia.</li>
                         <li>🏷️ El tema se asigna automáticamente según el contenido.</li>

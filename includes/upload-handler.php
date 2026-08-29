@@ -38,6 +38,11 @@ class UploadHandler {
                 $mb = (int)$stmt->fetchColumn();
                 $mb = ($mb > 0) ? $mb : 50; // Default 50MB
                 return $mb * 1024 * 1024;
+            } elseif ($this->tipo_archivo === 'pdf') {
+                $stmt = $pdo->prepare("SELECT valor FROM configuracion WHERE clave = 'limite_pdf_mb'");
+                $stmt->execute();
+                $mb = (int)$stmt->fetchColumn();
+                return (($mb > 0) ? $mb : 20) * 1024 * 1024;
             } else {
                 $stmt = $pdo->prepare("SELECT valor FROM configuracion WHERE clave = 'limite_imagen_mb'");
                 $stmt->execute();
@@ -47,7 +52,11 @@ class UploadHandler {
             }
         } catch (Exception $e) {
             registrarErrorInterno('UPLOAD.LIMITE.OBTENER', $e);
-            return ($this->tipo_archivo === 'video') ? 50 * 1024 * 1024 : 5 * 1024 * 1024;
+            return match ($this->tipo_archivo) {
+                'video' => MAX_VIDEO_SIZE,
+                'pdf' => MAX_PDF_SIZE,
+                default => MAX_FILE_SIZE,
+            };
         }
     }
     
@@ -95,9 +104,13 @@ class UploadHandler {
         
         if ($this->tipo_archivo === 'video') {
             return $this->validarVideo();
-        } else {
-            return $this->validarImagen();
         }
+
+        if ($this->tipo_archivo === 'pdf') {
+            return $this->validarPdf();
+        }
+
+        return $this->validarImagen();
     }
     
     private function validarImagen() {
@@ -156,6 +169,29 @@ class UploadHandler {
             return false;
         }
         
+        return true;
+    }
+
+    private function validarPdf(): bool {
+        $extension = strtolower(pathinfo($this->archivo['name'], PATHINFO_EXTENSION));
+        if ($extension !== 'pdf') {
+            $this->errores[] = 'Formato de documento no permitido. Use: PDF';
+            return false;
+        }
+
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mime = $finfo->file($this->archivo['tmp_name']);
+        if ($mime !== 'application/pdf') {
+            $this->errores[] = 'La extensión no coincide con el contenido del PDF';
+            return false;
+        }
+
+        $cabecera = file_get_contents($this->archivo['tmp_name'], false, null, 0, 5);
+        if ($cabecera !== '%PDF-') {
+            $this->errores[] = 'El archivo no contiene un PDF válido';
+            return false;
+        }
+
         return true;
     }
     
@@ -351,6 +387,8 @@ private function optimizarImagen($ruta_origen, $ruta_destino) {
         $prefijo = 'img_';
         if ($this->tipo_archivo === 'video') {
             $prefijo = 'vid_';
+        } elseif ($this->tipo_archivo === 'pdf') {
+            $prefijo = 'pdf_';
         } elseif ($this->tipo === 'perfil') {
             $prefijo = 'avatar_';
         }
@@ -413,6 +451,23 @@ private function optimizarImagen($ruta_origen, $ruta_destino) {
         
         return $mensajes[$codigo] ?? "Error desconocido";
     }
+}
+
+function detectarTipoMultimediaSubido(array $archivo): ?string
+{
+    $extension = strtolower(pathinfo((string) ($archivo['name'] ?? ''), PATHINFO_EXTENSION));
+
+    if (in_array($extension, ALLOWED_EXTENSIONS, true)) {
+        return 'imagen';
+    }
+    if (in_array($extension, ALLOWED_VIDEO_EXTENSIONS, true)) {
+        return 'video';
+    }
+    if (in_array($extension, ALLOWED_PDF_EXTENSIONS, true)) {
+        return 'pdf';
+    }
+
+    return null;
 }
 
 /**

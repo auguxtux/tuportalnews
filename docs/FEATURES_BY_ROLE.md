@@ -49,6 +49,8 @@ Conserva todas las funciones públicas del Articulista y además:
 - utilizar un panel privado ámbar con navegación independiente;
 - crear, editar y eliminar sus noticias privadas;
 - utilizar el mismo selector NASA en noticias públicas y privadas;
+- añadir a la galería hasta cinco imágenes, vídeos locales o documentos PDF,
+  con descripción y control de cuota;
 - buscar y consultar noticias privadas de otros Colaboradores;
 - comentar, valorar, relacionar y reportar contenido privado;
 - utilizar buscadores y paneles privados independientes;
@@ -65,6 +67,7 @@ Conserva todas las funciones públicas del Articulista y además:
 - gestionar noticias públicas y privadas, categorías y relaciones;
 - alternar directamente entre tablas administrativas de categorías y fuentes;
 - utilizar el catálogo NASA y supervisar noticias con multimedia externa;
+- supervisar galerías mixtas de imágenes, vídeos y PDF;
 - moderar comentarios, reportes y mensajes;
 - confirmar reportes para publicar un resumen anónimo en el contenido de su
   mismo ámbito, o revisarlos, desestimarlos y actuar sobre el contenido;

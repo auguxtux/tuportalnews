@@ -358,7 +358,7 @@ try {
                 $url_convertida = convertirUrlNubeDirecta($url);
                 $imagen_guardada = validarUrlHttpHttps($url_convertida);
                 if (!$imagen_guardada) {
-                    $errores[] = "La URL de la imagen $i no es válida";
+                    $errores[] = "La URL del elemento multimedia " . ($i - 1) . " no es válida";
                 } else {
                     $_POST[$campo_url] = $url_convertida;
                     if ($noticia["imagen_$i"] && !filter_var($noticia["imagen_$i"], FILTER_VALIDATE_URL)) {
@@ -368,7 +368,12 @@ try {
             }
             
             elseif (!empty($_FILES[$campo_file]['name'])) {
-                $upload = new UploadHandler($_FILES[$campo_file], 'noticia', 'imagen', $id_usuario);
+                $tipo_multimedia = detectarTipoMultimediaSubido($_FILES[$campo_file]);
+                if ($tipo_multimedia === null) {
+                    $errores[] = "Formato multimedia no permitido en el elemento " . ($i - 1);
+                    continue;
+                }
+                $upload = new UploadHandler($_FILES[$campo_file], 'noticia', $tipo_multimedia, $id_usuario);
                 $nueva_imagen = $upload->subir();
                 if ($nueva_imagen) {
                     $imagen_guardada = $nueva_imagen;
@@ -804,7 +809,7 @@ require_once __DIR__ . '/../partials/header.php';
     $textos_json = json_decode($noticia['textos_imagenes'] ?? '{}', true);
     ?>
     <div class="editar-noticia-campo-form">
-        <label>📸 Galería de imágenes (máximo 5)</label>
+        <label>🎞️ Galería multimedia (máximo 5 elementos)</label>
         <div class="editar-noticia-grid-galeria-edicion">
             <?php for ($i = 2; $i <= 6; $i++): 
 
@@ -816,10 +821,15 @@ require_once __DIR__ . '/../partials/header.php';
                                   ? $imagen_actual 
                                   : base_url('uploads/noticias/' . $imagen_actual);
                 }
+                $ruta_tipo_actual = (string) (parse_url((string) $imagen_actual, PHP_URL_PATH) ?? $imagen_actual);
+                $extension_tipo_actual = strtolower(pathinfo($ruta_tipo_actual, PATHINFO_EXTENSION));
+                $tipo_actual = in_array($extension_tipo_actual, ALLOWED_VIDEO_EXTENSIONS, true)
+                    ? 'video'
+                    : ($extension_tipo_actual === 'pdf' ? 'pdf' : 'imagen');
             ?>
             <div class="editar-noticia-item-galeria-edicion">
                 <div class="editar-noticia-cabecera-item">
-                    <strong>Imagen <?php echo $i - 1; ?></strong>
+                    <strong>Multimedia <?php echo $i - 1; ?></strong>
 
                     <?php if ($imagen_actual): ?>
 
@@ -836,17 +846,25 @@ require_once __DIR__ . '/../partials/header.php';
                     <label>
                         <input type="checkbox" class="chkGaleriaUrl" data-img="<?php echo $i; ?>"> 
 
-                        🔗 Usar URL externa
+                        🔗 Usar URL directa
                     </label>
                 </div>
                 
                 <div id="divGaleriaLocal_<?php echo $i; ?>">
 
-                    <?php if ($imagen_actual && !filter_var($imagen_actual, FILTER_VALIDATE_URL)): ?>
+                    <?php if ($imagen_actual && !filter_var($imagen_actual, FILTER_VALIDATE_URL) && $tipo_actual === 'imagen'): ?>
 
                         <div class="editar-noticia-imagen-actual-preview">
                             <img src="<?php echo htmlspecialchars($src_actual, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>">
 
+                        </div>
+                    <?php elseif ($imagen_actual && !filter_var($imagen_actual, FILTER_VALIDATE_URL) && $tipo_actual === 'video'): ?>
+                        <div class="editar-noticia-imagen-actual-preview">
+                            <video controls preload="metadata" src="<?php echo htmlspecialchars($src_actual, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>"></video>
+                        </div>
+                    <?php elseif ($imagen_actual && !filter_var($imagen_actual, FILTER_VALIDATE_URL) && $tipo_actual === 'pdf'): ?>
+                        <div class="editar-noticia-imagen-actual-preview">
+                            📄 <a href="<?php echo htmlspecialchars($src_actual, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" target="_blank" rel="noopener noreferrer">Abrir PDF actual</a>
                         </div>
                     <?php elseif ($imagen_actual && filter_var($imagen_actual, FILTER_VALIDATE_URL)): ?>
 
@@ -855,27 +873,36 @@ require_once __DIR__ . '/../partials/header.php';
                         <div class="editar-noticia-imagen-actual-preview vacia">Sin imagen</div>
                     <?php endif; ?>
 
-                    <label>Cambiar imagen:</label>
-                    <input type="file" name="imagen_galeria_<?php echo $i; ?>" accept="image/jpeg,image/png,image/gif,image/webp">
+                    <label>Cambiar multimedia:</label>
+                    <input type="file" name="imagen_galeria_<?php echo $i; ?>" accept="image/jpeg,image/png,image/gif,image/webp,video/mp4,video/webm,video/ogg,video/quicktime,application/pdf">
+                    <small>Imagen, vídeo (MP4, WebM, OGG, MOV) o PDF.</small>
 
                 </div>
                 
                 <div id="divGaleriaUrl_<?php echo $i; ?>" style="display: none;">
 
-                    <?php if ($imagen_actual && filter_var($imagen_actual, FILTER_VALIDATE_URL)): ?>
+                    <?php if ($imagen_actual && filter_var($imagen_actual, FILTER_VALIDATE_URL) && $tipo_actual === 'imagen'): ?>
 
                         <div class="editar-noticia-imagen-actual-preview">
                             <img src="<?php echo htmlspecialchars($src_actual, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>">
 
                         </div>
+                    <?php elseif ($imagen_actual && filter_var($imagen_actual, FILTER_VALIDATE_URL) && $tipo_actual === 'video'): ?>
+                        <div class="editar-noticia-imagen-actual-preview">
+                            <video controls preload="metadata" src="<?php echo htmlspecialchars($src_actual, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>"></video>
+                        </div>
+                    <?php elseif ($imagen_actual && filter_var($imagen_actual, FILTER_VALIDATE_URL) && $tipo_actual === 'pdf'): ?>
+                        <div class="editar-noticia-imagen-actual-preview">
+                            📄 <a href="<?php echo htmlspecialchars($src_actual, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" target="_blank" rel="noopener noreferrer">Abrir PDF actual</a>
+                        </div>
                     <?php endif; ?>
 
-                    <label>URL externa:</label>
+                    <label>URL directa de imagen, vídeo o PDF:</label>
                     <input type="url" name="imagen_galeria_url_<?php echo $i; ?>" id="imagen_galeria_url_<?php echo $i; ?>" 
 
                            value="<?php echo htmlspecialchars(filter_var($imagen_actual, FILTER_VALIDATE_URL) ? $imagen_actual : ''); ?>" 
 
-                           placeholder="https://ejemplo.com/imagen.jpg" style="width:100%">
+                           placeholder="https://ejemplo.com/recurso.pdf" style="width:100%">
                     <div id="previewGaleriaUrl_<?php echo $i; ?>" class="preview"></div>
 
                 </div>
@@ -924,6 +951,30 @@ function mostrarImagenPreview(contenedor, url, ancho, alto) {
     imagen.style.maxHeight = alto + 'px';
     imagen.addEventListener('error', () => imagen.remove());
     contenedor.replaceChildren(imagen);
+}
+
+function mostrarMultimediaPreview(contenedor, url) {
+    contenedor.replaceChildren();
+    const ruta = url.split(/[?#]/, 1)[0].toLowerCase();
+    if (ruta.endsWith('.pdf')) {
+        const enlace = document.createElement('a');
+        enlace.href = url;
+        enlace.target = '_blank';
+        enlace.rel = 'noopener noreferrer';
+        enlace.textContent = '📄 Abrir PDF';
+        contenedor.appendChild(enlace);
+        return;
+    }
+    if (/\.(mp4|webm|ogg|mov)$/.test(ruta)) {
+        const video = document.createElement('video');
+        video.src = url;
+        video.controls = true;
+        video.preload = 'metadata';
+        video.style.maxWidth = '200px';
+        contenedor.appendChild(video);
+        return;
+    }
+    mostrarImagenPreview(contenedor, url, 200, 100);
 }
 
 function mostrarVideoPreview(contenedor, url) {
@@ -1057,7 +1108,7 @@ function setupGaleria() {
         const actualizar = () => {
             if (preview) {
                 if (urlInput.value && urlInput.value.trim() !== '') {
-                    mostrarImagenPreview(preview, urlInput.value, 200, 100);
+                    mostrarMultimediaPreview(preview, urlInput.value);
                 } else {
                     preview.replaceChildren();
                 }

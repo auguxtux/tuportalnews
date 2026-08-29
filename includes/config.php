@@ -73,9 +73,12 @@ if (array_key_exists('AEMET_API_KEY', $env)) {
 
 define('MAX_FILE_SIZE', 5 * 1024 * 1024);
 define('MAX_VIDEO_SIZE', 50 * 1024 * 1024);
+define('MAX_PDF_SIZE', 20 * 1024 * 1024);
 define('ALLOWED_EXTENSIONS', ['jpg', 'jpeg', 'png', 'gif', 'webp']);
 define('ALLOWED_VIDEO_EXTENSIONS', ['mp4', 'webm', 'ogg', 'mov']);
 define('ALLOWED_VIDEO_MIME', ['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime']);
+define('ALLOWED_PDF_EXTENSIONS', ['pdf']);
+define('ALLOWED_PDF_MIME', ['application/pdf']);
 define('UPLOAD_NOTICIAS', UPLOADS_PATH . 'noticias' . DIRECTORY_SEPARATOR);
 define('UPLOAD_PERFILES', UPLOADS_PATH . 'perfiles' . DIRECTORY_SEPARATOR);
 define('UPLOAD_COMENTARIOS', UPLOADS_PATH . 'comentarios' . DIRECTORY_SEPARATOR);

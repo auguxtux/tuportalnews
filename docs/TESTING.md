@@ -63,6 +63,9 @@ formato del diff, páginas públicas y bloqueo de archivos internos.
 - comprobar que su correo corporativo aparece en el panel y que el botón abre
   `https://webmail.erun.es` en una pestaña nueva;
 - confirmar que contenido y acciones privadas no aparecen en páginas públicas.
+- crear y editar una noticia con imagen, vídeo MP4 y PDF en la galería;
+  comprobar reproducción, apertura del documento, descripciones, cuota y
+  eliminación de los archivos sustituidos.
 
 ### Administrador
 

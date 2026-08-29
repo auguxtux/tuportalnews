@@ -52,15 +52,18 @@
 
 .new-imagen-flotante {
     position: relative;
-    margin: 0;
+    width: 50%;
+    float: left;
+    margin: 0 1rem 0.75rem 0;
     cursor: pointer;
 }
 
 .new-img-flotante {
-    width: 50%;
+    display: block;
+    width: 100%;
+    height: clamp(240px, 30vw, 420px);
+    object-fit: cover;
     transition: transform var(--transition-speed);
-    height: auto;
-    float: left;
     border: 1px inset #fff;
     border-radius: 4px;
 }
@@ -85,8 +88,8 @@
 
 .new-texto-noticia {
     text-align: justify;
-    width: 49%;
-    float: right;
+    width: auto;
+    float: none;
     line-height: 1.5rem;
     font-size: 0.95rem;
 }
@@ -119,6 +122,7 @@
 }
 
 .new-item-galeria {
+  position: relative;
   background: #f9fafb;
   border-radius: 4px;
   overflow: hidden;
@@ -168,16 +172,22 @@
 }
 
 .new-texto-imagen {
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    max-height: 45%;
+    margin: 0;
     padding: 0.75rem;
     font-size: 0.75rem;
-    color: #4b5563;
+    color: #fff;
     line-height: 1.4;
-    border-top: 1px solid var(--color-border);
-    background: white;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.9));
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.75) rgba(0, 0, 0, 0.25);
 }
 
 /* Eliminamos el pseudo-elemento que cortaba el texto */
@@ -662,8 +672,15 @@
 /* Tablets y móviles grandes (≤768px) */
 @media (max-width: 768px) {
     /* Noticia completa */
+    .new-imagen-flotante {
+        width: 100%;
+        float: none;
+        margin: 0 0 1rem;
+    }
+
     .new-img-flotante {
         width: 100%;
+        height: clamp(220px, 58vw, 360px);
         float: none;
     }
     .new-texto-noticia {
